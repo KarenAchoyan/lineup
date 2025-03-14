@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 
-const UserCarousel = () => {
+const UserCarousel = ({users}) => {
     const settings = {
         dots: false,
         infinite: true,
@@ -41,23 +41,18 @@ const UserCarousel = () => {
         ],
     };
 
-    const profiles = [
-        { name: "Name Surname", img: "/girl.jpeg" },
-        { name: "Name Surname", img: "/girl.jpeg" },
-        { name: "Name Surname", img: "/girl.jpeg" },
-    ];
 
     return (
         <div className="bg-[#A4A4A4] py-10">
             <div className='container m-auto'>
                 <h2 className="text-4xl text-orange-500 font-bold mb-10">Active youth</h2>
                 <Slider {...settings}>
-                    {profiles.map((profile, index) => (
+                    {users?.map((profile, index) => (
                         <div key={index} className="flex justify-center pt-10">
                             <div className="shadow-[4px_4px_16.9px_7px_#00000040] w-60 h-60 rounded-full overflow-hidden border-2 border-white hover:border-[#F15A2B] m-auto">
-                                <img src={profile.img} alt={profile.name} className="w-full h-full object-cover" />
+                                <img src={process.env.IMAGE_URL+profile.avatar} alt={profile.fullname} className="w-full h-full object-cover" />
                             </div>
-                            <p className="text-center mt-4 text-lg">{profile.name}</p>
+                            <p className="text-center mt-4 text-lg">{profile.fullname}</p>
                         </div>
                     ))}
                 </Slider>

@@ -1,0 +1,76 @@
+"use client"
+import { useState } from 'react';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
+const eventsData = ["18-03-2025", "20-03-2025", "23-03-2025"].map(date => dayjs(date, 'DD-MM-YYYY'));
+
+const CustomCalendar = () => {
+    const [selectedDate, setSelectedDate] = useState(dayjs());
+
+    const handleDateClick = (day) => {
+        const isEvent = eventsData.some(eventDate => eventDate.isSame(day, 'day'));
+        if (isEvent) {
+            alert(`Event on ${day.format('DD-MM-YYYY')}`);
+        }
+        setSelectedDate(day);
+    };
+
+    const handleNextMonth = () => {
+        setSelectedDate(selectedDate.add(1, 'month'));
+    };
+
+    const handlePrevMonth = () => {
+        setSelectedDate(selectedDate.subtract(1, 'month'));
+    };
+
+    const generateDays = () => {
+        const startOfMonth = dayjs(selectedDate).startOf('month');
+        const endOfMonth = dayjs(selectedDate).endOf('month');
+
+        const days = [];
+
+        for (let i = 0; i < startOfMonth.day(); i++) {
+            days.push(<div key={`empty-${i}`} className="text-gray-400"></div>);
+        }
+
+        // Add actual days
+        for (let day = 1; day <= endOfMonth.date(); day++) {
+            const currentDay = dayjs(selectedDate).set('date', day);
+            const isSelected = currentDay.isSame(selectedDate, 'day');
+            const isEvent = eventsData.some(eventDate => eventDate.isSame(currentDay, 'day'));
+
+            days.push(
+                <div
+                    key={day}
+                    className={`flex items-center justify-center cursor-pointer w-10 h-10 rounded-full ${isSelected ? 'bg-orange-500 text-white' : isEvent ? 'bg-green-500 text-white' : 'hover:bg-gray-200'}`}
+                    onClick={() => handleDateClick(currentDay)}
+                >
+                    {day}
+                </div>
+            );
+        }
+
+        return days;
+    };
+
+    return (
+        <div className="p-1 rounded-xl border border-orange-500 shadow-lg w-72">
+            <div className="flex justify-between items-center mb-5">
+                <button onClick={handlePrevMonth} className="text-orange-500 hover:text-orange-700">◀</button>
+                <h2 className="text-2xl font-bold">{selectedDate.format('MMMM YYYY')}</h2>
+                <button onClick={handleNextMonth} className="text-orange-500 hover:text-orange-700">▶</button>
+            </div>
+            <div className="grid grid-cols-7 gap-2 text-center">
+                {"SUN MON TUE WED THU FRI SAT".split(" ").map((day) => (
+                    <div key={day} className="font-bold text-sm text-gray-600">{day}</div>
+                ))}
+                {generateDays()}
+            </div>
+        </div>
+    );
+};
+
+export default CustomCalendar;
