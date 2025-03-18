@@ -57,8 +57,8 @@ const CustomCalendar = () => {
     };
 
     return (
-        <div className="p-1 rounded-xl border border-orange-500 shadow-lg w-72">
-            <div className="flex justify-between items-center mb-5">
+        <div className="p-1 rounded-xl  w-72 border-0">
+            <div className="flex justify-between items-center mb-5 ">
                 <button onClick={handlePrevMonth} className="text-orange-500 hover:text-orange-700">◀</button>
                 <h2 className="text-2xl font-bold">{selectedDate.format('MMMM YYYY')}</h2>
                 <button onClick={handleNextMonth} className="text-orange-500 hover:text-orange-700">▶</button>

@@ -4,8 +4,9 @@ import {getYouTubeId} from "@/utils/utils";
 
 const Achievements = ({galleries, videos}) => {
     return (
-        <div>
-            <div className='container m-auto'>
+        <div className='bg-[#232222] py-20'>
+            <div className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto'>
+                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>Our Achievements</h1>
                 {videos.map((video, index) => (
                     <div className="w-full h-[300px] rounded-2xl my-4 overflow-hidden" key={index}>
                         <iframe

@@ -43,16 +43,16 @@ const UserCarousel = ({users}) => {
 
 
     return (
-        <div className="bg-[#A4A4A4] py-10">
-            <div className='container m-auto'>
-                <h2 className="text-4xl text-orange-500 font-bold mb-10">Active youth</h2>
+        <div className="bg-[#232222] pt-20">
+            <div className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto  lg:h-[500px]'>
+                <h2 className="text-[#C7C7C7] font-bold mb-6 text-center text-[45px]">Active youth</h2>
                 <Slider {...settings}>
                     {users?.map((profile, index) => (
                         <div key={index} className="flex justify-center pt-10">
-                            <div className="shadow-[4px_4px_16.9px_7px_#00000040] w-60 h-60 rounded-full overflow-hidden border-2 border-white hover:border-[#F15A2B] m-auto">
+                            <div className="shadow-[4px_4px_16.9px_7px_#00000040] w-60 h-60 rounded-full overflow-hidden border-t-2 border-[#F15A2B] hover:scale-110 transition cursor-pointer  duraction-1000 m-auto">
                                 <img src={process.env.IMAGE_URL+profile.avatar} alt={profile.fullname} className="w-full h-full object-cover" />
                             </div>
-                            <p className="text-center mt-4 text-lg">{profile.fullname}</p>
+                            <p className="text-center mt-4 text-lg text-[#F5F5F5]">{profile.fullname}</p>
                         </div>
                     ))}
                 </Slider>
