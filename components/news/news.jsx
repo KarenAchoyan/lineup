@@ -1,10 +1,17 @@
-const News = () => {
+"use client"
+import {useContext} from "react";
+import {MainContext} from "@/providers/HomeProvider";
+
+const News = ({title=false}) => {
+    const {lang} = useContext(MainContext);
     return (
         <div className='w-full bg-[#232222] '>
-            <div className="pt-20">
+            <div className={title ? "pt-20" : null}>
                 <div
-                    className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto   lg:h-[500px]'>
-                    <h2 className=" text-[#C7C7C7] font-bold mb-6 text-center text-[45px]">News</h2>
+                    className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto   lg:h-auto'>
+                    {title &&
+                        <h2 className=" text-[#C7C7C7] font-bold mb-6 text-center text-[32px]  md:text-[45px]">{title}</h2>
+                    }
                     <div className="flex flex-col md:flex-row items-start gap-8 ">
                         <div className="w-full md:w-1/2">
                             <iframe
@@ -27,6 +34,7 @@ const News = () => {
                                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                 Excepteur sint occaecat cupidatat non proident...
                             </p>
+                            <p className='text-[15px] text-[#F15A2B] text-right'><a href={lang+"/news/"+1}>Read more...</a></p>
                         </div>
                     </div>
                 </div>

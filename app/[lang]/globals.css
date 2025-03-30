@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo-parent {
+    width: 200px;
+}
+
+.menu-parent {
+    width: calc(100% - 250px - 145px);
+}
+
+.actions-parent {
+    width: 145px;
+}
+@media only screen and (max-width: 1025px) {
+    .actions-parent {
+        width: 250px;
+    }
+}
+
+.item-gallery .ant-image {
+    width: 100%;
+    height: 100%;
+}
+
+:where(.css-dev-only-do-not-override-240cud).ant-carousel .slick-list {
+    overflow: visible;
+}
+
+.slick-slide:not(.slick-active) {
+    /*background: red;*/
+    transform: scale(0.9);
+    opacity: 0.7;
+}
+
+.component-archive .slick-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.component-archive  .slick-list {
+    width: 400px;
+}
+.dropdown:hover .sub-dropdown{
+    display: block;
+}
+.dance-background{
+    background-image: url("/dance.png");
+    background-size: cover;
+}
+
+.signIn-background{
+    background-image: url("/signIn.png");
+    background-size: cover;
+}
+
+.photo-background{
+    background-image: url("/photo.png");
+    background-size: cover;
+}
+.language-switcher{
+    margin-bottom: 0!important;
+}
+.btn-phone{
+    color: white!important;
+}
