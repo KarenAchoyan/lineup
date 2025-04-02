@@ -11,7 +11,7 @@ const MainArchive = () => {
     const changeYears = async (year) => {
         setYear(year)
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/archives/${year.year}`);
+            const response = await fetch(`https://lineup.dahk.am/api/archives/${year.year}`);
             const data = await response.json();
 
             if (response.ok) {

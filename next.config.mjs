@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        API_URL: "http://127.0.0.1:8000/api",
-        IMAGE_URL: "http://127.0.0.1:8000/storage/",
-    },
+        API_URL: "https://lineup.dahk.am/api",
+        IMAGE_URL: "https://lineup.dahk.am/storage/",
+    }
 };
 
 export default nextConfig;

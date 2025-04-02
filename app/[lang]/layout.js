@@ -12,7 +12,7 @@ export async function generateStaticParams() {
     return [{lang: 'en-US'}, {lang: 'de'}]
 }
 async function getLessons() {
-    const res = await fetch('http://127.0.0.1:8000/api/lessons');
+    const res = await fetch('https://lineup.dahk.am/api/lessons');
     const data = await res.json();
     return data;
 }

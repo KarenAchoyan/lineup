@@ -7,7 +7,7 @@ import MainArchive from "@/components/archive/mainArchive";
 
 
 async function getYears() {
-    const res = await fetch('http://127.0.0.1:8000/api/years');
+    const res = await fetch('https://lineup.dahk.am/api/years');
     const data = await res.json();
     return data;
 }

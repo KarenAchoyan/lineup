@@ -26,9 +26,11 @@ const Photo = () => {
                         </p>
                     </div>
                     <div className='flex justify-center mt-[20px]'>
+                        <a href='tel:+995592777743' className='hover:underline'>
                         <button className='bg-[#4D4C4C] text-white rounded-lg p-[10px] btn-phone'>
-                            <PhoneOutlined /> +374(00)000000
+                            <PhoneOutlined /> +995592777743
                         </button>
+                        </a>
                     </div>
                 </div>
             </div>

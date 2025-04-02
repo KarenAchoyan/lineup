@@ -53,9 +53,9 @@ const CarouselComponent = ({changeYears}) => {
             <div>
                <div className='py-[10px] '>
                   <div className='h-[320px] flex items-center overflow-hidden'>
-                      <div className="h-[250px] flex items-center w-[500px]  m-auto ">
+                      <div className="h-[250px] flex items-center w-[500px]  m-auto overflow-hidden">
                           <div style={carouselContainerStyle}>
-                              <Carousel ref={carouselRef} arrows={false} initialSlide={1} dotPosition="left" dots={false} infinite={false}
+                              <Carousel ref={carouselRef} centerMode={true} arrows={false} initialSlide={1} dotPosition="left" dots={false} infinite={false}
                                         afterChange={handleSlideChange}>
                                   {years.map((year, i) => (
                                       <div>

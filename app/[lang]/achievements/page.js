@@ -3,13 +3,13 @@ import Achievements from "@/components/achievements/achievements";
 import {MainProvider} from "@/providers/HomeProvider";
 
 async function getGallery() {
-    const res = await fetch('http://127.0.0.1:8000/api/galleries');
+    const res = await fetch('https://lineup.dahk.am/api/galleries');
     const data = await res.json();
     return data;
 }
 
 async function getVideos() {
-    const res = await fetch('http://127.0.0.1:8000/api/videos/last');
+    const res = await fetch('https://lineup.dahk.am/api/videos/last');
     const data = await res.json();
     return data;
 }

@@ -5,20 +5,29 @@ import axios from "axios";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
+import {sendMail} from "@/lib/send-mail";
 
+
+async function sendMailHandler() {
+    const DEFAULT_RECEIVER = "geeklabdevelopment@gmail.com"; // Replace with a valid email
+
+    const responseMail = await sendMail({
+        email: 'geeklabdevelopment@gmail.com' || DEFAULT_RECEIVER,
+        subject: "New Contact Form Submission",
+        text: 'Դուք հաջողությամբ գրանցվեցիք',
+    });
+}
 
 const SignUp = () => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const {lang} = useApp();
+    const [errorData, setErrorData] = useState({});
 
     const router = useRouter();
     const onFinish = async (values) => {
         setLoading(true);
-        setError(null);
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/api/register", {
+            const response = await fetch("https://lineup.dahk.am/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -34,18 +43,27 @@ const SignUp = () => {
                 }),
             });
             const data = await response.json();
+            const DEFAULT_RECEIVER = "geeklabdevelopment@gmail.com"; // Replace with a valid email
 
             if (response.ok) {
-                document.cookie = `authToken=${data.token}; path=/; Secure; SameSite=Strict`; // Store in cookies
-                message.success("Registration successful! Redirecting...");
-                router.push("/"+lang.toLowerCase()+"/profile");
+                document.cookie = `authToken=${JSON.stringify({user_id:data.user.id, token:data.token, name: data.user.name, parent_name: data.user.parent_name, email:data.user.email })}; path=/; Secure; SameSite=Strict`;
+
+                await sendMail({
+                    email: values.email || DEFAULT_RECEIVER,
+                    subject: "New Contact Form Submission",
+                    html: `
+                        <h2>Հարգելի Karen դուք հաջողությամբ գրանցվեցիք</h2>
+                        <h3>Մեր մասնագետները կապ կհաստատեն Ձեզ հետ</h3>                    
+                `,
+                });
+
+                router.push("/profile");
             } else {
-                message.error(data.message || "Registration failed!");
+                setErrorData(data.errors)
             }
 
         } catch (err) {
             console.error("Error during registration:", err);
-            setError(err.response?.data?.message || "Registration failed");
         } finally {
             setLoading(false);
         }
@@ -62,8 +80,7 @@ const SignUp = () => {
                     <h1 className="text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
 
                     <div className="signIn-form w-[350px] mt-[70px] m-auto">
-                        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
-
+                            <div className="text-red-500 text-center mb-4">{errorData['email']}</div>
                         <Form
                             name="signup"
                             initialValues={{remember: true}}
@@ -155,7 +172,7 @@ const SignUp = () => {
                         </Form>
 
                         <div className="text-center text-gray-400 mt-2">
-                            Already have an account? <Link href={`/${lang.toLowerCase()}/auth/signIn`}
+                            Already have an account? <Link href={`/auth/signIn`}
                                                            className="text-blue-400 hover:text-blue-500">Sign In</Link>
                         </div>
                     </div>

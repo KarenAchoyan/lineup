@@ -100,7 +100,7 @@ const Dance = ({lessons, slug}) => {
                             </div>
 
                             <div className="mt-[10px]">
-                                <Link href={selectedBranchId!==null ? "/"+lang.toLowerCase()+'/auth/signUp?branch='+selectedBranchId : '#'}>
+                                <Link href={selectedBranchId!==null ? '/auth/signUp?branch='+selectedBranchId : '#'}>
                                     <button
                                         className="bg-[#4C4C4C] w-[270px] text-[25px] cursor-pointer disabled:cursor-default disabled:text-gray-500 disabled:hover:bg-[#4C4C4C] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                         disabled={selectedBranchId===null}

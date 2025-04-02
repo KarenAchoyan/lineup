@@ -8,32 +8,39 @@ import {getDictionary} from "@/app/[lang]/dictionaries";
 import {MainProvider} from "@/providers/HomeProvider";
 
 async function getActiveUsers() {
-    const res = await fetch('http://127.0.0.1:8000/api/actives');
+    const res = await fetch('https://lineup.dahk.am/api/actives');
     const data = await res.json();
     return data;
 }
 
 async function getGallery() {
-    const res = await fetch('http://127.0.0.1:8000/api/galleries');
+    const res = await fetch('https://lineup.dahk.am/api/galleries');
     const data = await res.json();
     return data;
 }
 
+async function getEvents() {
+    const res = await fetch('https://lineup.dahk.am/api/events', { cache: "no-store" })
+    return res.json()
+}
 export default async function Home({params}) {
     const {lang} = await params
     // const dict = await getDictionary(lang) // en
 
     const activeUsers = await getActiveUsers();
     const galleries = await getGallery();
+    const events = await getEvents();
 
     return (
         <>
-            <MainProvider value={{lang, users:activeUsers, galleries}}>
+            <MainProvider value={{lang, users:activeUsers, galleries, events}}>
                 <Banner/>
                 <News title="News"/>
                 <UserCarousel/>
                 <Achievements all={true}/>
-                <CalendarEvent/>
+                <div id='events'>
+                    <CalendarEvent/>
+                </div>
             </MainProvider>
         </>
     );

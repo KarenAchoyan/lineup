@@ -76,9 +76,21 @@ export const menuItems = [
 ];
 
 export const getYouTubeId = (url) => {
+    if (typeof url !== "string") return null; // Ensure url is a string
     const regExp = /(?:v=|\/embed\/|\.be\/|\/v\/|\/vi\/|\/e\/|watch\?v=|&v=)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regExp);
     return match ? match[1] : null;
 };
 
-// https://www.youtube.com/watch?v=a6NyaMmF5Mk&list=RDa6NyaMmF5Mk&start_radio=1
+
+export function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+        let [key, value] = cookie.split('=');
+        if (key === name) {
+            return value;
+        }
+    }
+    return null;
+}
+

@@ -1,11 +1,27 @@
 "use client"
 import {DatePicker} from 'antd';
-import {useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 import CustomCalendar from "@/components/event/customCalendar";
+import {MainContext} from "@/providers/HomeProvider";
 
 const CalendarEvent = () => {
+    const {events} = useContext(MainContext);
     const [selectedDate, setSelectedDate] = useState(dayjs());
+    const [firstTicket, setFirstTicket] = useState();
+    const [dates] = useState(function (){
+        return events.map((ticket)=>{
+            const date = new Date(ticket.event_date);
+            const formattedDate = date.toLocaleDateString('en-GB'); // 'en-GB' provides the 'DD/MM/YYYY' format
+            const formattedDateWithDash = formattedDate.replace(/\//g, '-');
+            return formattedDateWithDash;
+        });
+    });
+
+    useEffect(() => {
+        setFirstTicket(events[0])
+    },[events])
+
 
     const onDateChange = (date) => {
         setSelectedDate(date);
@@ -19,10 +35,9 @@ const CalendarEvent = () => {
                 <div className="w-full sm:w-[max-content] m-auto flex flex-wrap gap-10  bg-opacity-50 rounded-2xl text-white">
                     <div
                         className="w-full  sm:w-[340px] h-[700px] p-5 rounded-xl border-[5px] bg-[#4d5457] border-[#434343] shadow-[2px_16px_19px_0px_#00000017] backdrop-blur-[80px] mb-10 sm:mb-0">
-                        <CustomCalendar/>
+                        <CustomCalendar dates={dates}/>
                     </div>
 
-                    {/* Event Details */}
                     <div
                         className="p-5 rounded-xl border-[#434343] bg-[#4d5457] border-[5px] px-[60px] shadow-lg w-full sm:w-[630px]">
 
