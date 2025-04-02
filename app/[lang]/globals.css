@@ -47,11 +47,14 @@ body {
 }
 
 .menu-parent {
-    width: calc(100% - 250px - 145px);
+    width: calc(100% - 250px - 250px);
 }
 
 .actions-parent {
-    width: 145px;
+    width: 250px;
+}
+.actions-parent>div{
+    width: 65px;
 }
 @media only screen and (max-width: 1025px) {
     .actions-parent {

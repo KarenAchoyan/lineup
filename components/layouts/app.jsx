@@ -44,24 +44,24 @@ const App = ({children, lessons}) => {
                 <div className="container m-auto h-[136px] flex items-center justify-between">
                     <div className='logo-parent'>
                         <Link href={"/"}>
-                            <Image src='/logo.png' alt={"Logo"} className='w-[200px] h-[141px]' width={800}
+                            <Image src='/logo.png' alt={"Logo"} className='w-[150px] h-[111px]' width={800}
                                    height={800}/>
                         </Link>
                     </div>
                     <div className='menu-parent hidden lg:block'>
-                        <div className='w-[95%] m-auto h-[64px] bg-[#434343] rounded-full relative'>
+                        <div className='w-[95%] m-auto h-[55px] bg-[#434343] rounded-full relative'>
                             <ul className='flex h-full items-center justify-evenly relative'>
-                                <li className='text-[24px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative '>
+                                <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative '>
                                     <Link href={'/about'}>
                                         About us
                                     </Link>
                                 </li>
-                                <li className='text-[24px] text-white hover:text-[#F15A2B] hover:cursor-pointer'>
+                                <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer'>
                                     <Link href={'/archive'}>
                                         Archive
                                     </Link>
                                 </li>
-                                <li className='text-[24px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
+                                <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
                                     <span>Sections</span>
                                     <div className='absolute hidden sub-dropdown  pt-3'>
                                         <ul className=' left-0 w-40 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
@@ -79,7 +79,7 @@ const App = ({children, lessons}) => {
                                         </ul>
                                     </div>
                                 </li>
-                                <li className='text-[24px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
+                                <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
                                     <span>Support us</span>
                                     <div className='absolute hidden sub-dropdown  pt-3'>
                                         <ul className=' left-0 w-40 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
@@ -95,18 +95,28 @@ const App = ({children, lessons}) => {
                             </ul>
                         </div>
                     </div>
-                    <div className='actions-parent'>
+                    <div className='actions-parent flex'>
                         <div
-                            className='relative w-[95%] m-auto h-[64px] bg-[#434343] rounded-full flex items-center justify-center'>
-                            <ul className='h-full flex items-center justify-evenly w-full px-5 language-switcher'>
+                            className='relative w-[95%] h-[55px] bg-[#434343] rounded-full flex items-center justify-center'>
+                            <ul className='h-full flex items-center justify-evenly w-full  language-switcher'>
                                 <li>
                                     <Link href={'/profile'}>
                                         <img className='w-[21px] h-[21px]' src='/user.png' alt='User' width={40}
                                              height={40}/>
                                     </Link>
                                 </li>
-                                <li className='text-white left-1 cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
-                                    {lang} <DownOutlined className='w-[12px]'/>
+                                <li className='lg:hidden text-white'>
+                                    <MenuOutlined className='text-white text-2xl'
+                                                  onClick={() => setMobileMenuOpen(true)}/>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div
+                            className='relative w-[95%] mx-5 h-[55px] bg-[#434343] rounded-full flex items-center justify-center'>
+                            <ul className='h-full flex items-center justify-evenly w-full language-switcher'>
+                                <li className='text-white left-1 cursor-pointer flex' onClick={() => setIsOpen(!isOpen)}>
+                                    {lang} <span className='ml-2'><DownOutlined className='w-[12px]'/></span>
                                     {isOpen && (
                                         <div
                                             className='absolute left-[5px] top-[60px] mt-2 w-32 bg-[#211d1dfc] text-white  rounded-xl shadow-xl p-2 transition-opacity duration-300 '>
@@ -132,6 +142,8 @@ const App = ({children, lessons}) => {
                                 </li>
                             </ul>
                         </div>
+
+
                     </div>
 
                 </div>
