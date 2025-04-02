@@ -44,7 +44,7 @@ const CustomCalendar = ({dates }) => {
             days.push(
                 <div
                     key={day}
-                    className={`text-black flex items-center justify-center cursor-pointer w-10 h-10 rounded-full ${isSelected ? 'bg-[#82181a] text-white' : isEvent ? 'bg-green-500 text-white' : 'hover:bg-gray-200'}`}
+                    className={`text-white flex items-center justify-center cursor-pointer w-10 h-10 rounded-full ${isSelected ? 'bg-[#82181a] text-white' : isEvent ? 'bg-[#F15A2B] text-white' : 'hover:bg-gray-200'}`}
                     onClick={() => handleDateClick(currentDay)}
                 >
                     {day}
@@ -59,12 +59,12 @@ const CustomCalendar = ({dates }) => {
         <div className="p-1 rounded-xl  w-72 border-0">
             <div className="flex justify-between items-center mb-5 ">
                 <button onClick={handlePrevMonth} className="text-[#82181a] hover:text-orange-700">◀</button>
-                <h2 className="text-black text-2xl font-bold">{selectedDate.format('MMMM YYYY')}</h2>
+                <h2 className="text-white text-2xl font-bold">{selectedDate.format('MMMM YYYY')}</h2>
                 <button onClick={handleNextMonth} className="text-[#82181a] hover:text-orange-700">▶</button>
             </div>
             <div className="grid grid-cols-7 gap-2 text-center">
                 {"SUN MON TUE WED THU FRI SAT".split(" ").map((day) => (
-                    <div key={day} className="font-bold text-sm text-black">{day}</div>
+                    <div key={day} className="font-bold text-sm text-white">{day}</div>
                 ))}
                 {generateDays()}
             </div>

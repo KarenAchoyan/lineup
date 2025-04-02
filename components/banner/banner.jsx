@@ -12,8 +12,8 @@ const Banner = () => {
 
     return (
         <>
-            <div className='w-full h-[900px] relative bg-[#211d1dfc]'>
-                <Image src="/banner.png" className='w-full h-full object-cover' alt={"Banner Image"} width={1500} height={700}/>
+            <div className='w-full h-[1000px] relative bg-[#211d1dfc]'>
+                <Image src="/banner1.png" className='w-full h-full object-cover opacity-[50%] grayscale object-top' alt={"Banner Image"} width={3000} height={2200}/>
                 <div className='container relative m-auto px-[20px] md:px-[0] '>
                     <div className='w-[400px] absolute bottom-[180px]  sm:bottom-[80px] font-bold '>
                         <h1 className='text-[30px] sm:text-[45px] text-white mb-[17px]'>It's never too late

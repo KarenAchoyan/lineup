@@ -20,7 +20,6 @@ const App = ({children, lessons}) => {
     const {lang, setLang} = useApp();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedLang, setSelectedLang] = useState('EN');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [sectionsOpen, setSectionsOpen] = useState(false);
 
@@ -93,11 +92,6 @@ const App = ({children, lessons}) => {
                                         </ul>
                                     </div>
                                 </li>
-                                <li className='text-[24px] text-white hover:text-[#F15A2B] hover:cursor-pointer'>
-                                    <Link href='/#events'>
-                                        Events
-                                    </Link>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -160,7 +154,6 @@ const App = ({children, lessons}) => {
                             </ul>
                         </div>
                     )}
-                    <Link className='text-[20px]' href='/events'>Events</Link>
                     <Link className='text-[20px]' href='/support'>Support Us</Link>
                 </nav>
             </Drawer>
