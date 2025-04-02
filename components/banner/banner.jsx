@@ -12,7 +12,7 @@ const Banner = () => {
 
     return (
         <>
-            <div className='w-full h-[1000px] relative bg-[#211d1dfc]'>
+            <div className='w-full h-screen relative bg-[#211d1dfc]'>
                 <img src="/banner1.png" className='w-full h-full object-cover opacity-[50%] grayscale object-top' alt={"Banner Image"} />
                 <div className='container relative m-auto px-[20px] md:px-[0] '>
                     <div className='w-[400px] absolute bottom-[180px]  sm:bottom-[80px] font-bold '>
