@@ -49,39 +49,41 @@ const CarouselComponent = ({changeYears}) => {
     }
 
     return (
-        <div >
+        <div>
             <div>
-               <div className='py-[10px] '>
-                  <div className='h-[320px] flex items-center overflow-hidden'>
-                      <div className="h-[250px] flex items-center w-[500px]  m-auto overflow-hidden">
-                          <div style={carouselContainerStyle}>
-                              <Carousel ref={carouselRef} centerMode={true} arrows={false} initialSlide={1} dotPosition="left" dots={false} infinite={false}
-                                        afterChange={handleSlideChange}>
-                                  {years.map((year, i) => (
-                                      <div>
-                                          <Card style={contentStyle} key={i}>{year.year}</Card>
-                                      </div>
-                                  ))}
+                <div className='py-[10px] '>
+                    <div className='h-[320px] flex items-center overflow-hidden'>
+                        <div className="h-[250px] flex items-center w-[500px]  m-auto overflow-hidden">
+                            <div style={carouselContainerStyle}>
+                                <Carousel ref={carouselRef} centerMode={true} arrows={false} initialSlide={1}
+                                          dotPosition="left" dots={false} infinite={false}
+                                          afterChange={handleSlideChange}>
 
-                              </Carousel>
-                          </div>
-                          <div className='h-full flex flex-col justify-between w-[70px] items-center '>
-                              <button
-                                  onClick={prevSlide}
-                                  className="bg-[#C7C7C7] text-white px-4 py-2  mx-2 w-[60px] h-[60px] rounded-full"
-                              >
-                                  <UpOutlined />
-                              </button>
-                              <button
-                                  onClick={nextSlide}
-                                  className="bg-[#C7C7C7] text-white px-4 py-2  mx-2 w-[60px] h-[60px] rounded-full"
-                              >
-                                  <DownOutlined />
-                              </button>
-                          </div>
-                      </div>
-                  </div>
-               </div>
+                                    {years.map((year, i) => (
+                                        <div>
+                                            <Card style={contentStyle} key={i}>{year.year}</Card>
+                                        </div>
+                                    ))}
+
+                                </Carousel>
+                            </div>
+                            <div className='h-full flex flex-col justify-between w-[70px] items-center '>
+                                <button
+                                    onClick={prevSlide}
+                                    className="bg-[#C7C7C7] text-white px-4 py-2  mx-2 w-[60px] h-[60px] rounded-full"
+                                >
+                                    <UpOutlined/>
+                                </button>
+                                <button
+                                    onClick={nextSlide}
+                                    className="bg-[#C7C7C7] text-white px-4 py-2  mx-2 w-[60px] h-[60px] rounded-full"
+                                >
+                                    <DownOutlined/>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

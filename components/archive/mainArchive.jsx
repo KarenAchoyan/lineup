@@ -26,11 +26,6 @@ const MainArchive = () => {
     };
     return (
         <>
-            <div className='container m-auto bg-[#4D4C4C] rounded-3xl pt-10 '>
-                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>Archive</h1>
-                <ArchiveComponent changeYears={changeYears}/>
-            </div>
-
             <div className='container m-auto bg-[#4D4C4C] rounded-3xl pt-10 mt-[50px]'>
                 <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>{year?.year} Archive</h1>
                 <div>
