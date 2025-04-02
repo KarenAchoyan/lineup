@@ -11,7 +11,7 @@ const Groups = () => {
                     <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[30px] md:text-[45px]'>Groups</h1>
                     <div className="content mt-[50px]">
                         <div
-                            className='w-full border-b-1  border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[22px] text-white'>
+                            className='w-full border-b-1  border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                            <div className='w-[50%] border-r-1 h-full border-white flex items-center justify-center'>
                                <p>Falk fances</p>
                            </div>
@@ -20,7 +20,7 @@ const Groups = () => {
                            </div>
                         </div>
                         <div
-                            className='w-full border-b-1 flex border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[22px] text-white'>
+                            className='w-full border-b-1 flex border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                            <div className='w-[50%] border-r-1 h-full border-white flex items-center justify-center'>
                                <p>Falk fances</p>
                            </div>
@@ -29,7 +29,7 @@ const Groups = () => {
                            </div>
                         </div>
                         <div
-                            className='w-full border-b-1 flex border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[22px] text-white'>
+                            className='w-full border-b-1 flex border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                            <div className='w-[50%] border-r-1 h-full border-white flex items-center justify-center'>
                                <p>Falk fances</p>
                            </div>

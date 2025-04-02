@@ -21,9 +21,9 @@ const Achievements = ({all=false}) => {
                     })}
                 </div>
                 {all &&
-                    <div className='flex justify-center'>
-                        <Link href={lang+'/achievements'}>
-                            <button className='text-[25px] bg-[#F15A2B] hover:bg-[#4D4C4C] hover:text-white transition duration-1000 cursor-pointer px-[86px] py-[10px] rounded-full text-white shadow-[0px_9px_9.1px_0px_#0000004A]'>See more</button>
+                    <div className='flex justify-center my-10'>
+                        <Link href={lang+'/achievements'} className='text-[#C7C7C7] underline'>
+                            See more
                         </Link>
                     </div>
                 }

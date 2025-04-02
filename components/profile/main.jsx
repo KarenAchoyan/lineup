@@ -31,33 +31,33 @@ const Main = () => {
                            </div>
                        </div>
                         <div className='w-[50%] pt-5 text-[#C7C7C7]'>
-                            <h2 className='text-3xl'>Student</h2>
-                            <h1 className='text-2xl'>{user.name}</h1>
+                            <h2 className='text-2xl'>Student</h2>
+                            <h1 className='text-xl'>{user.name}</h1>
                         </div>
                     </div>
                     <div className='w-[50%] pl-4 text-[#C7C7C7]'>
                         <div className='w-[50%] pt-5'>
-                            <h2 className='text-3xl'>Parent</h2>
-                            <h1 className='text-2xl'>Name Surname</h1>
-                            <h3 className='text-2xl'>{user.email}</h3>
+                            <h2 className='text-2xl'>Parent</h2>
+                            <h1 className='text-xl'>Name Surname</h1>
+                            <h3 className='text-xl'>{user.email}</h3>
                         </div>
                     </div>
                 </div>
 
                 <div className="content mt-[50px]">
-                    <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[22px] text-white'>
+                    <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                         <p className='ml-5'>
                             <UserOutlined /> Profile information
                         </p>
                     </div>
                     <Link href='/profile/groups'>
-                        <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[22px] text-white'>
+                        <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                             <p className='ml-5'>
                                 <UsergroupAddOutlined /> Groups
                             </p>
                         </div>
                     </Link>
-                    <div onClick={()=>setLogoutModal(true)} className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[22px] text-white'>
+                    <div onClick={()=>setLogoutModal(true)} className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                         <p className='ml-5'>
                             <LogoutOutlined /> Sign Out
                         </p>
