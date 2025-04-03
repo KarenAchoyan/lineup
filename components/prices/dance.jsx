@@ -26,7 +26,8 @@ const Dance = ({lessons, slug}) => {
 
     useEffect(() => {
         if (data?.image_background) {
-            const backgroundImage = `url('${process.env.IMAGE_URL}${data.image_background}')`;
+            const fixedUrl = data?.image_background.replace(/\\/g, "/");
+            const backgroundImage = `url('${process.env.IMAGE_URL}${fixedUrl}')`;
             setStyleBackground({backgroundImage});
         }
     }, [data?.image_background]);
