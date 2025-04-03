@@ -34,10 +34,10 @@ const App = ({children, lessons, dict}) => {
     };
 
     const languages = [
-        {code: 'en', text: "EN", label: 'English'},
         {code: 'ru', text: "RU", label: 'Russian'},
         {code: 'hy', text: "HY", label: 'Armenian'},
-        {code: 'ge', text: "GE", label: 'Georgian'}
+        {code: 'ge', text: "GE", label: 'Georgian'},
+        {code: 'en', text: "EN", label: 'English'},
     ];
 
     return (

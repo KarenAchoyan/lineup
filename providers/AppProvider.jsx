@@ -5,30 +5,18 @@ import { createContext, useState, useContext, useEffect } from "react";
 export const AppContext = createContext(null);
 
 export const AppProvider = ({ children }) => {
-    const [lang, setLang] = useState("EN");
-
-    useEffect(() => {
-        const storedLang = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("language="))
-            ?.split("=")[1] || "EN";
-
-        // Ստանում ենք լեզուն `localStorage`-ից, եթե կա
-        const localLang = localStorage.getItem("language");
-
-        if (localLang) {
-            setLang(localLang);
-        } else {
-            setLang(storedLang);
+    const [lang, setLang] = useState(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem("language") || "hy";
         }
-    }, []);
+        return "hy"; // Default to "hy" if running on the server
+    });
 
     useEffect(() => {
-        // Պահպանում ենք լեզուն `localStorage`-ում
-        localStorage.setItem("language", lang);
-
-        // Պահպանում ենք լեզուն `cookies`-ում (1 տարի)
-        document.cookie = `language=${lang}; path=/; max-age=31536000`;
+        if (typeof window !== "undefined") {
+            localStorage.setItem("language", lang);
+            document.cookie = `lang=${lang}; path=/`; // Ensure the cookie is accessible site-wide
+        }
     }, [lang]);
 
     return (
