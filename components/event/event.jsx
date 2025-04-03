@@ -32,14 +32,14 @@ const CalendarEvent = () => {
             <div
                 className="container m-auto  bg-cover bg-center bg-[#4D4C4C] p-[20px] pb-[80px] rounded-2xl border-t-2 border-[#BF3206]">
                 <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[30px] md:text-[45px]'>Events</h1>
-                <div className="w-full sm:w-[max-content] m-auto flex flex-wrap gap-10  bg-opacity-50 rounded-2xl text-white">
+                <div className="w-full lg:w-[max-content] m-auto flex flex-wrap gap-10  bg-opacity-50 rounded-2xl text-white">
                     <div
-                        className="w-full h-auto sm:w-[340px] sm:h-[700px] p-5 rounded-xl border-[5px] bg-[#4d5457] border-[#434343] shadow-[2px_16px_19px_0px_#00000017] backdrop-blur-[80px] mb-10 sm:mb-0">
+                        className="w-full h-auto lg:w-[340px] lg:h-[700px] p-5 rounded-xl border-[5px] bg-[#4d5457] border-[#434343] shadow-[2px_16px_19px_0px_#00000017] backdrop-blur-[80px] mb-10 sm:mb-0">
                         <CustomCalendar dates={dates}/>
                     </div>
 
                     <div
-                        className="p-5 rounded-xl border-[#434343] bg-[#4d5457] border-[5px] px-[60px] shadow-lg w-full sm:w-[630px]">
+                        className="p-5 rounded-xl border-[#434343] bg-[#4d5457] border-[5px] px-[60px] shadow-lg w-full lg:w-[630px]">
 
                         <img
                             src="/back.png"
