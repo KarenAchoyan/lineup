@@ -77,9 +77,9 @@ const SignUp = () => {
         <div className="bg-[#211d1dfc] signIn-background py-[180px] pb-[50px]">
             <div className="flex items-center justify-center">
                 <div className="container bg-[#4d4c4c2b] mb-[50px] pt-[30px] rounded-lg shadow-xl p-8">
-                    <h1 className="text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
+                    <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
 
-                    <div className="signIn-form w-[350px] mt-[70px] m-auto">
+                    <div className="signIn-form w-full sm:w-[350px] mt-[70px] m-auto">
                             <div className="text-red-500 text-center mb-4">{errorData['email']}</div>
                         <Form
                             name="signup"
@@ -162,7 +162,7 @@ const SignUp = () => {
                                 <Form.Item>
                                     <button
                                         type="submit"
-                                        className="bg-[#F15A2B] w-[270px] text-[25px] w-full text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
+                                        className="bg-[#F15A2B] w-full  text-[18px]  sm:text-[25px]  text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                         disabled={loading}
                                     >
                                         {loading ? "Signing up..." : "Sign Up"}

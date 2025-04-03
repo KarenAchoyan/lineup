@@ -6,7 +6,7 @@ const Page = () => {
         <>
             <div className='w-full bg-[#232222] pt-[160px]'>
                 <div className='container m-auto bg-[#4D4C4C] rounded-3xl'>
-                    <h1 className='text-center my-5 text-[45px] text-[#C7C7C7]'>Active Youth</h1>
+                    <h1 className='text-center my-5 text-[32px]  md:text-[45px] text-[#C7C7C7]'>Active Youth</h1>
                     <div className='w-[80%] m-auto pb-[50px]'>
                         <div>
                             <Image src={"/girl.jpeg"} width={250} height={250} className='rounded-full float-left m-3 mr-5'

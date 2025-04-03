@@ -25,9 +25,9 @@ const News = ({title=false}) => {
                             ></iframe>
                         </div>
                         <div className="w-full md:w-1/2">
-                            <h3 className="text-[30px] font-semibold mb-4 text-[#C7C7C7]">Line Up and ARE dance
+                            <h3 className="text-[23px] sm:text-[30px] font-semibold mb-4 text-[#C7C7C7]">Line Up and ARE dance
                                 ensembles return from Italy</h3>
-                            <p className="text-[20px]  font-medium text-white">
+                            <p className="text-[17px] sm:text-[20px]  font-medium text-white">
                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                 incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure

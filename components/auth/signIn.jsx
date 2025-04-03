@@ -33,6 +33,7 @@ const SignIn = () => {
                     email: data.user.email
                 })}; path=/; Secure; SameSite=Strict`;
                 router.push("/profile");
+                window.location.reload()
             } else {
                 setError(data.message || "Invalid credentials")
             }
@@ -46,11 +47,11 @@ const SignIn = () => {
     return (
         <div className="bg-[#211d1dfc] signIn-background h-screen py-[180px]">
             <div className="flex items-center justify-center">
-                <div className="container bg-[#4d4c4c2b] h-[70vh] pt-[50px] rounded-lg shadow-xl p-8">
-                    <h1 className="text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
-                    <h2 className="text-center text-[#C7C7C7] text-[24px]">Log in to your account</h2>
+                <div className="container bg-[#4d4c4c2b] min-h-[70vh] pt-[50px] rounded-lg shadow-xl p-8">
+                    <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
+                    <h2 className="text-center text-[#C7C7C7] text-[20px]  sm:text-[24px]">Log in to your account</h2>
 
-                    <div className="signIn-form w-[350px] mt-[70px] m-auto">
+                    <div className="signIn-form w-full  sm:w-[350px] mt-[70px] m-auto">
                         <Form
                             name="signin"
                             initialValues={{ remember: true }}
@@ -84,12 +85,12 @@ const SignIn = () => {
                                 </a>
                             </div>
 
-                            <div className="mt-[180px]">
+                            <div className="sm:mt-[180px]">
                                 <Form.Item>
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="bg-[#F15A2B] hover:bg-[#4D4C4C] cursor-pointer text-[25px] w-full text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 "
+                                        className="bg-[#F15A2B] w-full  text-[18px]  sm:text-[25px]  text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                     >
                                         {loading ? "Signing In..." : "Sign In"}
                                     </button>

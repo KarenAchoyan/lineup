@@ -49,7 +49,7 @@ const UserCarousel = () => {
     return (
         <div className="bg-[#232222] pt-20">
             <div className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto  lg:h-[500px]'>
-                <h2 className="text-[#C7C7C7] font-bold mb-6 text-center text-[45px]">Active youth</h2>
+                <h2 className="text-[#C7C7C7] font-bold mb-6 text-center text-[32px]  md:text-[45px]">Active youth</h2>
                 <Slider {...settings}>
                     {users?.map((profile, index) => {
                         const title = (lang.toLowerCase() === "hy") ? profile.fullname : lang.toLowerCase() === "ge" ? profile.fullname_ge : lang.toLowerCase() === "ru" ? profile.fullname_ru : profile.fullname_en;
