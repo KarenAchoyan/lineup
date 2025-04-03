@@ -25,7 +25,7 @@ async function getEvents() {
 }
 export default async function Home({params}) {
     const {lang} = await params
-    // const dict = await getDictionary(lang) // en
+    const dict = await getDictionary(lang) // en
 
     const activeUsers = await getActiveUsers();
     const galleries = await getGallery();
@@ -33,9 +33,9 @@ export default async function Home({params}) {
 
     return (
         <>
-            <MainProvider value={{lang, users:activeUsers, galleries, events}}>
+            <MainProvider value={{lang, users:activeUsers, galleries, events, dict}}>
                 <Banner/>
-                <News title="News"/>
+                <News title={dict?.news}/>
                 <UserCarousel/>
                 <Achievements all={true}/>
                 <div id='events'>

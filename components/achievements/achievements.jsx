@@ -6,11 +6,11 @@ import {MainContext} from "@/providers/HomeProvider";
 import Link from "next/link";
 
 const Achievements = ({all=false}) => {
-    const {galleries, lang} = useContext(MainContext)
+    const {galleries, lang, dict} = useContext(MainContext)
     return (
         <div className='bg-[#232222] py-20'>
             <div className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto'>
-                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[30px] md:text-[45px]'>Our Achievements</h1>
+                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[30px] md:text-[45px]'>{dict.our_achievements}</h1>
                 <div className="flex flex-wrap justify-between">
                     {galleries.map((gallery) => {
                         return (
@@ -22,8 +22,8 @@ const Achievements = ({all=false}) => {
                 </div>
                 {all &&
                     <div className='flex justify-center my-10'>
-                        <Link href={lang+'/achievements'} className='text-[#C7C7C7] underline'>
-                            See more
+                        <Link href={'/achievements'} className='text-[#C7C7C7] underline'>
+                            {dict.see_more}
                         </Link>
                     </div>
                 }

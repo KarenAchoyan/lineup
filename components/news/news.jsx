@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {MainContext} from "@/providers/HomeProvider";
 
 const News = ({title=false}) => {
-    const {lang} = useContext(MainContext);
+    const {lang,dict} = useContext(MainContext);
     return (
         <div className='w-full bg-[#232222] '>
             <div className={title ? "pt-20" : null}>
@@ -34,7 +34,7 @@ const News = ({title=false}) => {
                                 dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                 Excepteur sint occaecat cupidatat non proident...
                             </p>
-                            <p className='text-[15px] text-[#F15A2B] text-right'><a href={lang+"/news/"+1}>Read more...</a></p>
+                            <p className='text-[15px] text-[#F15A2B] text-right'><a href={"/news/"+1}>{dict.read_more}...</a></p>
                         </div>
                     </div>
                 </div>

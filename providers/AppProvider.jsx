@@ -8,14 +8,27 @@ export const AppProvider = ({ children }) => {
     const [lang, setLang] = useState("EN");
 
     useEffect(() => {
-        const storedLang = localStorage.getItem("language") || "EN";
-        setLang(storedLang);
+        const storedLang = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("language="))
+            ?.split("=")[1] || "EN";
+
+        // Ստանում ենք լեզուն `localStorage`-ից, եթե կա
+        const localLang = localStorage.getItem("language");
+
+        if (localLang) {
+            setLang(localLang);
+        } else {
+            setLang(storedLang);
+        }
     }, []);
 
     useEffect(() => {
-        if (lang !== "EN") {
-            localStorage.setItem("language", lang);
-        }
+        // Պահպանում ենք լեզուն `localStorage`-ում
+        localStorage.setItem("language", lang);
+
+        // Պահպանում ենք լեզուն `cookies`-ում (1 տարի)
+        document.cookie = `language=${lang}; path=/; max-age=31536000`;
     }, [lang]);
 
     return (

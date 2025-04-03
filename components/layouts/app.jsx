@@ -14,7 +14,7 @@ import {Drawer} from "antd";
 import {usePathname, useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
 
-const App = ({children, lessons}) => {
+const App = ({children, lessons, dict}) => {
     const router = useRouter();
     const pathname = usePathname();
     const {lang, setLang} = useApp();
@@ -27,7 +27,7 @@ const App = ({children, lessons}) => {
     const changeLanguage = (l) => {
         const pathnameParts = pathname.split("/");
         if (pathnameParts[1] !== l) {
-            pathnameParts[1] = l; // Update the language part of the path
+            pathnameParts[1] = l;
         }
         const newPathname = pathnameParts.join("/");
         router.push(newPathname);
@@ -39,6 +39,7 @@ const App = ({children, lessons}) => {
         {code: 'hy', text: "HY", label: 'Armenian'},
         {code: 'ge', text: "GE", label: 'Georgian'}
     ];
+
     return (
         <>
             <header className='absolute top-0 left-0 w-full z-10'>
@@ -54,20 +55,19 @@ const App = ({children, lessons}) => {
                             <ul className='flex h-full items-center justify-evenly relative'>
                                 <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative '>
                                     <Link href={'/about'}>
-                                        About us
+                                        {dict.about_us}
                                     </Link>
                                 </li>
                                 <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer'>
                                     <Link href={'/archive'}>
-                                        Archive
+                                        {dict.archive}
                                     </Link>
                                 </li>
                                 <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
-                                    <span>Sections</span>
+                                    <span> {dict.sections}</span>
                                     <div className='absolute hidden sub-dropdown  pt-3'>
                                         <ul className=' left-0 w-40 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
                                             {lessons.map((item, index) => {
-
                                                 return (
                                                     <li key={index}
                                                         className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
@@ -81,7 +81,7 @@ const App = ({children, lessons}) => {
                                     </div>
                                 </li>
                                 <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
-                                    <span>Support us</span>
+                                    <span> {dict.support_us}</span>
                                     <div className='absolute hidden sub-dropdown  pt-3'>
                                         <ul className=' left-0 w-40 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
                                             <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link

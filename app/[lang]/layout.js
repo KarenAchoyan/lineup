@@ -1,6 +1,7 @@
 import "./globals.css";
 import App from "@/components/layouts/app";
 import {AppProvider} from "@/providers/AppProvider";
+import {getDictionary} from "@/app/[lang]/dictionaries";
 
 
 export const metadata = {
@@ -19,11 +20,14 @@ async function getLessons() {
 
 export default async function RootLayout({children, params}) {
     const lessons = await getLessons();
+    const {lang} = await params
+    const dict = await getDictionary(lang) // en
+
     return (
         <html lang={(await params).lang}>
         <body>
         <AppProvider>
-            <App lang={(await params)?.lang} params={params} lessons={lessons}>
+            <App lang={(await params)?.lang} dict={dict} params={params} lessons={lessons}>
                 {children}
             </App>
         </AppProvider>

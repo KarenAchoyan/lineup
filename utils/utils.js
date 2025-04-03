@@ -94,3 +94,7 @@ export function getCookie(name) {
     return null;
 }
 
+
+export function setLanguage(language) {
+    document.cookie = `language=${language}; path=/; max-age=31536000`; // 1 year
+}

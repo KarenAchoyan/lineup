@@ -1,58 +1,47 @@
-import { NextResponse } from "next/server";
+import {NextResponse} from "next/server";
 
 let locales = ["en", "hy", "ru", "ge"];
 const protectedRoutes = ["/profile"]; // Protected routes that require authentication
 const authPages = ["/auth/signIn", "/auth/signUp"]; // Auth pages to restrict when logged in
 
 function getLocale(request) {
-    const acceptLanguage = request.headers.get("accept-language");
-
-    if (acceptLanguage) {
-        const preferredLocales = acceptLanguage
-            .split(",")
-            .map((lang) => lang.split(";")[0].trim());
-
-        for (const locale of preferredLocales) {
-            if (locales.includes(locale)) {
-                return locale;
-            }
-        }
-    }
-
-    return "en"; // Default to 'en' if no match
+    const language = request.cookies.get('language') || {value:'en'};
+    return language.value;
 }
-
 export function middleware(request) {
     const { pathname } = request.nextUrl;
-    const authToken = request.cookies.get("authToken");
+    const locale = getLocale(request);  // Get locale from cookies
 
-    // Allow access to public assets (images, fonts, etc.)
     if (pathname.startsWith("/_next") || pathname.startsWith("/static") || pathname.startsWith("/public") || pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|otf|eot)$/)) {
         return NextResponse.next();
     }
 
     if (pathname === "/") {
-        const locale = getLocale(request);
         return NextResponse.redirect(new URL(`/${locale}`, request.url));
     }
+
+    const authToken = request.cookies.get("authToken");
     if (authToken && authPages.some((page) => pathname.endsWith(page))) {
-        console.log('ok')
         return NextResponse.redirect(new URL("/profile", request.url));
     }
 
-    // Protect certain routes
     const isProtectedRoute = protectedRoutes.some((route) => pathname.endsWith(route));
     if (isProtectedRoute && !authToken) {
         return NextResponse.redirect(new URL("/auth/signIn", request.url));
     }
 
+    // Check if the pathname already contains a locale (e.g. /en/ or /ge/)
     const pathnameHasLocale = locales.some(
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
     );
 
     if (pathnameHasLocale) {
-        return NextResponse.next();
+        return NextResponse.next();  // No redirection needed, continue to requested page
     }
 
-    return NextResponse.redirect(new URL(`/en${pathname}`, request.url));
+    if (pathname.match(/^\/([a-z]{2})\/+.*$/i)) {
+        const correctedPath = pathname.replace(/^\/([a-z]{2})\/+/, '/$1/');  // Clean up repeated locales
+        return NextResponse.redirect(new URL(correctedPath, request.url));  // Redirect to the cleaned path
+    }
+    return NextResponse.redirect(new URL(`/${locale.toLowerCase()}`, request.url));
 }
