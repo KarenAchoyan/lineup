@@ -22,6 +22,7 @@ const App = ({children, lessons}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [sectionsOpen, setSectionsOpen] = useState(false);
+    const [supportsOpen, setSupportsOpen] = useState(false);
 
     const changeLanguage = (l) => {
         const pathnameParts = pathname.split("/");
@@ -105,10 +106,6 @@ const App = ({children, lessons}) => {
                                              height={40}/>
                                     </Link>
                                 </li>
-                                <li className='lg:hidden text-white'>
-                                    <MenuOutlined className='text-white text-2xl'
-                                                  onClick={() => setMobileMenuOpen(true)}/>
-                                </li>
                             </ul>
                         </div>
 
@@ -136,13 +133,18 @@ const App = ({children, lessons}) => {
                                         </div>
                                     )}
                                 </li>
-                                <li className='lg:hidden text-white'>
+
+                            </ul>
+                        </div>
+                        <div
+                            className='lg:hidden relative w-[95%] h-[55px] bg-[#434343] rounded-full flex items-center justify-center'>
+                            <ul className='h-full flex items-center justify-evenly w-full  language-switcher'>
+                                <li className=' text-white'>
                                     <MenuOutlined className='text-white text-2xl'
                                                   onClick={() => setMobileMenuOpen(true)}/>
                                 </li>
                             </ul>
                         </div>
-
 
                     </div>
 
@@ -156,17 +158,36 @@ const App = ({children, lessons}) => {
                     <div className='cursor-pointer text-[20px]' onClick={() => setSectionsOpen(!sectionsOpen)}>
                         Sections <DownOutlined className={`ml-2 text-[13px] ${sectionsOpen ? 'rotate-180' : ''}`}/>
                     </div>
+
                     {sectionsOpen && (
                         <div className='pl-4'>
                             <ul className='space-y-2'>
-                                <li className='text-[20px]'><Link href='/dance'>Dance</Link></li>
-                                <li className='text-[20px]'><Link href='/theatre'>Theatre</Link></li>
-                                <li className='text-[20px]'><Link href='/vocals'>Vocals</Link></li>
-                                <li className='text-[20px]'><Link href='/photo'>Photo / Video</Link></li>
+                                {lessons.map((item, index) => {
+                                    return (
+                                        <li key={index}
+                                            className='text-[18px]'><Link
+                                            href={'/sections/' + item.id}>{item.title}</Link></li>
+                                    )
+                                })}
+                                <li className='text-[18px]'><Link href='/photo'>Photo / Video</Link></li>
                             </ul>
                         </div>
                     )}
-                    <Link className='text-[20px]' href='/support'>Support Us</Link>
+                    <div className='cursor-pointer text-[20px]' onClick={() => setSupportsOpen(!supportsOpen)}>
+                        Support us <DownOutlined className={`ml-2 text-[13px] ${sectionsOpen ? 'rotate-180' : ''}`}/>
+                    </div>
+                    {supportsOpen && (
+                        <div className='pl-4'>
+                            <ul className='space-y-2'>
+                                <li  className='text-[18px]'><Link
+                                    href={"/supports/volunteering"}>Volunteering</Link></li>
+                                <li  className='text-[18px]'><Link
+                                    href={'/supports/collaboration'}>Collaboration</Link></li>
+                                <li  className='text-[18px]'><Link
+                                    href={'/supports/donation'}>Donation</Link></li>
+                            </ul>
+                        </div>
+                    )}
                 </nav>
             </Drawer>
             <main>
