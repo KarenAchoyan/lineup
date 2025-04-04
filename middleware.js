@@ -13,8 +13,6 @@ export function middleware(request) {
     const { pathname } = request.nextUrl;
     const authToken = request.cookies.get("authToken");
 
-    console.log("Pathname:", pathname);
-
     if (pathname.startsWith("/_next") || pathname.startsWith("/static") || pathname.startsWith("/public") || pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|otf|eot)$/)) {
         return NextResponse.next();
     }
@@ -36,7 +34,6 @@ export function middleware(request) {
     const pathnameHasLocale = locales.some(
         (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
     );
-    console.log("Has Locale in Path:", pathnameHasLocale);
 
     if (pathnameHasLocale) {
         const response = NextResponse.next();
