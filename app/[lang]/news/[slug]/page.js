@@ -1,71 +1,33 @@
 import React from 'react';
 import Image from "next/image";
 import News from "@/components/news/news";
+import Details from "@/components/news/details";
 
-const Page = () => {
+async function getSingleNews(slug, lang) {
+    try {
+        const res = await fetch(`https://lineup.dahk.am/api/news/${slug}?lang=${lang}`, {
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            return {success: false, message: `Error ${res.status}: News not found`};
+        }
+
+        const data = await res.json();
+        return {success: true, data};
+    } catch (error) {
+        return {success: false, message: "Failed to fetch news"};
+    }
+}
+
+
+const Page = async ({params}) => {
+    const result = await getSingleNews(params.slug, params.lang);
+    const data = await result?.data?.data;
+    const lastNews = result?.data?.lastNews;
     return (
         <>
-            <div className='w-full bg-[#232222] pt-[160px]'>
-                <div className='container m-auto bg-[#4D4C4C] rounded-3xl'>
-                    <div className='w-[80%] m-auto pb-[50px]'>
-                        <h1 className='text-center my-5 text-[45px] text-[#C7C7C7]'>News</h1>
-                        <Image width={1000} height={500} className='w-full' src={"/1.png"} alt={"News"}/>
-                        <div className='w-[50%] py-10'>
-                            <h1 className='text-[23px] sm:text-[30px] text-white font-bold'>Line Up and ARE dance ensembles return from
-                                Italy</h1>
-                        </div>
-                        <p className='text-[20px] text-white '>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque
-                            exercitationem iusto molestias neque quae quis, quisquam recusandae reiciendis sequi
-                            similique sint temporibus tenetur vel! Corporis culpa minus necessitatibus!
-                        </p>
-                    </div>
-
-                </div>
-                <h1 className='text-center text-[45px] text-[#C7C7C7] mt-[70px]'>Explore more</h1>
-                <div className='py-5'>
-                    <News/>
-                </div>
-                <div className='py-5'>
-                    <News/>
-                </div>
-                <div className='py-5'>
-                    <News/>
-                </div>
-                <div className='py-5'>
-                    <News/>
-                </div>
-            </div>
+            <Details news={data} lastNews={lastNews}/>
         </>
     );
 };

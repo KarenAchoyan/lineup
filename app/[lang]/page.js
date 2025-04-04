@@ -23,6 +23,11 @@ async function getEvents() {
     const res = await fetch('https://lineup.dahk.am/api/events', { cache: "no-store" })
     return res.json()
 }
+
+async function getNews() {
+    const res = await fetch('https://lineup.dahk.am/api/news/last', { cache: "no-store" })
+    return res.json()
+}
 export default async function Home({params}) {
     const {lang} = await params
     const dict = await getDictionary(lang) // en
@@ -30,10 +35,11 @@ export default async function Home({params}) {
     const activeUsers = await getActiveUsers();
     const galleries = await getGallery();
     const events = await getEvents();
+    const news = await getNews();
 
     return (
         <>
-            <MainProvider value={{lang, users:activeUsers, galleries, events, dict}}>
+            <MainProvider value={{lang, users:activeUsers, galleries, events, dict, news}}>
                 <Banner/>
                 <News title={dict?.news}/>
                 <UserCarousel/>

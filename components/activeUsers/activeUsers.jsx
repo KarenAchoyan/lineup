@@ -52,17 +52,17 @@ const UserCarousel = () => {
                 <h2 className="text-[#C7C7C7] font-bold mb-6 text-center text-[32px]  md:text-[45px]">{dict.active_youth}</h2>
                 <Slider {...settings}>
                     {users?.map((profile, index) => {
-                        const title = (lang.toLowerCase() === "hy") ? profile.fullname : lang.toLowerCase() === "ge" ? profile.fullname_ge : lang.toLowerCase() === "ru" ? profile.fullname_ru : profile.fullname_en;
+                        const title = (lang.toLowerCase() === "hy") ? profile.fullname_hy : lang.toLowerCase() === "ge" ? profile.fullname_ge : lang.toLowerCase() === "ru" ? profile.fullname_ru : profile.fullname_en;
                         const slug = title?.toLowerCase().replace(/\s+/g, "-"); // Convert title to slug
 
                         return(
                         <div key={index} className="flex justify-center pt-10">
                             <Link href={"/actives/"+slug}>
                                 <div className="shadow-[4px_4px_16.9px_7px_#00000040] w-50 h-50 sm:w-60 sm:h-60 rounded-full overflow-hidden border-t-2 border-[#F15A2B] hover:scale-110 transition cursor-pointer  duraction-1000 m-auto">
-                                    <img src={process.env.IMAGE_URL+profile.avatar} alt={profile.fullname} className="w-full h-full object-cover" />
+                                    <img src={process.env.IMAGE_URL+profile.avatar} alt={title} className="w-full h-full object-cover" />
                                 </div>
                             </Link>
-                            <p className="text-center mt-4 text-lg text-[#F5F5F5]">{profile.fullname}</p>
+                            <p className="text-center mt-4 text-lg text-[#F5F5F5]">{title}</p>
                         </div>
                     )})}
                 </Slider>
