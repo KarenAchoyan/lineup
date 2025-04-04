@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Image from "next/image";
 import {
     DownOutlined,
@@ -23,6 +23,7 @@ const App = ({children, lessons, dict}) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [sectionsOpen, setSectionsOpen] = useState(false);
     const [supportsOpen, setSupportsOpen] = useState(false);
+
 
     const changeLanguage = (l) => {
         const pathnameParts = pathname.split("/");

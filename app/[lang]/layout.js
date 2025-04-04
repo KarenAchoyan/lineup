@@ -19,7 +19,7 @@ async function getLessons() {
 export default async function RootLayout({children, params}) {
     const lessons = await getLessons();
     const {lang} = await params
-    const dict = await getDictionary(lang) // en
+    const dict = await getDictionary(lang)
 
     return (
         <html lang={lang}>

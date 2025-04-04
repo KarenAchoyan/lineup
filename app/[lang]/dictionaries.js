@@ -7,4 +7,8 @@ const dictionaries = {
     ge: () => import('@/dictionaries/ge.json').then((module) => module.default),
 }
 
-export const getDictionary = async (locale) => dictionaries[locale]()
+
+export const getDictionary = async (locale) => {
+    const loader = dictionaries[locale] || dictionaries.hy;
+    return loader();
+}
