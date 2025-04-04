@@ -131,3 +131,25 @@ body {
         transform: rotate(360deg);
     }
 }
+
+.select-year{
+    background: transparent;
+    border-radius: 30px;
+    height: 60px;
+    font-size: 24px;
+    color: #C7C7C7!important;
+}
+.select-year:hover{
+    background: transparent;
+}
+.select-year:focus{
+    background: transparent;
+}
+:where(.css-dev-only-do-not-override-240cud).ant-dropdown .ant-dropdown-menu, :where(.css-dev-only-do-not-override-240cud).ant-dropdown-menu-submenu .ant-dropdown-menu{
+    background: #8080804D;
+}
+.remove-tag{
+    font-size: 22px !important;
+    margin-right: 20px;
+    color: #C7C7C7;
+}

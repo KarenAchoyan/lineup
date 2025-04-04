@@ -1,13 +1,15 @@
 "use client"
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Image from "next/image";
 import {
     DownOutlined,
-    MailOutlined,
-    PhoneOutlined,
     EnvironmentOutlined,
     FacebookFilled,
-    MenuOutlined, InstagramOutlined, YoutubeOutlined
+    InstagramOutlined,
+    MailOutlined,
+    MenuOutlined,
+    PhoneOutlined,
+    YoutubeOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
 import {Drawer} from "antd";
@@ -15,7 +17,6 @@ import {usePathname, useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
 
 const App = ({children, lessons, dict}) => {
-    const router = useRouter();
     const pathname = usePathname();
     const {lang, setLang} = useApp();
 
@@ -30,8 +31,7 @@ const App = ({children, lessons, dict}) => {
         if (pathnameParts[1] !== l) {
             pathnameParts[1] = l;
         }
-        const newPathname = pathnameParts.join("/");
-        window.location.pathname = newPathname;
+        window.location.pathname = pathnameParts.join("/");
     };
 
     const languages = [
