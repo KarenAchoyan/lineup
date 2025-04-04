@@ -29,7 +29,7 @@ const News = ({title=false}) => {
                                 <h3 className="text-[23px] sm:text-[30px] font-semibold mb-4 text-[#C7C7C7]">{tit}</h3>
                             </Link>
                             <div className="text-[17px] sm:text-[20px]  font-medium text-white">
-                                {truncateText(parse(content),500)}
+                                {parse(truncateText(content,250))}
                             </div>
                         </div>
                     </div>

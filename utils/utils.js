@@ -99,7 +99,7 @@ export function setLanguage(language) {
     document.cookie = `language=${language}; path=/; max-age=31536000`; // 1 year
 }
 
-export const truncateText = (text = '', maxLength = 100) => {
-    if (!text || typeof text !== 'string') return '';
-    return text.length > maxLength ? text.substring(0, maxLength).trim() + '...' : text;
-};
+export function truncateText(text, maxLength) {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '…';
+}
