@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import {NextResponse} from "next/server";
 
 let locales = ["en", "hy", "ru", "ge"];
 const protectedRoutes = ["/profile"];
@@ -36,9 +36,7 @@ export function middleware(request) {
     );
 
     if (pathnameHasLocale) {
-        const response = NextResponse.next();
-        response.headers.set("Cache-Control", "no-store");
-        return response;
+        return NextResponse.next();
     }
 
     const lang = getLocale(request);
