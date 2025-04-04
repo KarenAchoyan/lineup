@@ -31,7 +31,7 @@ const App = ({children, lessons, dict}) => {
             pathnameParts[1] = l;
         }
         const newPathname = pathnameParts.join("/");
-        router.push(newPathname);
+        window.location.pathname = newPathname;
     };
 
     const languages = [
