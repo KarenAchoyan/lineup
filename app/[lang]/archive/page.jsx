@@ -4,6 +4,7 @@ import ToggleTabs from "@/components/archive/toggleTabs";
 import Archive from "@/components/archive/archive";
 import {ArchiveProvider} from "@/providers/ArchiveProvider";
 import MainArchive from "@/components/archive/mainArchive";
+import {getDictionary} from "@/app/[lang]/dictionaries";
 
 
 async function getYears() {
@@ -12,12 +13,13 @@ async function getYears() {
     return data;
 }
 
-const Page = async () => {
+const Page = async ({params}) => {
     const years = await getYears();
+    const dict = await getDictionary(params?.lang)
     return (
         <div className='w-full bg-[#232222] pt-[160px] component-archive'>
             <ArchiveProvider value={{years}}>
-                <MainArchive/>
+                <MainArchive dict={dict}/>
             </ArchiveProvider>
         </div>
     );

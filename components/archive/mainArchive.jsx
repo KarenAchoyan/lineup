@@ -7,7 +7,7 @@ import AppContext from "antd/es/app/context";
 import {ArchiveContext} from "@/providers/ArchiveProvider";
 import SearchDropdown from "@/components/archive/SearchDropdown";
 
-const MainArchive = () => {
+const MainArchive = ({dict}) => {
     const [year, setYear] = useState('');
     const [videos, setVideos] = useState([]);
     const [images, setImages] = useState([]);
@@ -36,13 +36,13 @@ const MainArchive = () => {
     return (
         <>
             <div className='container m-auto bg-[#4D4C4C] rounded-3xl pt-10 pb-[20px] mt-[50px]'>
-                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'> Archive</h1>
+                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'> {dict.archive}</h1>
 
                 <div className='w-full sm:w-[650px] m-auto py-10 px-10'>
                     <SearchDropdown changeYear={changeData}/>
                 </div>
 
-                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>{year} Archive</h1>
+                <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>{year} {dict.archive}</h1>
                 <div>
                     <Archive images={images} year={year} videos={videos}/>
                 </div>

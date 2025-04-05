@@ -156,3 +156,7 @@ body {
 .link-term{
     color: #C7C7C7;
 }
+.cover-input textarea{
+    height: 150px;
+    background: #C7C7C7;
+}

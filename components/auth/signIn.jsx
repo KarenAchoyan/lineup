@@ -80,7 +80,7 @@ const SignIn = ({dict}) => {
                             {error && <p className='text-red-500'>{error}</p>}
 
 
-                            <div className="sm:mt-[180px]">
+                            <div>
                                 <Form.Item>
                                     <button
                                         type="submit"

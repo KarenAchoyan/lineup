@@ -5,7 +5,7 @@ import Link from "next/link";
 import LogoutModal from "@/components/profile/logoutModal";
 import {getCookie} from "@/utils/utils";
 
-const Main = () => {
+const Main = ({dict}) => {
     const [logoutModal, setLogoutModal] = useState(false);
     const [user, setUser] = useState({});
 
@@ -31,13 +31,13 @@ const Main = () => {
                            </div>
                        </div>
                         <div className='w-[50%] pt-5 text-[#C7C7C7]'>
-                            <h2 className='text-2xl'>Student</h2>
+                            <h2 className='text-2xl'>{dict?.student}</h2>
                             <h1 className='text-xl'>{user.name}</h1>
                         </div>
                     </div>
                     <div className='w-[50%] pl-4 text-[#C7C7C7]'>
                         <div className='w-[50%] pt-5'>
-                            <h2 className='text-2xl'>Parent</h2>
+                            <h2 className='text-2xl'>{dict.parent}</h2>
                             <h1 className='text-xl'>Name Surname</h1>
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
@@ -47,25 +47,25 @@ const Main = () => {
                 <div className="content mt-[50px]">
                     <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                         <p className='ml-5'>
-                            <UserOutlined /> Profile information
+                            <UserOutlined /> {dict.profile_information}
                         </p>
                     </div>
                     <Link href='/profile/groups'>
                         <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                             <p className='ml-5'>
-                                <UsergroupAddOutlined /> Groups
+                                <UsergroupAddOutlined /> {dict.groups}
                             </p>
                         </div>
                     </Link>
                     <div onClick={()=>setLogoutModal(true)} className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                         <p className='ml-5'>
-                            <LogoutOutlined /> Sign Out
+                            <LogoutOutlined /> {dict.sign_out}
                         </p>
                     </div>
                 </div>
             </div>
             {logoutModal &&
-                <LogoutModal  handlerClose={()=>setLogoutModal(false)}/>}
+                <LogoutModal dict={dict}  handlerClose={()=>setLogoutModal(false)}/>}
 
         </div>
     );

@@ -15,6 +15,8 @@ import Link from "next/link";
 import {Drawer} from "antd";
 import {usePathname, useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faUserCircle} from '@fortawesome/free-regular-svg-icons'
 
 const App = ({children, lessons, dict}) => {
     const pathname = usePathname();
@@ -87,11 +89,11 @@ const App = ({children, lessons, dict}) => {
                                     <span> {dict.support_us}</span>
                                     <div className='absolute hidden sub-dropdown  pt-3'>
                                         <ul className=' left-0 w-48 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
-                                            <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
+                                            <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
                                                 href={"/supports/volunteering"}>{dict.volunteering}</Link></li>
-                                            <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
+                                            <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
                                                 href={'/supports/collaboration'}>{dict.collaboration}</Link></li>
-                                            <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
+                                            <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
                                                 href={'/supports/donation'}>{dict.donation}</Link></li>
                                         </ul>
                                     </div>
@@ -105,8 +107,9 @@ const App = ({children, lessons, dict}) => {
                             <ul className='h-full flex items-center justify-evenly w-full  language-switcher'>
                                 <li>
                                     <Link href={'/profile'}>
-                                        <img className='w-[21px] h-[21px]' src='/user.png' alt='User' width={40}
-                                             height={40}/>
+                                       <span className='text-white text-[20px] hover:text-[#F15A2B]'>
+                                           <FontAwesomeIcon icon={faUserCircle} />
+                                       </span>
                                     </Link>
                                 </li>
                             </ul>
@@ -115,7 +118,8 @@ const App = ({children, lessons, dict}) => {
                         <div
                             className='relative w-[95%] mx-5 h-[55px] bg-[#434343] rounded-full flex items-center justify-center'>
                             <ul className='h-full flex items-center justify-evenly w-full language-switcher'>
-                                <li className='text-white left-1 cursor-pointer flex' onClick={() => setIsOpen(!isOpen)}>
+                                <li className='text-white left-1 cursor-pointer flex'
+                                    onClick={() => setIsOpen(!isOpen)}>
                                     {lang} <span className='ml-2'><DownOutlined className='w-[12px]'/></span>
                                     {isOpen && (
                                         <div
@@ -156,10 +160,11 @@ const App = ({children, lessons, dict}) => {
             </header>
             <Drawer title="Menu" placement="right" onClose={() => setMobileMenuOpen(false)} open={mobileMenuOpen}>
                 <nav className='flex flex-col space-y-4 mobile-menu'>
-                    <Link className='text-[20px]' href='/about'>About Us</Link>
-                    <Link className='text-[20px]' href='/archive'>Archive</Link>
+                    <Link className='text-[20px]' href='/about'>{dict.about_us}</Link>
+                    <Link className='text-[20px]' href='/archive'>{dict.archive}</Link>
                     <div className='cursor-pointer text-[20px]' onClick={() => setSectionsOpen(!sectionsOpen)}>
-                        Sections <DownOutlined className={`ml-2 text-[13px] ${sectionsOpen ? 'rotate-180' : ''}`}/>
+                        {dict.sections} <DownOutlined
+                        className={`ml-2 text-[13px] ${sectionsOpen ? 'rotate-180' : ''}`}/>
                     </div>
 
                     {sectionsOpen && (
@@ -171,7 +176,7 @@ const App = ({children, lessons, dict}) => {
                                     return (
                                         <li key={index}
                                             className='text-[18px]'><Link
-                                            href={'/sections/' + item.id}>{title}1</Link></li>
+                                            href={'/sections/' + item.id}>{title}</Link></li>
                                     )
                                 })}
                                 <li className='text-[18px]'><Link href='/photo'>Photo / Video</Link></li>
@@ -184,12 +189,12 @@ const App = ({children, lessons, dict}) => {
                     {supportsOpen && (
                         <div className='pl-4'>
                             <ul className='space-y-2'>
-                                <li  className='text-[18px]'><Link
-                                    href={"/supports/volunteering"}>Volunteering</Link></li>
-                                <li  className='text-[18px]'><Link
-                                    href={'/supports/collaboration'}>Collaboration</Link></li>
-                                <li  className='text-[18px]'><Link
-                                    href={'/supports/donation'}>Donation</Link></li>
+                                <li className='text-[18px]'><Link
+                                    href={"/supports/volunteering"}>{dict.volunteering}</Link></li>
+                                <li className='text-[18px]'><Link
+                                    href={'/supports/collaboration'}>{dict.collaboration}</Link></li>
+                                <li className='text-[18px]'><Link
+                                    href={'/supports/donation'}>{dict.donation}</Link></li>
                             </ul>
                         </div>
                     )}
@@ -199,25 +204,26 @@ const App = ({children, lessons, dict}) => {
                 {children}
             </main>
             <footer className='relative w-full bg-[#2D2D2D] border-t-2 border-[#BF3206] pt-[50px] pb-6'>
-                <div className='container mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left px-4'>
+                <div
+                    className='container mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left px-4'>
 
                     {/* Logo & Social Icons */}
                     <div className='w-full md:w-1/3 mb-6 md:mb-0 flex flex-col items-center md:items-start'>
-                        <Image src='/logo.png' alt='Logo' className='w-[200px] h-auto' width={260} height={141} />
+                        <Image src='/logo.png' alt='Logo' className='w-[200px] h-auto' width={260} height={141}/>
                         <ul className='w-[200px] flex space-x-4 mt-4 justify-center'>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
                                 <a href="">
-                                    <FacebookFilled />
+                                    <FacebookFilled/>
                                 </a>
                             </li>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
                                 <a href="">
-                                    <InstagramOutlined />
+                                    <InstagramOutlined/>
                                 </a>
                             </li>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
                                 <a href="">
-                                    <YoutubeOutlined />
+                                    <YoutubeOutlined/>
                                 </a>
                             </li>
                         </ul>
@@ -225,22 +231,23 @@ const App = ({children, lessons, dict}) => {
 
                     {/* Contact Info */}
                     <div className='w-full md:w-1/3 mb-6 md:mb-0'>
-                        <h3 className='text-[20px] text-[#F15A2B] font-bold'>Find Us</h3>
+                        <h3 className='text-[20px] text-[#F15A2B] font-bold'>{dict.find_us}</h3>
                         <ul className='mt-4 space-y-4'>
                             <li className='flex items-center justify-center md:justify-start gap-2 text-sm text-[#C7C7C7] font-semibold'>
-                                <MailOutlined className='text-lg text-[#F15A2B]' />
-                                <a href='mailto:lineup2606@gmail.com' className='hover:underline'>lineup2606@gmail.com</a>
+                                <MailOutlined className='text-lg text-[#F15A2B]'/>
+                                <a href='mailto:lineup2606@gmail.com'
+                                   className='hover:underline'>lineup2606@gmail.com</a>
                             </li>
                             <li className='flex items-center justify-center md:justify-start gap-2 text-sm text-[#C7C7C7] font-semibold'>
-                                <PhoneOutlined className='text-lg text-[#F15A2B]' />
+                                <PhoneOutlined className='text-lg text-[#F15A2B]'/>
                                 <a href='tel:+995592777743' className='hover:underline'>+995 (592) 777 743</a>
                             </li>
                             <li className='flex items-center justify-center md:justify-start gap-2 text-sm text-[#C7C7C7] font-semibold'>
-                                <PhoneOutlined className='text-lg text-[#F15A2B]' />
+                                <PhoneOutlined className='text-lg text-[#F15A2B]'/>
                                 <a href='tel:+995574515075' className='hover:underline'>+995 (574) 515 075</a>
                             </li>
                             <li className='flex items-center justify-center md:justify-start gap-2 text-sm text-[#C7C7C7] font-semibold'>
-                                <EnvironmentOutlined className='text-lg text-[#F15A2B]' />
+                                <EnvironmentOutlined className='text-lg text-[#F15A2B]'/>
                                 Akhalkalaki city, Azatutyan 87/3
                             </li>
                         </ul>
@@ -248,12 +255,24 @@ const App = ({children, lessons, dict}) => {
 
                     {/* Customers Section */}
                     <div className='w-full md:w-1/3'>
-                        <h3 className='text-[20px] text-[#F15A2B] font-bold'>Customers</h3>
+                        <h3 className='text-[20px] text-[#F15A2B] font-bold'>{dict.customers}</h3>
                         <ul className='mt-4 space-y-4'>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Archive</li>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Process Returns/Exchange</li>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Refund/Return Policy</li>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Blogs</li>
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>
+                                <Link href='/archive'>
+                                    {dict.archive}
+                                </Link>
+                            </li>
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Process
+                                Returns/Exchange
+                            </li>
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Refund/Return
+                                Policy
+                            </li>
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>
+                                <Link href='/news'>
+                                    {dict.news}
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 </div>

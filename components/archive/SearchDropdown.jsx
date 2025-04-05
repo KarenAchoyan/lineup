@@ -33,7 +33,7 @@ const SearchDropdown = ({changeYear}) => {
         <Dropdown menu={{ items: menuItems }} open={open} trigger={[]}>
             <div className="relative w-full">
                 <Input
-                    placeholder="20..."
+                    placeholder="Search..."
                     className="w-full p-2 pr-8 rounded-lg border border-gray-700 bg-gray-900 text-white select-year"
                     value={searchValue}
                     onChange={(e) => {
