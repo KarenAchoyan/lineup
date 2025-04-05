@@ -69,28 +69,30 @@ const App = ({children, lessons, dict}) => {
                                     <div className='absolute hidden sub-dropdown  pt-3'>
                                         <ul className=' left-0 w-40 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
                                             {lessons.map((item, index) => {
+                                                const title = (lang.toLowerCase() === "hy") ? item.title_hy : lang.toLowerCase() === "ge" ? item.title_ge : lang.toLowerCase() === "ru" ? item.title_ru : item.title_en;
+
                                                 return (
                                                     <li key={index}
                                                         className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
-                                                        href={'/sections/' + item.id}>{item.title}</Link></li>
+                                                        href={'/sections/' + item.id}>{title}</Link></li>
                                                 )
                                             })}
 
                                             <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
-                                                href={`/photo`}>Photo / Video</Link></li>
+                                                href={`/photo`}>{dict.photo_video}</Link></li>
                                         </ul>
                                     </div>
                                 </li>
                                 <li className='text-[20px] text-white hover:text-[#F15A2B] hover:cursor-pointer relative dropdown'>
                                     <span> {dict.support_us}</span>
                                     <div className='absolute hidden sub-dropdown  pt-3'>
-                                        <ul className=' left-0 w-40 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
+                                        <ul className=' left-0 w-48 bg-[#211d1dfc] text-white rounded-lg shadow-lg p-2  transition-opacity duration-300'>
                                             <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
-                                                href={"/supports/volunteering"}>Volunteering</Link></li>
+                                                href={"/supports/volunteering"}>{dict.volunteering}</Link></li>
                                             <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
-                                                href={'/supports/collaboration'}>Collaboration</Link></li>
+                                                href={'/supports/collaboration'}>{dict.collaboration}</Link></li>
                                             <li  className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
-                                                href={'/supports/donation'}>Donation</Link></li>
+                                                href={'/supports/donation'}>{dict.donation}</Link></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -164,10 +166,12 @@ const App = ({children, lessons, dict}) => {
                         <div className='pl-4'>
                             <ul className='space-y-2'>
                                 {lessons.map((item, index) => {
+                                    const title = (lang.toLowerCase() === "hy") ? item.title_hy : lang.toLowerCase() === "ge" ? item.title_ge : lang.toLowerCase() === "ru" ? item.title_ru : item.title_en;
+
                                     return (
                                         <li key={index}
                                             className='text-[18px]'><Link
-                                            href={'/sections/' + item.id}>{item.title}</Link></li>
+                                            href={'/sections/' + item.id}>{title}1</Link></li>
                                     )
                                 })}
                                 <li className='text-[18px]'><Link href='/photo'>Photo / Video</Link></li>
@@ -246,10 +250,10 @@ const App = ({children, lessons, dict}) => {
                     <div className='w-full md:w-1/3'>
                         <h3 className='text-[20px] text-[#F15A2B] font-bold'>Customers</h3>
                         <ul className='mt-4 space-y-4'>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>FAQ</li>
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Archive</li>
                             <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Process Returns/Exchange</li>
                             <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Refund/Return Policy</li>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Blog Post</li>
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Blogs</li>
                         </ul>
                     </div>
                 </div>

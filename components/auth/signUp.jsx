@@ -18,7 +18,7 @@ async function sendMailHandler() {
     });
 }
 
-const SignUp = () => {
+const SignUp = ({dict}) => {
     const [loading, setLoading] = useState(false);
     const [errorData, setErrorData] = useState({});
 
@@ -77,7 +77,7 @@ const SignUp = () => {
         <div className="bg-[#211d1dfc] signIn-background py-[180px] pb-[50px]">
             <div className="flex items-center justify-center">
                 <div className="container bg-[#4d4c4c2b] mb-[50px] pt-[30px] rounded-lg shadow-xl p-8">
-                    <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
+                    <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">{dict.welcome_to_lineup}</h1>
 
                     <div className="signIn-form w-full sm:w-[350px] mt-[70px] m-auto">
                             <div className="text-red-500 text-center mb-4">{errorData['email']}</div>
@@ -92,21 +92,21 @@ const SignUp = () => {
                                 name="studentName"
                                 rules={[{required: true, message: "Please enter student's full name!"}]}
                             >
-                                <Input placeholder="Full name of student..." className="p-2 rounded-md h-[45px]"/>
+                                <Input placeholder={dict.full_name_of_student} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
                                 name="parentName"
                                 rules={[{required: true, message: "Please enter parent's full name!"}]}
                             >
-                                <Input placeholder="Full name of parent..." className="p-2 rounded-md h-[45px]"/>
+                                <Input placeholder={dict.full_name_of_parent} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
                                 name="parentPhone"
                                 rules={[{required: true, message: "Please enter parent's phone number!"}]}
                             >
-                                <Input placeholder="Parent's phone number..." className="p-2 rounded-md h-[45px]"/>
+                                <Input placeholder={dict.parents_phone_number} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
@@ -117,21 +117,21 @@ const SignUp = () => {
                                     message: "Please enter a valid email address!"
                                 }]}
                             >
-                                <Input placeholder="Email address..." className="p-2 rounded-md h-[45px]"/>
+                                <Input placeholder={dict.email_address} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
                                 name="parentId"
                                 rules={[{required: true, message: "Please enter Parent ID!"}]}
                             >
-                                <Input placeholder="Parent ID..." className="p-2 rounded-md h-[45px]"/>
+                                <Input placeholder={dict.parent_id} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
                                 name="password"
                                 rules={[{required: true, message: "Please enter your password!"}]}
                             >
-                                <Input.Password placeholder="Password" className="p-2 rounded-md h-[45px]"/>
+                                <Input.Password placeholder={dict.password} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
@@ -149,12 +149,12 @@ const SignUp = () => {
                                     }),
                                 ]}
                             >
-                                <Input.Password placeholder="Confirm Password" className="p-2 rounded-md h-[45px]"/>
+                                <Input.Password placeholder={dict.confirm_password} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
-                            <div className="text-center text-gray-400 mt-4">
-                                <a href="#" className="text-blue-400 hover:text-blue-500">
-                                    By tapping sign up to create an account, you agree to our Terms and Conditions.
+                            <div className="text-center text-[#BBBBBB] mt-4">
+                                <a href="#" className="text-[#BBBBBB]  link-term">
+                                    {dict.terms_and_conditions}
                                 </a>
                             </div>
 
@@ -162,18 +162,18 @@ const SignUp = () => {
                                 <Form.Item>
                                     <button
                                         type="submit"
-                                        className="bg-[#F15A2B] w-full  text-[18px]  sm:text-[25px]  text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
+                                        className="bg-[#F15A2B] cursor-pointer w-full  text-[18px]  sm:text-[25px]  text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                         disabled={loading}
                                     >
-                                        {loading ? "Signing up..." : "Sign Up"}
+                                        {loading ? dict.sign_up+"..." : dict.sign_up}
                                     </button>
                                 </Form.Item>
                             </div>
                         </Form>
 
                         <div className="text-center text-gray-400 mt-2">
-                            Already have an account? <Link href={`/auth/signIn`}
-                                                           className="text-blue-400 hover:text-blue-500">Sign In</Link>
+                            {dict.already_have_an_account_sign_in}<Link href={`/auth/signIn`}
+                                                           className="text-[#F15A2B] hover:text-[#F15A2B]">{dict.sign_in}</Link>
                         </div>
                     </div>
                 </div>

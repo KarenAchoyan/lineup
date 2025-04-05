@@ -4,7 +4,7 @@ import { Form, Button, Input, message } from "antd";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/providers/AppProvider";
 
-const SignIn = () => {
+const SignIn = ({dict}) => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const { lang } = useApp();
@@ -48,8 +48,8 @@ const SignIn = () => {
         <div className="bg-[#211d1dfc] signIn-background h-screen py-[180px]">
             <div className="flex items-center justify-center">
                 <div className="container bg-[#4d4c4c2b] min-h-[70vh] pt-[50px] rounded-lg shadow-xl p-8">
-                    <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">Welcome to Lineup</h1>
-                    <h2 className="text-center text-[#C7C7C7] text-[20px]  sm:text-[24px]">Log in to your account</h2>
+                    <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">{dict.welcome_to_lineup}</h1>
+                    <h2 className="text-center text-[#C7C7C7] text-[20px]  sm:text-[24px]">{dict.log_in_to_your_account}</h2>
 
                     <div className="signIn-form w-full  sm:w-[350px] mt-[70px] m-auto">
                         <Form
@@ -63,7 +63,7 @@ const SignIn = () => {
                                 rules={[{ required: true, message: "Please enter your email!" }]}
                             >
                                 <Input
-                                    placeholder="Email"
+                                    placeholder={dict.email}
                                     className="p-2 rounded-md h-[45px] border border-gray-300 focus:border-red-500"
                                 />
                             </Form.Item>
@@ -73,17 +73,12 @@ const SignIn = () => {
                                 rules={[{ required: true, message: "Please enter your password!" }]}
                             >
                                 <Input.Password
-                                    placeholder="Password"
+                                    placeholder={dict.password}
                                     className="p-2 rounded-md h-[45px] border border-gray-300 focus:border-red-500"
                                 />
                             </Form.Item>
                             {error && <p className='text-red-500'>{error}</p>}
 
-                            <div className="text-center text-gray-400 mt-4">
-                                <a href="#" className="text-blue-400 hover:text-blue-500">
-                                    Forgot password?
-                                </a>
-                            </div>
 
                             <div className="sm:mt-[180px]">
                                 <Form.Item>
@@ -92,16 +87,16 @@ const SignIn = () => {
                                         disabled={loading}
                                         className="bg-[#F15A2B] w-full  text-[18px]  sm:text-[25px]  text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                     >
-                                        {loading ? "Signing In..." : "Sign In"}
+                                        {loading ? dict.sign_in+"..." : dict.sign_in}
                                     </button>
                                 </Form.Item>
                             </div>
                         </Form>
 
                         <div className="text-center text-gray-400 mt-2">
-                            Don't have an account?{" "}
+                            {dict.dont_have_an_account_sign_up}
                             <a href={"/auth/signUp"} className="text-blue-400 hover:text-blue-500">
-                                Sign Up
+                                { dict.sign_up}
                             </a>
                         </div>
                     </div>

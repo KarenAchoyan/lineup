@@ -39,7 +39,7 @@
   "password": "password",
   "forgot_password": "Forgot password?",
   "sign_in": "Sign In",
-  "dont_have_an_account_sign_up": "Don't have an account? Sign Up",
+  "dont_have_an_account_sign_up": "Don't have an account?",
   "full_name_of_student": "Full name of student...",
   "full_name_of_parent": "Full name of parent...",
   "parents_phone_number": "Parent's phone number...",
@@ -48,5 +48,5 @@
   "confirm_password": "Confirm Password",
   "terms_and_conditions": "By tapping sign up to create an account, you agree to our Terms and Conditions.",
   "sign_up": "Sign Up",
-  "already_have_an_account_sign_in": "Already have an account? Sign In"
+  "already_have_an_account_sign_in": "Already have an account?"
 }
