@@ -48,5 +48,6 @@
   "confirm_password": "დაადასტურეთ პაროლი",
   "terms_and_conditions": "წესები და პირობები.",
   "sign_up": "რეგისტრაცია",
-  "already_have_an_account_sign_in": "უკვე გაქვთ ანგარიში?"
+  "already_have_an_account_sign_in": "უკვე გაქვთ ანგარიში?",
+  "return_refund": "კონფიდენციალურობის პოლიტიკა"
 }

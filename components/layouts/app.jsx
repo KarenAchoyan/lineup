@@ -262,11 +262,10 @@ const App = ({children, lessons, dict}) => {
                                     {dict.archive}
                                 </Link>
                             </li>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Process
-                                Returns/Exchange
-                            </li>
-                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>Refund/Return
-                                Policy
+                            <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>
+                                <Link href='/refund_return'>
+                                    {dict.return_refund}
+                                </Link>
                             </li>
                             <li className='text-[14px] text-[#C7C7C7] font-semibold hover:underline'>
                                 <Link href='/news'>

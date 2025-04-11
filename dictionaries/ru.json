@@ -48,5 +48,6 @@
   "confirm_password": "Подтвердите пароль",
   "terms_and_conditions": "Нажав «Зарегистрироваться», вы соглашаетесь с нашими Условиями использования.",
   "sign_up": "Зарегистрироваться",
-  "already_have_an_account_sign_in": "Уже есть аккаунт?"
+  "already_have_an_account_sign_in": "Уже есть аккаунт?",
+  "return_refund": "Политика конфиденциальности"
 }

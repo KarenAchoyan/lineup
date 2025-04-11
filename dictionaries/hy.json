@@ -48,5 +48,6 @@
   "confirm_password": "Հաստատեք գաղտնաբառը",
   "terms_and_conditions": "Գրանցվելով՝ համաձայնում եք մեր պահանջներին և պայմաններին:",
   "sign_up": "Գրանցվել",
-  "already_have_an_account_sign_in": "Արդեն ունեք հաշիվ? "
+  "already_have_an_account_sign_in": "Արդեն ունեք հաշիվ? ",
+  "return_refund": "Գաղտնիության քաղաքականություն"
 }

@@ -28,6 +28,7 @@ async function getNews() {
     const res = await fetch('https://lineup.dahk.am/api/news/last', { cache: "no-store" })
     return res.json()
 }
+
 export default async function Home({params}) {
     const {lang} = await params
     const dict = await getDictionary(lang) // en
