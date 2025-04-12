@@ -1,10 +1,12 @@
 import React from 'react';
 import Donation from "@/components/supports/donation";
+import {getDictionary} from "@/app/[lang]/dictionaries";
 
-const Page = () => {
+const Page = async ({params}) => {
+    const dict = await getDictionary(params?.lang);
     return (
         <div>
-            <Donation/>
+            <Donation dict={dict}/>
         </div>
     );
 };

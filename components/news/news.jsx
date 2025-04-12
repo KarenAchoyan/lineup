@@ -18,7 +18,7 @@ const News = ({title=false}) => {
                 <div
                     className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto   lg:h-auto'>
                     {title &&
-                        <h2 className=" text-[#C7C7C7] font-bold mb-6 text-center text-[32px]  md:text-[45px]">{title}</h2>
+                        <h2 className=" text-[#C7C7C7] font-bold my-6 text-center text-[32px]  md:text-[45px]">{title}</h2>
                     }
                     <div className="flex flex-col md:flex-row items-start gap-8 ">
                         <div className="w-full md:w-1/2">

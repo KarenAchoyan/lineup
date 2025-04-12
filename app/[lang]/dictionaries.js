@@ -12,3 +12,4 @@ export const getDictionary = async (locale) => {
     const loader = dictionaries[locale] || dictionaries.hy;
     return loader();
 }
+

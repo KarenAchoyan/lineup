@@ -1,9 +1,10 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Form, Input, message} from "antd";
 import {useRouter} from "next/navigation";
+import {CollaborationContext} from "@/providers/CollaborationProvider";
 
-const VolRegistration = ({loading, onFinish, error, onFinishFailed}) => {
+const VolRegistration = ({loading, onFinish, error, onFinishFailed, dict}) => {
 
     return (
         <div className="signIn-form w-[350px] mt-[70px] m-auto">
@@ -20,13 +21,13 @@ const VolRegistration = ({loading, onFinish, error, onFinishFailed}) => {
                     name="studentName"
                     rules={[{required: true, message: "Please enter student's full name!"}]}
                 >
-                    <Input placeholder="Full name..." className="p-2 rounded-md h-[45px]"/>
+                    <Input placeholder={dict.full_name+"..."} className="p-2 rounded-md h-[45px]"/>
                 </Form.Item>
                 <Form.Item
                     name="phone"
                     rules={[{required: true, message: "Please enter phone number!"}]}
                 >
-                    <Input placeholder="Phone number..." className="p-2 rounded-md h-[45px]"/>
+                    <Input placeholder={dict.phone_number+"..."} className="p-2 rounded-md h-[45px]"/>
                 </Form.Item>
                 <Form.Item
                     name="email"
@@ -36,7 +37,7 @@ const VolRegistration = ({loading, onFinish, error, onFinishFailed}) => {
                         message: "Please enter a valid email address!"
                     }]}
                 >
-                    <Input placeholder="Email address..." className="p-2 rounded-md h-[45px]"/>
+                    <Input placeholder={dict.email_address_c+"..."} className="p-2 rounded-md h-[45px]"/>
                 </Form.Item>
                 <Form.Item
                     name="cover"
@@ -49,7 +50,7 @@ const VolRegistration = ({loading, onFinish, error, onFinishFailed}) => {
                         height: '100px'
                     }}
                 >
-                    <Input.TextArea placeholder="Cover letter..." className="p-2 rounded-md h-[45px]"/>
+                    <Input.TextArea placeholder={dict.cover_letter+"..."} className="p-2 rounded-md h-[45px]"/>
                 </Form.Item>
 
                 <div>
@@ -59,7 +60,7 @@ const VolRegistration = ({loading, onFinish, error, onFinishFailed}) => {
                             className="bg-[#F15A2B] hover:bg-[#4D4C4C] cursor-pointer  text-[25px] w-full text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 "
                             disabled={loading}
                         >
-                            {loading ? "Become a volunteer..." : "Become a volunteer"}
+                            {loading ? dict.button_text_col+"..." : dict.button_text_col}
                         </button>
                     </Form.Item>
                 </div>

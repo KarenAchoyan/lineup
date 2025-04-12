@@ -1,10 +1,16 @@
 import React from 'react';
 import Collaboration from "@/components/supports/collaborate/collaboration";
+import {getDictionary} from "@/app/[lang]/dictionaries";
+import {CollaborationProvider} from "@/providers/CollaborationProvider";
 
-const Page = () => {
+const Page = async ({params}) => {
+    const dict = await getDictionary(params.lang)
+
     return (
         <div>
-            <Collaboration/>
+            <CollaborationProvider value={{dict}}>
+                <Collaboration/>
+            </CollaborationProvider>
         </div>
     );
 };

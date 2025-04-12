@@ -103,3 +103,8 @@ export function truncateText(text, maxLength) {
     if (text.length <= maxLength) return text;
     return text.slice(0, maxLength) + '…';
 }
+
+export function parseHTMLToText(htmlString) {
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
+    return doc.body.textContent || "";
+}

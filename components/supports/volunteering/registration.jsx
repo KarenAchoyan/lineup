@@ -1,12 +1,14 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import VolRegistration from "@/components/supports/volRegistration";
 import {useRouter} from "next/navigation";
 import {message} from "antd";
+import {VolunteeringContext} from "@/providers/Volunteering";
 
 const Registration = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const {dict} = useContext(VolunteeringContext);
 
     const [error, setError] = useState(null);
     const onFinish = async (values) => {
@@ -56,8 +58,8 @@ const Registration = () => {
             <div className="bg-[#211d1dfc] signIn-background py-[180px] pb-[50px]">
                 <div className="flex items-center justify-center">
                     <div className="container bg-[#4d4c4c2b] mb-[50px] pt-[30px] rounded-lg shadow-xl p-8">
-                        <h1 className="text-[40px] text-[#C7C7C7] text-center">Volunteering</h1>
-                        <VolRegistration loading={loading} onFinish={onFinish} error={error}
+                        <h1 className="text-[40px] text-[#C7C7C7] text-center">{dict.volunteering}</h1>
+                        <VolRegistration loading={loading} onFinish={onFinish} dict={dict} error={error}
                                          onFinishFailed={onFinishFailed}/>
                     </div>
                 </div>

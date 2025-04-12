@@ -4,18 +4,18 @@ import React from 'react';
 import Registration from "@/components/supports/collaborate/registration";
 import {Input} from "antd";
 
-const Donation = () => {
+const Donation = ({dict}) => {
     return (
         <>
             <div className="bg-[#211d1dfc] signIn-background py-[180px] pb-[50px]">
                 <div className="flex items-center justify-center">
                     <div className="container bg-[#4d4c4c2b] mb-[50px] pt-[30px] rounded-lg shadow-xl p-8">
-                        <h1 className="text-[40px] text-[#C7C7C7] text-center">Donation</h1>
+                        <h1 className="text-[40px] text-[#C7C7C7] text-center mb-5">{dict.donation}</h1>
                         <p className='text-[20px] text-[#C7C7C7] text-center'>Your support allows us to develop the project and create the best for everyone. Every
                             donation makes us stronger.</p>
 
                         <div>
-                            <p className='text-center text-[#C7C7C7] text-[20px] mt-[30px] mb-[10px]'>Frequency (Once or every month)</p>
+                            <p className='text-center text-[#C7C7C7] text-[20px] mt-[30px] mb-[20px]'>Frequency (Once or every month)</p>
                             <div className='flex justify-center'>
                                 <div className='px-2'>
                                     <button className='px-[55px] hover:opacity-[50%] cursor-pointer py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>Once</button>
@@ -54,7 +54,7 @@ const Donation = () => {
                                 type="submit"
                                 className="bg-[#F15A2B] hover:bg-[#808080] w-[320px]  text-[18px]  sm:text-[20px]  text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 cursor-pointer"
                             >
-                                Donate
+                                {dict.donate}
                             </button>
                         </div>
                     </div>

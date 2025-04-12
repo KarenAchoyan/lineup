@@ -1,12 +1,15 @@
 import React from 'react';
-import VolRegistration from "@/components/supports/volRegistration";
-import Registration from "@/components/supports/volunteering/registration";
 import Volunteering from "@/components/supports/volunteering/volunteering";
+import {VolunteeringProvider} from "@/providers/Volunteering";
+import {getDictionary} from "@/app/[lang]/dictionaries";
 
-const Page = () => {
+const Page = async ({params}) => {
+    const dict = await getDictionary(params.lang)
     return (
         <div>
-            <Volunteering/>
+            <VolunteeringProvider value={{dict}}>
+                <Volunteering/>
+            </VolunteeringProvider>
         </div>
     );
 };

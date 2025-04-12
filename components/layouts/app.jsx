@@ -209,7 +209,9 @@ const App = ({children, lessons, dict}) => {
 
                     {/* Logo & Social Icons */}
                     <div className='w-full md:w-1/3 mb-6 md:mb-0 flex flex-col items-center md:items-start'>
-                        <Image src='/logo.png' alt='Logo' className='w-[200px] h-auto' width={260} height={141}/>
+                        <Link href={"/"}>
+                            <Image src='/logo.png' alt='Logo' className='w-[200px] h-auto' width={260} height={141}/>
+                        </Link>
                         <ul className='w-[200px] flex space-x-4 mt-4 justify-center'>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
                                 <a href="">

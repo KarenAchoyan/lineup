@@ -44,7 +44,7 @@ const MainArchive = ({dict}) => {
 
                 <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>{year} {dict.archive}</h1>
                 <div>
-                    <Archive images={images} year={year} videos={videos}/>
+                    <Archive images={images} year={year} videos={videos} dict={dict}/>
                 </div>
             </div>
         </>

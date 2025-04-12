@@ -5,7 +5,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 dayjs.extend(customParseFormat);
 
-const CustomCalendar = ({ dates }) => {
+const CustomCalendar = ({ dates,onDateChange }) => {
     const [selectedDate, setSelectedDate] = useState(dayjs());
 
     const handleDateClick = (day) => {
@@ -14,7 +14,7 @@ const CustomCalendar = ({ dates }) => {
         );
 
         if (isEvent) {
-            alert(`Event on ${day.format("DD-MM-YYYY")}`);
+            onDateChange(day.format("YYYY-MM-DD"))
         }
         setSelectedDate(day);
     };

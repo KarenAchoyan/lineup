@@ -1,7 +1,7 @@
 "use client"
 import {useState} from "react";
 
-export default function ToggleTabs({activeTab, setActiveTab}) {
+export default function ToggleTabs({activeTab, setActiveTab, dict}) {
 
     return (
         <div className="flex items-center space-x-4 p-10 rounded-lg">
@@ -13,7 +13,7 @@ export default function ToggleTabs({activeTab, setActiveTab}) {
                         : "text-gray-400"
                 }`}
             >
-                Photos
+                {dict.photos}
             </button>
             <button
                 onClick={() => setActiveTab("Videos")}
@@ -23,7 +23,7 @@ export default function ToggleTabs({activeTab, setActiveTab}) {
                         : "text-gray-400"
                 }`}
             >
-                Videos
+                {dict.videos}
                 {activeTab === "Videos" && (
                     <span className="absolute inset-0 border-2 border-orange-500 rounded-full"></span>
                 )}

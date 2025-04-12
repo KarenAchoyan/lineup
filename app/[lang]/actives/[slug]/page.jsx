@@ -9,8 +9,8 @@ const Page = async ({params}) => {
                 <div className='container m-auto bg-[#4D4C4C] rounded-3xl pt-20'>
                     <h1 className='text-center my-5 text-[32px]  md:text-[45px] text-[#C7C7C7] pb-10'>{dict.active_youth}</h1>
                     <div className='w-[80%] m-auto pb-[50px]'>
-                        <div>
-                            <div className='float-left w-[300px]'>
+                        <div className='text-center md:text-left'>
+                            <div className='md:float-left mx-auto w-[300px] '>
                                 <Image src={"/girl.jpeg"} width={250} height={250} className='rounded-full float-left m-3 mr-5'
                                        alt={"Avatar staff"}/>
                             </div>
@@ -44,18 +44,18 @@ const Page = async ({params}) => {
                                 dolor et eveniet fugit ipsam iste neque placeat vero.
                             </p>
                         </div>
-                        <div className='flex justify-between'>
-                            <div className='w-[48%] mt-10'>
+                        <div className='flex justify-between flex-wrap'>
+                            <div className='w-full sm:w-[48%] mt-10'>
                                 <Image src="/img1.png" alt={"Image"} className='w-full  rounded-2xl'/>
                             </div>
-                            <div className='w-[48%]'>
-                               <div className='w-full h-[300px] mt-10 rounded-2xl overflow-hidden'>
+                            <div className='w-full sm:w-[48%]'>
+                               <div className='w-full md:h-[300px] mt-10 rounded-2xl overflow-hidden'>
                                    <Image src="/1.png" alt={"Image"} className='h-full w-full object-cover' />
                                </div>
-                               <div className='w-full h-[300px] mt-10 rounded-2xl overflow-hidden'>
+                               <div className='w-full md:h-[300px] mt-10 rounded-2xl overflow-hidden'>
                                    <Image src="/1.png" alt={"Image"} className='h-full w-full object-cover' />
                                </div>
-                               <div className='w-full h-[300px] mt-10 rounded-2xl overflow-hidden'>
+                               <div className='w-full md:h-[300px] mt-10 rounded-2xl overflow-hidden'>
                                    <Image src="/1.png" alt={"Image"} className='h-full w-full object-cover' />
                                </div>
 

@@ -13,16 +13,20 @@
   "volunteering": "Volunteering",
   "collaboration": "Collaboration",
   "donation": "Donation",
+  "donate": "Donate",
   "dance": "Dance",
   "vocals": "Vocals",
   "theatre": "Theatre",
   "photo_video": "Photo / Video",
+  "photos": "Photos",
+  "videos": "Videos",
   "find_us": "Find Us",
   "customers": "Customers",
   "select_a_branch": "Select a branch",
   "30_gel": "30 GEL",
   "every_month": "Every month",
-  "valid_for_12_months": "Valid for 12 months",
+  "valid_for_12_months": "Valid for",
+  "months": "months",
   "fill_out_the_application": "Fill out the application",
   "professional_photography_videography": "Professional photography and videography",
   "student": "Student",
@@ -49,5 +53,14 @@
   "terms_and_conditions": "By tapping sign up to create an account, you agree to our Terms and Conditions.",
   "sign_up": "Sign Up",
   "already_have_an_account_sign_in": "Already have an account?",
-  "return_refund": "Privacy Policy"
+  "return_refund": "Privacy Policy",
+
+  "full_name": "Full name",
+  "phone_number": "Phone number",
+  "email_address_c": "Email address",
+  "cover_letter": "Cover letter",
+  "button_text_col": "Become a volunteer",
+
+  "about_dancing": "It's never too late to start",
+  "dancing": "dancing"
 }

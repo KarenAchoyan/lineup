@@ -1,10 +1,12 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import VolRegistration from "@/components/supports/volRegistration";
 import {useRouter} from "next/navigation";
 import {message} from "antd";
+import {CollaborationContext} from "@/providers/CollaborationProvider";
 
-const Registration = () => {
+const Registration = ({dict}) => {
+
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
@@ -54,7 +56,7 @@ const Registration = () => {
 
     return (
         <div>
-            <VolRegistration loading={loading} onFinish={onFinish} error={error} onFinishFailed={onFinishFailed} />
+            <VolRegistration loading={loading}  onFinish={onFinish} error={error} dict={dict} onFinishFailed={onFinishFailed} />
         </div>
     );
 };

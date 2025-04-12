@@ -17,12 +17,14 @@
   "vocals": "ვოკალი",
   "theatre": "თეატრი",
   "photo_video": "ფოტო / ვიდეო",
+  "photos": "ფოტოები",
+  "videos": "ვიდეოები",
   "find_us": "დაგვაფინანსეთ",
   "customers": "კლიენტები",
   "select_a_branch": "შეარჩიეთ განყოფილება",
   "30_gel": "30 GEL",
   "every_month": "ყოველი თვე",
-  "valid_for_12_months": "მოქმედია 12 თვე",
+  "valid_for_12_months": "მოქმედია",
   "fill_out_the_application": "შეავსეთ განაცხადი",
   "professional_photography_videography": "პროფესიონალური ფოტოგრაფია და ვიდეო გადაღება",
   "student": "სტუდენტი",
@@ -49,5 +51,17 @@
   "terms_and_conditions": "წესები და პირობები.",
   "sign_up": "რეგისტრაცია",
   "already_have_an_account_sign_in": "უკვე გაქვთ ანგარიში?",
-  "return_refund": "კონფიდენციალურობის პოლიტიკა"
+  "return_refund": "კონფიდენციალურობის პოლიტიკა",
+
+
+  "full_name": "სრული სახელი",
+  "phone_number": "ტელეფონის ნომერი",
+  "email_address_c": "ელ. ფოსტის მისამართი",
+  "cover_letter": "სადარიგო წერილი",
+  "button_text_col": "გახდი მოხალისე",
+
+  "about_dancing": "არასდროს არის გვიან დაიწყო",
+  "dancing": "ცეკვა",
+  "donate": "შემოწირულობა",
+  "months": "თვე"
 }

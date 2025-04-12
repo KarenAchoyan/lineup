@@ -3,11 +3,11 @@ import React, {useState, useEffect, useRef} from "react";
 import Link from "next/link";
 import {useApp} from "@/providers/AppProvider";
 
-const Dance = ({lessons, slug}) => {
+const Dance = ({lessons, slug, dict}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null);
-    const [selectedBranch, setSelectedBranch] = useState("Select a branch");
+    const [selectedBranch, setSelectedBranch] = useState(dict.select_a_branch);
     const [selectedBranchId, setSelectedBranchId] = useState(null);
     const {lang} = useApp();
 
@@ -64,14 +64,14 @@ const Dance = ({lessons, slug}) => {
                 <div className="container bg-[#4d4c4c2b] min-h-[70vh] pt-[150px] rounded-lg shadow-xl p-8">
                     <div className="text-center flex flex-col items-center text-[#C7C7C7]">
                         <h1 className="text-[20px] sm:text-[40px] font-semibold">{data?.price} GEL</h1>
-                        <h2 className="font-light text-[24px]">Every month</h2>
-                        <h2 className="font-light text-[24px] mb-4">Valid for {data?.months} months</h2>
+                        <h2 className="font-light text-[24px]">{dict?.every_month}</h2>
+                        <h2 className="font-light text-[24px] mb-4">{dict?.valid_for_12_months}  {data?.months} {dict.months}</h2>
                         <div className="mt-10">
                             <div className="relative">
                                 <button
                                     ref={buttonRef}
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="bg-[#4C4C4C] w-[270px] text-[20px] md:text-[25px] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
+                                    className="bg-[#4C4C4C]  text-[20px] md:text-[25px] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                 >
                                     {selectedBranch}
                                 </button>
@@ -106,7 +106,7 @@ const Dance = ({lessons, slug}) => {
                                         className="bg-[#4C4C4C] w-[270px] text-[20px]  md:text-[25px] cursor-pointer disabled:cursor-default disabled:text-gray-500 disabled:hover:bg-[#4C4C4C] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                         disabled={selectedBranchId===null}
                                     >
-                                        Register
+                                        {dict.register}
                                     </button>
                                 </Link>
                             </div>

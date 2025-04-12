@@ -10,19 +10,22 @@
   "archive": "Արխիվ",
   "sections": "Բաժիններ",
   "support_us": " Աջակցել մեզ ",
-  "volunteering": "Կամավորաություն",
+  "volunteering": "Կամավորություն",
   "collaboration": "Համագործակցություն",
   "donation": " Նվիրատվություն ",
   "dance": "Պարարվեստ",
   "vocals": "Երգարվեստ",
   "theatre": "Թատերարվեստ",
   "photo_video": "Լուսանկար / Վիդեո",
+  "photos": "Լուսանկարներ",
+  "videos": "Տեսանյութեր",
   "find_us": "Գտեք մեզ",
   "customers": "Այցելուներ",
   "select_a_branch": "Ընտրել մասնաճյուղը",
   "30_gel": "30 GEL",
-  "every_month": " ամեն ամիս ",
-  "valid_for_12_months": " վավեր 12 ամիս ",
+  "every_month": "Ամեն ամիս ",
+  "valid_for_12_months": "Վավեր է",
+  "months": "ամիս",
   "fill_out_the_application": " լրացնել դիմումը ",
   "professional_photography_videography": "մասնագիտական լուսանկարչություն վիդեոգրաֆիա ",
   "student": "աշակերտ",
@@ -49,5 +52,16 @@
   "terms_and_conditions": "Գրանցվելով՝ համաձայնում եք մեր պահանջներին և պայմաններին:",
   "sign_up": "Գրանցվել",
   "already_have_an_account_sign_in": "Արդեն ունեք հաշիվ? ",
-  "return_refund": "Գաղտնիության քաղաքականություն"
+  "return_refund": "Գաղտնիության քաղաքականություն",
+
+
+  "full_name": "Ամբողջական անունը",
+  "phone_number": "Հեռախոսահամար",
+  "email_address_c": "Էլ. փոստի հասցե",
+  "cover_letter": "Ուղեկցող նամակ",
+  "button_text_col": "Դառնալ կամավոր",
+
+  "about_dancing": "Երբեք ուշ չէ սկսել",
+  "dancing": "պարել",
+  "donate": "Նվիրաբերել"
 }

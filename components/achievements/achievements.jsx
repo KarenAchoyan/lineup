@@ -6,7 +6,7 @@ import {MainContext} from "@/providers/HomeProvider";
 import Link from "next/link";
 
 const Achievements = ({all=false}) => {
-    const {galleries, lang, dict} = useContext(MainContext)
+    const {galleries, dict} = useContext(MainContext)
     return (
         <div className='bg-[#232222] py-20'>
             <div className='container m-auto bg-[#4D4C4C] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto'>
