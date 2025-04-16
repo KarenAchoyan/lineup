@@ -4,7 +4,7 @@ import ToggleTabs from "@/components/archive/toggleTabs";
 import Videos from "@/components/archive/videos";
 import Images from "@/components/archive/images";
 
-const Archive = ({videos, images, dict}) => {
+const Archive = ({videos, images, dict,lang}) => {
     const [activeTab, setActiveTab] = useState("Videos");
 
     return (
@@ -13,7 +13,7 @@ const Archive = ({videos, images, dict}) => {
             <div>
                 {activeTab === "Videos" ?
                     <Videos videos={videos} />
-                    : <Images images={images} />
+                    : <Images images={images} lang={lang}/>
                 }
             </div>
         </div>

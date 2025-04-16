@@ -19,7 +19,7 @@ const Page = async ({params}) => {
     return (
         <div className='w-full bg-[#232222] pt-[160px] component-archive'>
             <ArchiveProvider value={{years}}>
-                <MainArchive dict={dict}/>
+                <MainArchive dict={dict} lang={params?.lang}/>
             </ArchiveProvider>
         </div>
     );

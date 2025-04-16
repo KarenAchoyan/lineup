@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { PlayCircleOutlined } from "@ant-design/icons";
-import { Skeleton,Image } from "antd";
+import React, {useState} from 'react';
+import {PlayCircleOutlined} from "@ant-design/icons";
+import {Skeleton, Image} from "antd";
 
-const ItemVideo = ({ openModal, item, setVideo }) => {
+const ItemVideo = ({openModal, item, setVideo}) => {
     const [isLoading, setIsLoader] = useState(true);
 
     function op() {
@@ -22,9 +22,11 @@ const ItemVideo = ({ openModal, item, setVideo }) => {
 
                 <div
                     className="imageVideo absolute inset-0 flex items-center justify-center bg-[#0000006b]  cursor-pointer text-white"
-                    onClick={op}
+                    onClick={item.path ? null : op}
                 >
-                    <PlayCircleOutlined className="text-white text-5xl" />
+                    <a href={item.path ? item.path : "#"}>
+                        <PlayCircleOutlined className="text-white text-5xl"/>
+                    </a>
                 </div>
             </div>
         </>

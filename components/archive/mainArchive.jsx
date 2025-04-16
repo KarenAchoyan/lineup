@@ -7,7 +7,7 @@ import AppContext from "antd/es/app/context";
 import {ArchiveContext} from "@/providers/ArchiveProvider";
 import SearchDropdown from "@/components/archive/SearchDropdown";
 
-const MainArchive = ({dict}) => {
+const MainArchive = ({dict, lang}) => {
     const [year, setYear] = useState('');
     const [videos, setVideos] = useState([]);
     const [images, setImages] = useState([]);
@@ -44,7 +44,7 @@ const MainArchive = ({dict}) => {
 
                 <h1 className='text-[#C7C7C7] font-bold mb-6 text-center text-[45px]'>{year} {dict.archive}</h1>
                 <div>
-                    <Archive images={images} year={year} videos={videos} dict={dict}/>
+                    <Archive images={images} year={year} videos={videos} dict={dict} lang={lang}/>
                 </div>
             </div>
         </>
