@@ -23,7 +23,6 @@ async function getSingleNews(slug, lang) {
 
 const Page = async ({params}) => {
     const result = await getSingleNews(params.slug, params.lang);
-    console.log(result);
     const data = await result?.data?.data;
     const lastNews = result?.data?.lastNews;
     return (

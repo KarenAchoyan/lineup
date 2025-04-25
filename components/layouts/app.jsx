@@ -214,17 +214,17 @@ const App = ({children, lessons, dict}) => {
                         </Link>
                         <ul className='w-[200px] flex space-x-4 mt-4 justify-center'>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
-                                <a href="">
+                                <a href="https://www.facebook.com/share/16T2PFUeuZ/?mibextid=wwXIfr">
                                     <FacebookFilled/>
                                 </a>
                             </li>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
-                                <a href="">
+                                <a href="https://www.instagram.com/lineup_akhalkalaki?igsh=MTN4MHd3ZjltNHBoNg==">
                                     <InstagramOutlined/>
                                 </a>
                             </li>
                             <li className='text-[#C7C7C7] text-[22px] mx-[15px]'>
-                                <a href="">
+                                <a href="https://youtube.com/@lineup3927?si=pd_gZredsOgxYzpl">
                                     <YoutubeOutlined/>
                                 </a>
                             </li>

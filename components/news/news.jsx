@@ -1,10 +1,10 @@
 "use client"
-import {useContext} from "react";
+import React, {useContext} from "react";
 import {MainContext} from "@/providers/HomeProvider";
 import Link from "next/link";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 import parse from "html-react-parser";
-import {truncateText} from "@/utils/utils";
+import {getYouTubeId, truncateText} from "@/utils/utils";
 
 const News = ({title=false}) => {
     const {lang,dict, news} = useContext(MainContext);
@@ -21,9 +21,21 @@ const News = ({title=false}) => {
                         <h2 className=" text-[#C7C7C7] font-bold my-6 text-center text-[32px]  md:text-[45px]">{title}</h2>
                     }
                     <div className="flex flex-col md:flex-row items-start gap-8 ">
-                        <div className="w-full md:w-1/2">
-                            <img src={process.env.IMAGE_URL+news.avatar} className='w-full' alt=""/>
-                        </div>
+                        {news.video === null &&
+                            <div className="w-full md:w-1/2">
+                                <img src={process.env.IMAGE_URL+news.avatar} className='w-full' alt=""/>
+                            </div>
+                        }
+                        {news.video !== null &&
+                            <div className="w-full md:w-1/2">
+                                <iframe
+                                    className='w-full h-[400px]'
+                                    src={"https://www.youtube.com/embed/"+getYouTubeId(news.video)}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin"
+                                    allowFullScreen/>
+                            </div>
+                        }
                         <div className="w-full md:w-1/2">
                             <Link href={'/news/'+slug}>
                                 <h3 className="text-[23px] sm:text-[30px] font-semibold mb-4 text-[#C7C7C7]">{tit}</h3>
