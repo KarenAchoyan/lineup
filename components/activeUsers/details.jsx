@@ -12,8 +12,8 @@ const Details = ({params, data, dict}) => {
                 <div className='w-[80%] m-auto pb-[50px]'>
                     <div className='text-center md:text-left'>
                         <div className='md:float-left mx-auto w-[300px] '>
-                            <Image src={"/girl.jpeg"} width={250} height={250}
-                                   className='rounded-full float-left m-3 mr-5'
+                            <Image src={process.env.IMAGE_URL + data.avatar} width={250} height={250}
+                                   className='rounded-full float-left m-3 mr-5 object-cover'
                                    alt={"Avatar staff"}/>
                         </div>
                         <h2 className='text-[45px] text-[#F15A2B] font-bold'>{title}</h2>

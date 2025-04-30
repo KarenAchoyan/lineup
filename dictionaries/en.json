@@ -62,5 +62,14 @@
   "button_text_col": "Become a volunteer",
 
   "about_dancing": "When culture becomes a ",
-  "dancing": "movement"
+  "dancing": "movement",
+  "donation_description": "Your support allows us to develop the project and create the best for everyone. Every donation makes us stronger.",
+  "donation_description_2": "Once",
+  "donation_description_3": "Monthly",
+  "the_amount": "The Amount",
+  "frequency": "Frequency",
+  "prof_photography_videography": "Professional photo and video shooting",
+  "prof_photography_videography_2": "Would you like to help and participate in the development process? We are always happy to welcome new volunteers. Fill out the application below and we will contact you to discuss the details.",
+  "fill_out_the_application_2": "Fill out the application.",
+  "other": "Other"
 }

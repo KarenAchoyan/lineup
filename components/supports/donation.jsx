@@ -11,22 +11,21 @@ const Donation = ({dict}) => {
                 <div className="flex items-center justify-center">
                     <div className="container bg-[#4d4c4c2b] mb-[50px] pt-[30px] rounded-lg shadow-xl p-8">
                         <h1 className="text-[40px] text-[#C7C7C7] text-center mb-5">{dict.donation}</h1>
-                        <p className='text-[20px] text-[#C7C7C7] text-center'>Your support allows us to develop the project and create the best for everyone. Every
-                            donation makes us stronger.</p>
+                        <p className='text-[20px] text-[#C7C7C7] text-center'>{dict.donation_description}</p>
 
                         <div>
-                            <p className='text-center text-[#C7C7C7] text-[20px] mt-[30px] mb-[20px]'>Frequency (Once or every month)</p>
+                            <p className='text-center text-[#C7C7C7] text-[20px] mt-[30px] mb-[20px]'>{dict.frequency}</p>
                             <div className='flex justify-center'>
                                 <div className='px-2'>
-                                    <button className='px-[55px] hover:opacity-[50%] cursor-pointer py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>Once</button>
+                                    <button className='px-[55px] hover:opacity-[50%] cursor-pointer py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>{dict.donation_description_2}</button>
                                 </div>
                                 <div className='px-2'>
-                                    <button className='px-[55px] hover:opacity-[50%] cursor-pointer py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>Every month</button>
+                                    <button className='px-[55px] hover:opacity-[50%] cursor-pointer py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>{dict.donation_description_3}</button>
                                 </div>
                             </div>
                         </div>
                         <div className='w-full pt-10'>
-                            <p className='text-center text-[#C7C7C7] text-[20px] mt-[30px] mb-[10px]'>The Amount</p>
+                            <p className='text-center text-[#C7C7C7] text-[20px] mt-[30px] mb-[10px]'>{dict.the_amount}</p>
                             <div className='flex justify-center w-full flex-wrap'>
                                 <div className='px-2'>
                                     <button className='px-[55px] hover:opacity-[50%] cursor-pointer my-3 py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>10GEL</button>
@@ -41,7 +40,7 @@ const Donation = ({dict}) => {
                                     <button className='px-[55px] hover:opacity-[50%] cursor-pointer my-3 py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>40GEL</button>
                                 </div>
                                 <div className='px-2'>
-                                    <button className='px-[55px] hover:opacity-[50%] cursor-pointer my-3 py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>Other</button>
+                                    <button className='px-[55px] hover:opacity-[50%] cursor-pointer my-3 py-[10px] bg-[#C7C7C7] rounded-xl mx-2'>{dict.other}</button>
                                 </div>
                             </div>
                         </div>
