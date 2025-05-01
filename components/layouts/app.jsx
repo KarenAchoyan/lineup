@@ -1,5 +1,5 @@
 "use client"
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Image from "next/image";
 import {
     DownOutlined,
@@ -27,6 +27,11 @@ const App = ({children, lessons, dict}) => {
     const [sectionsOpen, setSectionsOpen] = useState(false);
     const [supportsOpen, setSupportsOpen] = useState(false);
 
+    useEffect(() => {
+        setMobileMenuOpen(false);
+        setSectionsOpen(false);
+        setSupportsOpen(false);
+    }, [pathname]);
 
     const changeLanguage = (l) => {
         const pathnameParts = pathname.split("/");
@@ -179,12 +184,12 @@ const App = ({children, lessons, dict}) => {
                                             href={'/sections/' + item.id}>{title}</Link></li>
                                     )
                                 })}
-                                <li className='text-[18px]'><Link href='/photo'>Photo / Video</Link></li>
+                                <li className='text-[18px]'><Link href='/photo'>{dict.photo_video}</Link></li>
                             </ul>
                         </div>
                     )}
                     <div className='cursor-pointer text-[20px]' onClick={() => setSupportsOpen(!supportsOpen)}>
-                        Support us <DownOutlined className={`ml-2 text-[13px] ${sectionsOpen ? 'rotate-180' : ''}`}/>
+                    {dict.support_us} <DownOutlined className={`ml-2 text-[13px] ${sectionsOpen ? 'rotate-180' : ''}`}/>
                     </div>
                     {supportsOpen && (
                         <div className='pl-4'>
