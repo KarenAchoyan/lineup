@@ -4,7 +4,7 @@ import {LogoutOutlined, UsergroupAddOutlined, UserOutlined} from "@ant-design/ic
 import Link from "next/link";
 import LogoutModal from "@/components/profile/logoutModal";
 import {getCookie} from "@/utils/utils";
-
+import PaymentExample from "@/components/paypal/PaymentExample";
 const Main = ({dict}) => {
     const [logoutModal, setLogoutModal] = useState(false);
     const [user, setUser] = useState({});
@@ -21,7 +21,7 @@ const Main = ({dict}) => {
     return (
         <div className="bg-[#232222] pt-[160px] pb-[100px]">
             <div
-                className='container m-auto bg-[#D9D9D91A] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto  lg:h-[500px]'>
+                className='container m-auto bg-[#D9D9D91A] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto '>
 
                 <div className="flex text-white font-bold">
                     <div className='w-[50%] flex  border-r-2 border-white'>
@@ -40,6 +40,9 @@ const Main = ({dict}) => {
                             <h2 className='text-2xl'>{dict.parent}</h2>
                             <h1 className='text-xl'>Name Surname</h1>
                             <h3 className='text-xl'>{user.email}</h3>
+                        </div>
+                        <div>
+                        <PaymentExample />
                         </div>
                     </div>
                 </div>

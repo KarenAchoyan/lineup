@@ -40,5 +40,9 @@ export function middleware(request) {
     }
 
     const lang = getLocale(request);
+    if(pathname === "/api/create-order") {
+        return NextResponse.next();
+    } 
+      
     return NextResponse.redirect(new URL(`/${lang}${pathname}`, request.url));
 }
