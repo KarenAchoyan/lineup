@@ -6,7 +6,7 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
     const [error, setError] = useState(null);
 
     const initialOptions = {
-        "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
+        "client-id": "AY7AFCTUPwYOEYbIvVtgA-P7NgncygaIL2aX3a0JcDoq4qTTtJBS-hX4_8On8C-v_jIH7xA5zkTlX5Xl",
         currency: "USD",
         intent: "capture",
         components: "buttons",
@@ -71,12 +71,10 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
 
                             if (!response.ok) {
                                 const errorData = await response.json();
-                                console.error('API Error:', errorData);
                                 throw new Error(errorData.error || 'Failed to process payment');
                             }
 
                             const result = await response.json();
-                            console.log('API Response:', result);
                             
                             if (onSuccess) {
                                 onSuccess(result);

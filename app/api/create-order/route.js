@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
+const CLIENT_ID = "AY7AFCTUPwYOEYbIvVtgA-P7NgncygaIL2aX3a0JcDoq4qTTtJBS-hX4_8On8C-v_jIH7xA5zkTlX5Xl";
+const CLIENT_SECRET = "EKEOjL30gW4EkpQ3lGCF7VqPBSpMo-5VA__zUCFzRMA2jYYPiRwFLO7s7tqZ4U0vTtL-Jup15pjchiUj";
 const PAYPAL_API_URL ='https://api-m.paypal.com';
 
 
