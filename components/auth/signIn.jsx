@@ -32,8 +32,7 @@ const SignIn = ({dict}) => {
                     parent_name: data.user.parent_name,
                     email: data.user.email
                 })}; path=/; Secure; SameSite=Strict`;
-                router.push("/profile");
-                window.location.reload()
+                window.location='/profile';
             } else {
                 setError(data.message || "Invalid credentials")
             }

@@ -41,7 +41,7 @@ const Main = ({dict}) => {
                             <h1 className='text-xl'>Name Surname</h1>
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
-                        <div>
+                        <div className='mt-5'>
                         <PaymentExample />
                         </div>
                     </div>
