@@ -8,13 +8,11 @@ export default function PaymentExample() {
 
     const handlePaymentSuccess = (result) => {
         setPaymentStatus('success');
-        console.log('Payment successful:', result);
     };
 
     const handlePaymentError = (error) => {
         setPaymentStatus('error');
         setError(error.message);
-        console.error('Payment failed:', error);
     };
 
     return (
@@ -33,7 +31,7 @@ export default function PaymentExample() {
                     </div>
 
                     <PayPalButton
-                          amount={1}
+                        amount={1}
                         currency="GEL"
                         onSuccess={handlePaymentSuccess}
                         onError={handlePaymentError}

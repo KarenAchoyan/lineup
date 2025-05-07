@@ -1,9 +1,24 @@
 "use client"
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useState } from "react";
+import { getCookie } from "@/utils/utils";
 
 export default function PayPalButton({ amount, onSuccess, onError }) {
     const [error, setError] = useState(null);
+
+    const getUserId = () => {
+        const authToken = getCookie('authToken');
+        if (authToken) {
+            try {
+                const userData = JSON.parse(authToken);
+                return userData.user_id;
+            } catch (err) {
+                console.error('Error parsing auth token:', err);
+                return null;
+            }
+        }
+        return null;
+    };
 
     const initialOptions = {
         "client-id": "AY7AFCTUPwYOEYbIvVtgA-P7NgncygaIL2aX3a0JcDoq4qTTtJBS-hX4_8On8C-v_jIH7xA5zkTlX5Xl",
@@ -61,6 +76,7 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
                                 body: JSON.stringify({
                                     orderID: data.orderID,
                                     payerID: data.payerID,
+                                    userId: getUserId(),
                                     amount: details.purchase_units[0].amount.value,
                                     userEmail: details.payer.email_address,
                                     status: details.status,
