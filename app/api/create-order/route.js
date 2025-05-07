@@ -4,19 +4,6 @@ const CLIENT_ID = "AY7AFCTUPwYOEYbIvVtgA-P7NgncygaIL2aX3a0JcDoq4qTTtJBS-hX4_8On8
 const CLIENT_SECRET = "EKEOjL30gW4EkpQ3lGCF7VqPBSpMo-5VA__zUCFzRMA2jYYPiRwFLO7s7tqZ4U0vTtL-Jup15pjchiUj";
 const PAYPAL_API_URL ='https://api-m.paypal.com';
 
-// CORS headers configuration
-const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Max-Age': '86400',
-};
-
-// Handle OPTIONS request for CORS preflight
-export async function OPTIONS() {
-    return NextResponse.json({}, { headers: corsHeaders });
-}
-
 export async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
@@ -30,15 +17,12 @@ export async function GET(request) {
         if (!orderID || !payerID || !amount || !userEmail) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
-                { 
-                    status: 400,
-                    headers: corsHeaders
-                }
+                { status: 400 }
             );
         }
 
         // Process the payment with the query parameters
-        const response = await processPayment({
+        return await processPayment({
             orderID,
             payerID,
             amount,
@@ -48,15 +32,6 @@ export async function GET(request) {
             createTime: new Date().toISOString(),
             updateTime: new Date().toISOString()
         });
-
-        // Add CORS headers to the response
-        return NextResponse.json(response.body, {
-            status: response.status,
-            headers: {
-                ...response.headers,
-                ...corsHeaders
-            }
-        });
     } catch (error) {
         console.error('Payment processing error:', error);
         return NextResponse.json(
@@ -64,10 +39,7 @@ export async function GET(request) {
                 error: 'Failed to process payment',
                 message: error.message
             },
-            { 
-                status: 500,
-                headers: corsHeaders
-            }
+            { status: 500 }
         );
     }
 }
@@ -83,10 +55,7 @@ export async function POST(request) {
                     error: 'Invalid JSON payload',
                     message: parseError.message 
                 },
-                { 
-                    status: 400,
-                    headers: corsHeaders
-                }
+                { status: 400 }
             );
         }
 
@@ -105,23 +74,11 @@ export async function POST(request) {
         if (!orderID || !payerID || !amount || !userEmail) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
-                { 
-                    status: 400,
-                    headers: corsHeaders
-                }
+                { status: 400 }
             );
         }
 
-        const response = await processPayment(body);
-        
-        // Add CORS headers to the response
-        return NextResponse.json(response.body, {
-            status: response.status,
-            headers: {
-                ...response.headers,
-                ...corsHeaders
-            }
-        });
+        return await processPayment(body);
     } catch (error) {
         console.error('Payment processing error:', error);
         return NextResponse.json(
@@ -129,10 +86,7 @@ export async function POST(request) {
                 error: 'Failed to process payment',
                 message: error.message
             },
-            { 
-                status: 500,
-                headers: corsHeaders
-            }
+            { status: 500 }
         );
     }
 }
@@ -156,10 +110,7 @@ async function processPayment(paymentData) {
                 error: 'Failed to connect to PayPal API',
                 message: fetchError.message
             },
-            { 
-                status: 503,
-                headers: corsHeaders
-            }
+            { status: 503 }
         );
     }
 
@@ -171,10 +122,7 @@ async function processPayment(paymentData) {
                 error: 'Failed to verify payment with PayPal',
                 details: paypalError
             },
-            { 
-                status: 400,
-                headers: corsHeaders
-            }
+            { status: 400 }
         );
     }
 
@@ -188,10 +136,7 @@ async function processPayment(paymentData) {
                 error: 'Invalid response from PayPal',
                 message: parseError.message
             },
-            { 
-                status: 502,
-                headers: corsHeaders
-            }
+            { status: 502 }
         );
     }
 
@@ -205,8 +150,7 @@ async function processPayment(paymentData) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.LARAVEL_API_TOKEN}`,
-                'Origin': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+                'Authorization': `Bearer ${process.env.LARAVEL_API_TOKEN}`
             },
             body: JSON.stringify({
                 order_id: orderID,
@@ -227,10 +171,7 @@ async function processPayment(paymentData) {
                 error: 'Failed to connect to backend service',
                 message: fetchError.message
             },
-            { 
-                status: 503,
-                headers: corsHeaders
-            }
+            { status: 503 }
         );
     }
 
@@ -244,10 +185,7 @@ async function processPayment(paymentData) {
                 error: 'Invalid response from backend service',
                 message: parseError.message
             },
-            { 
-                status: 502,
-                headers: corsHeaders
-            }
+            { status: 502 }
         );
     }
 
@@ -258,10 +196,7 @@ async function processPayment(paymentData) {
                 error: 'Failed to process payment', 
                 details: laravelResponse 
             },
-            { 
-                status: 500,
-                headers: corsHeaders
-            }
+            { status: 500 }
         );
     }
 
@@ -269,7 +204,5 @@ async function processPayment(paymentData) {
     return NextResponse.json({ 
         message: 'Payment processed successfully', 
         data: laravelResponse 
-    }, {
-        headers: corsHeaders
     });
 }

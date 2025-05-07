@@ -17,41 +17,38 @@ const VolRegistration = ({loading, onFinish, error, onFinishFailed, dict}) => {
                 onFinishFailed={onFinishFailed}
                 className="space-y-4"
             >
-                <Form.Item
-                    name="studentName"
-                    rules={[{required: true, message: "Please enter student's full name!"}]}
+               <Form.Item
+                    name="subject"
+                    rules={[{required: true, message: "Խնդրում ենք լրացնել վերնագիրը։"}]}
                 >
-                    <Input placeholder={dict.full_name+"..."} className="p-2 rounded-md h-[45px]"/>
+                    <Input placeholder={dict.full_name + "..."} className="p-2 rounded-md h-[45px]" />
                 </Form.Item>
+
                 <Form.Item
                     name="phone"
-                    rules={[{required: true, message: "Please enter phone number!"}]}
+                    rules={[{required: true, message: "Խնդրում ենք նշել հեռախոսահամարը։"}]}
                 >
-                    <Input placeholder={dict.phone_number+"..."} className="p-2 rounded-md h-[45px]"/>
+                    <Input placeholder={dict.phone_number + "..."} className="p-2 rounded-md h-[45px]" />
                 </Form.Item>
+
                 <Form.Item
                     name="email"
                     rules={[{
                         required: true,
                         type: 'email',
-                        message: "Please enter a valid email address!"
+                        message: "Խնդրում ենք նշել վավեր էլ․ փոստ։"
                     }]}
                 >
-                    <Input placeholder={dict.email_address_c+"..."} className="p-2 rounded-md h-[45px]"/>
+                    <Input placeholder={dict.email_address_c + "..."} className="p-2 rounded-md h-[45px]" />
                 </Form.Item>
+
                 <Form.Item
-                    name="cover"
-                    rules={[{
-                        required: true,
-                        type: 'email',
-                        message: "Please enter !"
-                    }]}
-                    style={{
-                        height: '100px'
-                    }}
+                    name="message"
+                    rules={[{required: true, message: "Խնդրում ենք լրացնել նամակը։"}]}
                 >
-                    <Input.TextArea placeholder={dict.cover_letter+"..."} className="p-2 rounded-md h-[45px]"/>
+                    <Input.TextArea placeholder={dict.cover_letter + "..."} className="p-2 rounded-md" rows={4} />
                 </Form.Item>
+
 
                 <div>
                     <Form.Item>

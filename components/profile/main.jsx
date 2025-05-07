@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { LogoutOutlined, UsergroupAddOutlined, UserOutlined } from "@ant-design/icons";
+import { LogoutOutlined, UsergroupAddOutlined, UserOutlined, CreditCardOutlined, SettingOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import LogoutModal from "@/components/profile/logoutModal";
 import { getCookie } from "@/utils/utils";
@@ -18,12 +18,11 @@ const Main = ({ dict }) => {
             setUser(userData);
 
             // Fetch payment status
-            fetch('http://lineup.dahk.am/api/payments/check-monthly', {
-                method: 'POST',
+            fetch(`https://lineup.dahk.am/api/paypals/check-monthly?user_id=${userData.user_id}`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ user_id: userData.id }),
             })
                 .then(res => res.json())
                 .then(data => {
@@ -59,28 +58,37 @@ const Main = ({ dict }) => {
                             <h1 className='text-xl'>Name Surname</h1>
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
-                        <div className='mt-5'>
+                        <div className='mt-5 p-4 rounded-lg bg-[#2A2929] border border-[#3A3939]'>
                             {hasPaid === null ? (
-                                <p className="text-white">Բեռնում է...</p>
+                                <p className="text-white flex items-center gap-2">
+                                    <span className="animate-spin">⏳</span>
+                                    {dict.loading}
+                                </p>
                             ) : hasPaid === false ? (
                                 <PaymentExample />
                             ) : (
-                                <p className="text-white">Դու այս ամիս վճարել ես, վճարեք ամսի 1-ից</p>
+                                <p className="text-white flex items-center gap-2">
+                                    <span className="text-green-500">✓</span>
+                                    {dict.payment_status}
+                                </p>
                             )}
                         </div>
                     </div>
                 </div>
 
                 <div className="content mt-[50px]">
+                <Link href='/profile/settings'>
+
                     <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                         <p className='ml-5'>
                             <UserOutlined /> {dict.profile_information}
                         </p>
                     </div>
-                    <Link href='/profile/groups'>
+                    </Link>
+                    <Link href='/profile/payments'>
                         <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                             <p className='ml-5'>
-                                <UsergroupAddOutlined /> {dict.groups}
+                                <CreditCardOutlined /> {dict.payment_history || 'Payment History'}
                             </p>
                         </div>
                     </Link>

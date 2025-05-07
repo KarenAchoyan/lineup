@@ -7,7 +7,6 @@ import {useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
 import {sendMail} from "@/lib/send-mail";
 
-
 async function sendMailHandler() {
     const DEFAULT_RECEIVER = "geeklabdevelopment@gmail.com"; // Replace with a valid email
 
@@ -23,6 +22,17 @@ const SignUp = ({dict}) => {
     const [errorData, setErrorData] = useState({});
 
     const router = useRouter();
+
+    // Function to validate English characters only
+    const validateEnglishOnly = (_, value) => {
+        if (!value) return Promise.resolve();
+        const armenianRegex = /^[\u0531-\u0556\u0561-\u0587\s]*$/;
+        if (!armenianRegex.test(value)) {
+            return Promise.reject(new Error('Խնդրում ենք օգտագործել միայն հայերեն տառեր'));
+        }
+        return Promise.resolve();
+    };
+
     const onFinish = async (values) => {
         setLoading(true);
 
@@ -90,14 +100,20 @@ const SignUp = ({dict}) => {
                         >
                             <Form.Item
                                 name="studentName"
-                                rules={[{required: true, message: "Please enter student's full name!"}]}
+                                rules={[
+                                    {required: true, message: "Please enter student's full name!"},
+                                    {validator: validateEnglishOnly}
+                                ]}
                             >
                                 <Input placeholder={dict.full_name_of_student} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
 
                             <Form.Item
                                 name="parentName"
-                                rules={[{required: true, message: "Please enter parent's full name!"}]}
+                                rules={[
+                                    {required: true, message: "Please enter parent's full name!"},
+                                    {validator: validateEnglishOnly}
+                                ]}
                             >
                                 <Input placeholder={dict.full_name_of_parent} className="p-2 rounded-md h-[45px]"/>
                             </Form.Item>
@@ -153,9 +169,10 @@ const SignUp = ({dict}) => {
                             </Form.Item>
 
                             <div className="text-center text-[#BBBBBB] mt-4">
-                                <a href="#" className="text-[#BBBBBB]  link-term">
-                                    {dict.terms_and_conditions}
-                                </a>
+                          
+                                <Link href="/refund_return" className="text-[#BBBBBB] link-term">
+                                    {dict.terms_and_conditions || 'Refund & Return Policy'}
+                                </Link>
                             </div>
 
                             <div>
