@@ -42,7 +42,7 @@ const Main = ({dict}) => {
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
                         <div className='mt-5'>
-                        <PaymentExample />
+                            <PaymentExample />
                         </div>
                     </div>
                 </div>

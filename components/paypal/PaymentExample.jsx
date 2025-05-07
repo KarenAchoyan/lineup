@@ -31,7 +31,7 @@ export default function PaymentExample() {
                     </div>
 
                     <PayPalButton
-                        amount={1}
+                        amount={0.2}
                         currency="GEL"
                         onSuccess={handlePaymentSuccess}
                         onError={handlePaymentError}

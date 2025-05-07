@@ -76,7 +76,7 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
                                 body: JSON.stringify({
                                     orderID: data.orderID,
                                     payerID: data.payerID,
-                                    userId: getUserId(),
+                                    user_id: getUserId(),
                                     amount: details.purchase_units[0].amount.value,
                                     userEmail: details.payer.email_address,
                                     status: details.status,
