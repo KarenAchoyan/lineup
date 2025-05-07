@@ -82,7 +82,7 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
                                     status: details.status,
                                     createTime: details.create_time,
                                     updateTime: details.update_time
-                                }),
+                                })
                             });
 
                             if (!response.ok) {
