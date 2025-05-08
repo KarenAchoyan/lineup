@@ -16,7 +16,7 @@ const LogoutModal = ({handlerClose, dict}) => {
         <>
             <div className='w-full h-screen bg-[#000000a2] fixed top-0 left-0 z-20'></div>
             <div
-                className='fixed w-[600px] h-[300px] bg-[#353434] top-[50%] z-30 left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center'>
+                className='fixed w-[600px] h-[300px] bg-[#353434] top-[50%] z-[555555] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center'>
                 <div className='flex flex-col justify-center items-center w-full p-10'>
                     <h1 className='text-[#C7C7C7] text-2xl'>{dict.are_you_sure_you_want_to_log_out}</h1>
                     <div className='flex mt-10'>

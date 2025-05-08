@@ -14,11 +14,11 @@ const MainArchive = ({dict, lang}) => {
     const changeYears = async (year) => {
         setYear(year)
         try {
-            const response = await fetch(`https://lineup.dahk.am/api/archives/${year}`);
+            const response = await fetch(`/api/archives?year=${year}`);
             const data = await response.json();
 
             if (response.ok) {
-                return{images:data?.images, videos:data?.videos};
+                return { images: data?.images, videos: data?.videos };
             } else {
                 message.error(data.message || 'Failed to fetch archives');
             }

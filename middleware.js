@@ -13,6 +13,11 @@ export function middleware(request) {
     const { pathname } = request.nextUrl;
     const authToken = request.cookies.get("authToken");
 
+    // Skip middleware for API routes
+    if (pathname.startsWith('/api/')) {
+        return NextResponse.next();
+    }
+
     if (pathname.startsWith("/_next") || pathname.startsWith("/static") || pathname.startsWith("/public") || pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf|otf|eot)$/)) {
         return NextResponse.next();
     }
@@ -40,9 +45,5 @@ export function middleware(request) {
     }
 
     const lang = getLocale(request);
-    if(pathname === "/api/create-order") {
-        return NextResponse.next();
-    } 
-      
     return NextResponse.redirect(new URL(`/${lang}${pathname}`, request.url));
 }

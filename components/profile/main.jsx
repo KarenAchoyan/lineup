@@ -17,8 +17,8 @@ const Main = ({ dict }) => {
             const userData = JSON.parse(authToken);
             setUser(userData);
 
-            // Fetch payment status
-            fetch(`https://lineup.dahk.am/api/paypals/check-monthly?user_id=${userData.user_id}`, {
+            // Fetch payment status using our new API route
+            fetch(`/api/payment-status?user_id=${userData.user_id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

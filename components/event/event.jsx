@@ -25,7 +25,7 @@ const CalendarEvent = () => {
 
         const fetchTicket = async () => {
             try {
-                const res = await fetch(`https://lineup.dahk.am/api/events/show/${selectedDate}`);
+                const res = await fetch(`/api/events?date=${selectedDate}`);
                 if (!res.ok) {
                     throw new Error('Network response was not ok');
                 }

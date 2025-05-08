@@ -13,9 +13,12 @@ const SignIn = ({dict}) => {
     const onFinish = async (values) => {
         setLoading(true);
         try {
-            const response = await fetch("https://lineup.dahk.am/api/login", {
+            const response = await fetch("/api/login", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
                 body: JSON.stringify({
                     email: values.email,
                     password: values.password
@@ -34,7 +37,7 @@ const SignIn = ({dict}) => {
                 })}; path=/; Secure; SameSite=Strict`;
                 window.location='/profile';
             } else {
-                setError(data.message || "Invalid credentials")
+                setError(data.error || "Invalid credentials")
             }
         } catch (error) {
             setError(error.message || "Something went wrong!");
@@ -77,7 +80,6 @@ const SignIn = ({dict}) => {
                                 />
                             </Form.Item>
                             {error && <p className='text-red-500'>{error}</p>}
-
 
                             <div>
                                 <Form.Item>
