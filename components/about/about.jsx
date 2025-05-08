@@ -10,7 +10,7 @@ const About = ({about, lang, staffs, dict}) => {
         <>
             <div className="container m-auto bg-[#4D4C4C] rounded-3xl mx-auto px-4 py-10 ">
                 <h1 className='text-center my-5 text-[32px]  md:text-[45px] text-[#C7C7C7]'>{dict.about_us}</h1>
-                <img src="/1.png" className='h-[500px] m-auto' alt=""/>
+                <img src="/about.jpg" className='h-[500px] m-auto' alt=""/>
                 <div className='text-[20px] text-white my-10 text-center px-30'>
                     {parse(content)}
                 </div>

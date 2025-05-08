@@ -2,8 +2,9 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useState } from "react";
 import { getCookie } from "@/utils/utils";
+import { convertGelToUsd, formatCurrency } from "@/utils/currency";
 
-export default function PayPalButton({ amount, onSuccess, onError }) {
+export default function PayPalButton({ amount, coverLetter, onSuccess, onError }) {
     const [error, setError] = useState(null);
 
     const getUserId = () => {
@@ -28,6 +29,8 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
         "disable-funding": "paylater,venmo"
     };
 
+    // Convert GEL amount to USD
+    const usdAmount = convertGelToUsd(amount);
 
     return (
         <div className="w-full max-w-md mx-auto">
@@ -36,6 +39,11 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
                     {error}
                 </div>
             )}
+            <div className="mb-4 text-center">
+                <p className="text-gray-600">
+                    {formatCurrency(amount, 'GEL')} = {formatCurrency(usdAmount, 'USD')}
+                </p>
+            </div>
             <PayPalScriptProvider options={initialOptions}>
                 <PayPalButtons
                     style={{ 
@@ -49,7 +57,7 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
                             purchase_units: [
                                 {
                                     amount: {
-                                        value: amount.toString(),
+                                        value: usdAmount,
                                         currency_code: "USD"
                                     }
                                 }
@@ -78,10 +86,13 @@ export default function PayPalButton({ amount, onSuccess, onError }) {
                                     payerID: data.payerID,
                                     user_id: getUserId(),
                                     amount: details.purchase_units[0].amount.value,
+                                    originalAmount: amount, // Store original GEL amount
                                     userEmail: details.payer.email_address,
                                     status: details.status,
                                     createTime: details.create_time,
-                                    updateTime: details.update_time
+                                    updateTime: details.update_time,
+                                    coverLetter: coverLetter || '', // Add cover letter to the request
+                                    paymentTime: new Date().toISOString() // Add payment time
                                 })
                             });
 

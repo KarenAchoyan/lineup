@@ -1,10 +1,12 @@
 "use client"
 import { useState } from 'react'; 
 import PayPalButton from './PayPalButton';
+import { formatCurrency } from '@/utils/currency';
 
 export default function PaymentExample() {
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [error, setError] = useState(null);
+    const [amount, setAmount] = useState(30); // Default amount in GEL
 
     const handlePaymentSuccess = (result) => {
         setPaymentStatus('success');
@@ -27,11 +29,11 @@ export default function PaymentExample() {
                 <>
                     <div className="mb-4">
                         <h3 className="text-lg font-semibold">Payment Details</h3>
-                        <p className="text-gray-600">Amount: 30 GEL</p>
+                        <p className="text-gray-600">Amount: {formatCurrency(amount, 'GEL')}</p>
                     </div>
 
                     <PayPalButton
-                        amount={0.2}
+                        amount={amount}
                         currency="GEL"
                         onSuccess={handlePaymentSuccess}
                         onError={handlePaymentError}

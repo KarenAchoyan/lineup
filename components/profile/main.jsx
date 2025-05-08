@@ -55,7 +55,7 @@ const Main = ({ dict }) => {
                     <div className='w-[50%] pl-4 text-[#C7C7C7]'>
                         <div className='w-[50%] pt-5'>
                             <h2 className='text-2xl'>{dict.parent}</h2>
-                            <h1 className='text-xl'>Name Surname</h1>
+                            <h1 className='text-xl'>{user.parent_name}</h1>
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
                         <div className='mt-5 p-4 rounded-lg bg-[#2A2929] border border-[#3A3939]'>
