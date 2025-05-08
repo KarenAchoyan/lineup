@@ -26,7 +26,7 @@ const PaymentHistory = ({ dict }) => {
           return;
         }
 
-        const response = await fetch(`https://lineup.dahk.am/api/payments/${userId}`, {
+        const response = await fetch(`/api/payments?userId=${userId}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

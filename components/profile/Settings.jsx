@@ -27,7 +27,7 @@ const Settings = ({ dict }) => {
           return;
         }
 
-        const response = await fetch(`https://lineup.dahk.am/api/users/${userId}`, {
+        const response = await fetch(`/api/users?userId=${userId}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -101,7 +101,7 @@ const Settings = ({ dict }) => {
               <div className='ml-5 flex items-center'>
                 <PhoneOutlined className="mr-2" />
                 <span className="text-[#C7C7C7]">{dict.parent_phone || 'Parent Phone'}:</span>
-                <span className="ml-2">{user.parent_phone}</span>
+                <span className="ml-2">{user?.parent_phone}</span>
               </div>
             </div>
 
@@ -110,7 +110,7 @@ const Settings = ({ dict }) => {
               <div className='ml-5 flex items-center'>
                 <IdcardOutlined className="mr-2" />
                 <span className="text-[#C7C7C7]">{dict.parent_id || 'Parent ID'}:</span>
-                <span className="ml-2">{user.parent_id}</span>
+                <span className="ml-2">{user?.parent_id}</span>
               </div>
             </div>
 
@@ -119,7 +119,7 @@ const Settings = ({ dict }) => {
               <div className='ml-5 flex items-center'>
                 <IdcardOutlined className="mr-2" />
                 <span className="text-[#C7C7C7]">{dict.group_id || 'Group ID'}:</span>
-                <span className="ml-2">{user.group.name}</span>
+                <span className="ml-2">{user?.group?.name}</span>
               </div>
             </div>
 
@@ -127,7 +127,7 @@ const Settings = ({ dict }) => {
             <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] flex items-center text-[19px] text-white'>
               <div className='ml-5 flex items-center'>
                 <span className="text-[#C7C7C7]">{dict.account_created || 'Account Created'}:</span>
-                <span className="ml-2">{new Date(user.created_at).toLocaleDateString()}</span>
+                <span className="ml-2">{new Date(user?.created_at).toLocaleDateString()}</span>
               </div>
             </div>
           </div>
