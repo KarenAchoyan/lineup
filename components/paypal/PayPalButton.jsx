@@ -29,8 +29,10 @@ export default function PayPalButton({ amount, coverLetter, onSuccess, onError }
         "disable-funding": "paylater,venmo"
     };
 
+    // Add 4% to amount
+    const amountWithFee = amount * 1.04;
     // Convert GEL amount to USD
-    const usdAmount = convertGelToUsd(amount);
+    const usdAmount = convertGelToUsd(amountWithFee);
 
     return (
         <div className="w-full max-w-md mx-auto">
@@ -41,7 +43,7 @@ export default function PayPalButton({ amount, coverLetter, onSuccess, onError }
             )}
             <div className="mb-4 text-center">
                 <p className="text-gray-600">
-                    {formatCurrency(amount, 'GEL')} = {formatCurrency(usdAmount, 'USD')}
+                    {formatCurrency(amount, 'GEL')} + 4% fee = {formatCurrency(amountWithFee, 'GEL')} = {formatCurrency(usdAmount, 'USD')}
                 </p>
             </div>
             <PayPalScriptProvider options={initialOptions}>
@@ -86,7 +88,7 @@ export default function PayPalButton({ amount, coverLetter, onSuccess, onError }
                                     payerID: data.payerID,
                                     user_id: getUserId(),
                                     amount: details.purchase_units[0].amount.value,
-                                    originalAmount: amount, // Store original GEL amount
+                                    originalAmount: amountWithFee, // Store original GEL amount
                                     userEmail: details.payer.email_address,
                                     status: details.status,
                                     createTime: details.create_time,
