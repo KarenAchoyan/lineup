@@ -13,7 +13,7 @@ const CalendarEvent = () => {
 
     const [dates] = useState(function () {
         return events.map((ticket) => {
-            const date = new Date(ticket.event_date);
+            const date = new Date(ticket?.event_date);
             const formattedDate = date.toLocaleDateString('en-GB'); // 'en-GB' provides the 'DD/MM/YYYY' format
             const formattedDateWithDash = formattedDate.replace(/\//g, '-');
             return formattedDateWithDash;
@@ -41,7 +41,7 @@ const CalendarEvent = () => {
     }, [selectedDate]);
 
     useEffect(() => {
-        setSelectedDate(events[0].event_date);
+        setSelectedDate(events[0]?.event_date);
     },[events])
 
     const onDateChange = (date) => {

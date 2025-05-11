@@ -44,9 +44,11 @@ export default async function Home({params}) {
                 <News title={dict?.news}/>
                 <UserCarousel/>
                 <Achievements all={true}/>
-                <div id='events'>
-                    <CalendarEvent/>
-                </div>
+                {events.length>0 && 
+                    <div id='events'>
+                        <CalendarEvent/>
+                    </div>
+                }
             </MainProvider>
         </>
     );
