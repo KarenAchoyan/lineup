@@ -1,6 +1,7 @@
 import React from 'react';
 import Item from "@/components/about/item";
 import parse from "html-react-parser";
+import Image from 'next/image';
 
 
 const About = ({about, lang, staffs, dict}) => {
@@ -10,8 +11,17 @@ const About = ({about, lang, staffs, dict}) => {
         <>
             <div className="container m-auto bg-[#4D4C4C] rounded-3xl mx-auto px-4 py-10 ">
                 <h1 className='text-center my-5 text-[32px]  md:text-[45px] text-[#C7C7C7]'>{dict.about_us}</h1>
-                <img src="/about.jpg" className='h-[500px] m-auto' alt=""/>
-                <div className='text-[20px] text-white my-10 text-center px-30'>
+                <div className="relative w-full h-[300px] sm:h-[500px] w-full md:w-[700px] m-auto">
+                    <Image
+                        src="/about.jpg"
+                        alt="About"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        style={{ objectFit: 'cover' }}
+                        priority
+                    />
+                </div>
+                <div className='text-[20px] text-white my-10 text-center md:px-30'>
                     {parse(content)}
                 </div>
             </div>

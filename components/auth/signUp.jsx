@@ -79,7 +79,7 @@ const SignUp = ({dict}) => {
     };
 
     return (
-        <div className="bg-[#211d1dfc] signIn-background h-screen py-[180px]">
+        <div className="bg-[#211d1dfc] signIn-background py-[180px]">
             <div className="flex items-center justify-center">
                 <div className="container bg-[#4d4c4c2b] min-h-[70vh] pt-[50px] rounded-lg shadow-xl p-8">
                     <h1 className="text-[24px] sm:text-[40px] text-[#C7C7C7] text-center">{dict.welcome_to_lineup}</h1>

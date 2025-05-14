@@ -38,7 +38,7 @@
   "student_name": "Ուսանողի անուն",
   "parent_name": "Ծնողի անուն",
   "parent_phone": "Ծնողի հեռախոս",
-  "parent_id": "Ծնողի ID",
+  "parent_id": "Երեխայի ID",
   "group_id": "Խմբի ID",
   "account_created": "Հաշիվը ստեղծվել է",
   "loading": "Բեռնվում է...",
