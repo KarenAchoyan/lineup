@@ -28,13 +28,17 @@ const SignIn = ({dict}) => {
             const data = await response.json();
 
             if (response.ok) {
-                document.cookie = `authToken=${JSON.stringify({
+                const cookieData = JSON.stringify({
                     user_id: data.user.id,
                     token: data.token,
                     name: data.user.name,
                     parent_name: data.user.parent_name,
                     email: data.user.email
-                })}; path=/; Secure; SameSite=Strict`;
+                });
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 7); // 7 days expiry
+                
+                document.cookie = `authToken=${encodeURIComponent(cookieData)}; path=/; expires=${expires.toUTCString()}; Secure; SameSite=Strict`;
                 window.location='/profile';
             } else {
                 setError(data.error || "Invalid credentials")

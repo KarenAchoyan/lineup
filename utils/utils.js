@@ -88,7 +88,12 @@ export function getCookie(name) {
     for (let cookie of cookies) {
         let [key, value] = cookie.split('=');
         if (key === name) {
-            return value;
+            try {
+                return decodeURIComponent(value);
+            } catch (e) {
+                console.error('Error decoding cookie:', e);
+                return value;
+            }
         }
     }
     return null;

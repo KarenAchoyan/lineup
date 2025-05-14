@@ -51,23 +51,17 @@ const SignUp = ({dict}) => {
             const DEFAULT_RECEIVER = "geeklabdevelopment@gmail.com";
 
             if (response.ok) {
-                document.cookie = `authToken=${JSON.stringify({
+                const cookieData = JSON.stringify({
                     user_id: data.user.id,
                     token: data.token,
                     name: data.user.name,
                     parent_name: data.user.parent_name,
                     email: data.user.email
-                })}; path=/; Secure; SameSite=Strict`;
-
-                // await sendMail({
-                //     email: values.email || DEFAULT_RECEIVER,
-                //     subject: "New Contact Form Submission",
-                //     html: `
-                //         <h2>Հարգելի Karen դուք հաջողությամբ գրանցվեցիք</h2>
-                //         <h3>Մեր մասնագետները կապ կհաստատեն Ձեզ հետ</h3>                    
-                //     `,
-                // });
-
+                });
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 7); // 7 days expiry
+                
+                document.cookie = `authToken=${encodeURIComponent(cookieData)}; path=/; expires=${expires.toUTCString()}; Secure; SameSite=Strict`;
                 router.push("/profile");
             } else {
                 setErrorData(data.errors || { general: data.error });

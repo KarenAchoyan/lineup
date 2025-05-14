@@ -5,43 +5,69 @@ import Link from "next/link";
 import LogoutModal from "@/components/profile/logoutModal";
 import { getCookie } from "@/utils/utils";
 import PaymentExample from "@/components/paypal/PaymentExample";
+import { useRouter } from 'next/navigation';
 
 const Main = ({ dict }) => {
+    const router = useRouter();
     const [logoutModal, setLogoutModal] = useState(false);
     const [user, setUser] = useState({});
     const [hasPaid, setHasPaid] = useState(null); // null = loading, true = paid, false = not paid
 
     useEffect(() => {
-        const authToken = getCookie('authToken');
-    
-        if (authToken) {
+        const checkAuth = () => {
+            const authToken = getCookie('authToken');
+            
+            if (!authToken) {
+                console.log('Auth token not found');
+                router.push('/auth/signIn');
+                return;
+            }
+            
             try {
-                const userData = JSON.parse(authToken);
+                // Try to decode the URI-encoded cookie value
+                const decodedToken = decodeURIComponent(authToken);
+                const userData = JSON.parse(decodedToken);
+                
+                if (!userData || !userData.user_id) {
+                    console.error("Invalid user data in token");
+                    router.push('/auth/signIn');
+                    return;
+                }
+
                 setUser(userData);
-    
+                
+                // Check payment status
                 fetch(`/api/payment-status?user_id=${userData.user_id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userData.token}` // Add token to request
                     },
                 })
-                    .then(res => res.json())
-                    .then(data => {
-                        setHasPaid(data.has_paid);
-                    })
-                    .catch(err => {
-                        console.error("Payment check failed:", err);
-                        setHasPaid(false);
-                    });
-    
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Payment status check failed');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    setHasPaid(data.has_paid);
+                })
+                .catch(err => {
+                    console.error("Payment check failed:", err);
+                    setHasPaid(false);
+                });
+
             } catch (error) {
-                console.error("Invalid authToken format:", authToken);
+                console.error("Error processing auth token:", error);
+                // If there's an error parsing the token, clear it and redirect
+                document.cookie = "authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
+                router.push('/auth/signIn');
             }
-        } else {
-            console.log('Auth token not found');
-        }
-    }, []);
-    
+        };
+
+        checkAuth();
+    }, [router]);
 
     return (
         <div className="bg-[#232222] pt-[160px] pb-[100px]">
@@ -60,7 +86,7 @@ const Main = ({ dict }) => {
                     </div>
                     <div className='w-full md:w-[50%] pl-4 text-[#C7C7C7]'>
                         <div className='w-[50%] pt-5'>
-                            <h2 className='text-2xl'>{dict.parent}</h2>
+                            <h2 className='text-2xl'>{dict?.parent}</h2>
                             <h1 className='text-xl'>{user.parent_name}</h1>
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
@@ -68,14 +94,14 @@ const Main = ({ dict }) => {
                             {hasPaid === null ? (
                                 <p className="text-white flex items-center gap-2">
                                     <span className="animate-spin">⏳</span>
-                                    {dict.loading}
+                                    {dict?.loading}
                                 </p>
                             ) : hasPaid === false ? (
                                 <PaymentExample />
                             ) : (
                                 <p className="text-white flex items-center gap-2">
                                     <span className="text-green-500">✓</span>
-                                    {dict.payment_status}
+                                    {dict?.payment_status}
                                 </p>
                             )}
                         </div>
@@ -83,24 +109,23 @@ const Main = ({ dict }) => {
                 </div>
 
                 <div className="content mt-[50px]">
-                <Link href='/profile/settings'>
-
-                    <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
-                        <p className='ml-5'>
-                            <UserOutlined /> {dict.profile_information}
-                        </p>
-                    </div>
+                    <Link href='/profile/settings'>
+                        <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
+                            <p className='ml-5'>
+                                <UserOutlined /> {dict?.profile_information}
+                            </p>
+                        </div>
                     </Link>
                     <Link href='/profile/payments'>
                         <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                             <p className='ml-5'>
-                                <CreditCardOutlined /> {dict.payment_history || 'Payment History'}
+                                <CreditCardOutlined /> {dict?.payment_history || 'Payment History'}
                             </p>
                         </div>
                     </Link>
                     <div onClick={() => setLogoutModal(true)} className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] cursor-pointer flex items-center text-[19px] text-white'>
                         <p className='ml-5'>
-                            <LogoutOutlined /> {dict.sign_out}
+                            <LogoutOutlined /> {dict?.sign_out}
                         </p>
                     </div>
                 </div>
