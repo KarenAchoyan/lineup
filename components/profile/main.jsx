@@ -13,35 +13,41 @@ const Main = ({ dict }) => {
 
     useEffect(() => {
         const authToken = getCookie('authToken');
+    
         if (authToken) {
-            const userData = JSON.parse(authToken);
-            setUser(userData);
-
-            // Fetch payment status using our new API route
-            fetch(`/api/payment-status?user_id=${userData.user_id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setHasPaid(data.has_paid);
+            try {
+                const userData = JSON.parse(authToken);
+                setUser(userData);
+    
+                fetch(`/api/payment-status?user_id=${userData.user_id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 })
-                .catch(err => {
-                    console.error("Payment check failed:", err);
-                    setHasPaid(false); // fallback to showing PaymentExample
-                });
+                    .then(res => res.json())
+                    .then(data => {
+                        setHasPaid(data.has_paid);
+                    })
+                    .catch(err => {
+                        console.error("Payment check failed:", err);
+                        setHasPaid(false);
+                    });
+    
+            } catch (error) {
+                console.error("Invalid authToken format:", authToken);
+            }
         } else {
             console.log('Auth token not found');
         }
     }, []);
+    
 
     return (
         <div className="bg-[#232222] pt-[160px] pb-[100px]">
             <div className='container m-auto bg-[#D9D9D91A] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto'>
-                <div className="flex text-white font-bold">
-                    <div className='w-[50%] flex border-r-2 border-white'>
+                <div className="flex text-white font-bold flex-wrap">
+                    <div className='w-full md:w-[50%] flex border-r-2 border-white'>
                         <div className='w-auto'>
                             <div className="avatar rounded-full overflow-hidden w-[200px] h-[200px] mr-2">
                                 <img src="/user-avatar.png" className='w-full h-full object-cover' alt="" />
@@ -52,7 +58,7 @@ const Main = ({ dict }) => {
                             <h1 className='text-xl'>{user.name}</h1>
                         </div>
                     </div>
-                    <div className='w-[50%] pl-4 text-[#C7C7C7]'>
+                    <div className='w-full md:w-[50%] pl-4 text-[#C7C7C7]'>
                         <div className='w-[50%] pt-5'>
                             <h2 className='text-2xl'>{dict.parent}</h2>
                             <h1 className='text-xl'>{user.parent_name}</h1>
