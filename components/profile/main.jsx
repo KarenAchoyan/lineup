@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { LogoutOutlined, UsergroupAddOutlined, UserOutlined, CreditCardOutlined, SettingOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import Image from "next/image";
 import LogoutModal from "@/components/profile/logoutModal";
 import { getCookie } from "@/utils/utils";
 import PaymentExample from "@/components/paypal/PaymentExample";
@@ -75,8 +76,16 @@ const Main = ({ dict }) => {
                 <div className="flex text-white font-bold flex-wrap">
                     <div className='w-full md:w-[50%] flex border-r-2 border-white'>
                         <div className='w-auto'>
-                            <div className="avatar rounded-full overflow-hidden w-[200px] h-[200px] mr-2">
-                                <img src="/user-avatar.png" className='w-full h-full object-cover' alt="" />
+                            <div className="relative w-[200px] h-[200px] mr-2">
+                                <Image
+                                    src="/user-avatar.png"
+                                    alt="User Avatar"
+                                    width={200}
+                                    height={200}
+                                    className="rounded-full object-cover"
+                                    priority
+                                    unoptimized
+                                />
                             </div>
                         </div>
                         <div className='w-[50%] pt-5 text-[#C7C7C7]'>

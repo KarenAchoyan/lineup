@@ -16,9 +16,10 @@ const About = ({about, lang, staffs, dict}) => {
                         src="/about.jpg"
                         alt="About"
                         fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 768px) 100vw, 700px"
                         style={{ objectFit: 'cover' }}
                         priority
+                        unoptimized
                     />
                 </div>
                 <div className='text-[20px] text-white my-10 text-center md:px-30'>
