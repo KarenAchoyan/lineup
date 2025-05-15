@@ -17,7 +17,7 @@ const Registration = () => {
         setError(null);
     
         try {
-            const response = await fetch("https://lineup.dahk.am/api/contact", {
+            const response = await fetch("/api/submitContactForm", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
