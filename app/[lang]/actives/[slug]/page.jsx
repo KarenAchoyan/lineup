@@ -1,6 +1,5 @@
 import React from 'react';
 import {getDictionary} from "@/app/[lang]/dictionaries";
-import {Image} from "antd";
 import Details from "@/components/activeUsers/details";
 async function getSingleNews(slug, lang) {
     try {

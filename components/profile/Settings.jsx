@@ -105,14 +105,14 @@ const Settings = ({ dict }) => {
               </div>
             </div>
 
-            {/* Parent ID */}
+            {/* Parent ID
             <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] flex items-center text-[19px] text-white'>
               <div className='ml-5 flex items-center'>
                 <IdcardOutlined className="mr-2" />
                 <span className="text-[#C7C7C7]">{dict.parent_id || 'Parent ID'}:</span>
                 <span className="ml-2">{user?.parent_id}</span>
               </div>
-            </div>
+            </div> */}
 
             {/* Group ID */}
             <div className='w-full border-b-1 border-[#C7C7C7] bg-[#C7C7C70A] h-[65px] flex items-center text-[19px] text-white'>

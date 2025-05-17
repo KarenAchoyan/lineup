@@ -54,7 +54,7 @@ const UserCarousel = () => {
                 <Slider {...settings} >
                     {users?.map((profile, index) => {
                         const title = (lang.toLowerCase() === "hy") ? profile.fullname_hy : lang.toLowerCase() === "ge" ? profile.fullname_ge : lang.toLowerCase() === "ru" ? profile.fullname_ru : profile.fullname_en;
-                        const slug = title?.toLowerCase().replace(/\s+/g, "-"); // Convert title to slug
+                        const slug = profile.id // Convert title to slug
 
                         return (
                             <div key={index} className="flex justify-center rounded-full pt-10 ">
