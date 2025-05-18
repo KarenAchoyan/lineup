@@ -13,7 +13,7 @@ const About = ({about, lang, staffs, dict}) => {
                 <h1 className='text-center my-5 text-[32px]  md:text-[45px] text-[#C7C7C7]'>{dict.about_us}</h1>
                 <div className="relative w-full h-[300px] sm:h-[500px] w-full md:w-[700px] m-auto">
                     <Image
-                        src="/about.jpg"
+                        src="https://lineup.dahk.am/storage1/about.JPG"
                         alt="About"
                         fill
                         sizes="(max-width: 768px) 100vw, 700px"
