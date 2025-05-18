@@ -1,9 +1,11 @@
 "use client";
 import React, {useState, useEffect, useRef} from "react";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
 
 const Dance = ({lessons, slug, dict}) => {
+    const router = useRouter();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null);
@@ -57,6 +59,17 @@ const Dance = ({lessons, slug, dict}) => {
         console.log("Updated background:", styleBackground);
     }, [styleBackground]);
 
+    const handleRegister = () => {
+        if (selectedBranchId !== null) {
+            // Store the data in localStorage before navigation
+            localStorage.setItem('registrationData', JSON.stringify({
+                branch_id: selectedBranchId,
+                lesson_id: slug
+            }));
+            router.push('/auth/signUp');
+        }
+    };
+
     return (
         <div className="bg-[#211d1dfc] dance-background h-screen py-[180px]" style={styleBackground}>
             <h1 className="text-[40px] text-[#C7C7C7] text-center mb-10">{data?.title}</h1>
@@ -101,14 +114,13 @@ const Dance = ({lessons, slug, dict}) => {
                             </div>
 
                             <div className="mt-[10px]">
-                                <Link href={selectedBranchId!==null ? '/auth/signUp?branch='+selectedBranchId : '#'}>
-                                    <button
-                                        className="bg-[#4C4C4C] w-[270px] text-[20px]  md:text-[25px] cursor-pointer disabled:cursor-default disabled:text-gray-500 disabled:hover:bg-[#4C4C4C] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
-                                        disabled={selectedBranchId===null}
-                                    >
-                                        {dict.register}
-                                    </button>
-                                </Link>
+                                <button
+                                    onClick={handleRegister}
+                                    disabled={selectedBranchId === null}
+                                    className="bg-[#4C4C4C] w-[270px] text-[20px] md:text-[25px] cursor-pointer disabled:cursor-default disabled:text-gray-500 disabled:hover:bg-[#4C4C4C] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
+                                >
+                                    {dict.register}
+                                </button>
                             </div>
                         </div>
                     </div>

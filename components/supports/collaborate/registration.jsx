@@ -16,19 +16,16 @@ const Registration = ({dict}) => {
         setError(null);
 
         try {
-            const response = await fetch("https://lineup.dahk.am/api/register", {
+            const response = await fetch("/api/submitContactForm", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    studentName: values.studentName,
-                    parent_name: values.parentName,
-                    parent_phone: values.parentPhone,
+                    subject: values.subject,
+                    phone: values.phone,
                     email: values.email,
-                    parent_id: values.parentId,
-                    password: values.password,
-                    password_confirmation: values.confirmPassword,
+                    message: values.message,
                 }),
             });
             const data = await response.json();

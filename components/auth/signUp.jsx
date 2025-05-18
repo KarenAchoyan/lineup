@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Form, Input, Button, message} from "antd";
 import axios from "axios";
 import Link from "next/link";
@@ -16,6 +16,21 @@ const SignUp = ({dict}) => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [errorData, setErrorData] = useState(null);
+    const [branchId, setBranchId] = useState(null);
+    const [lessonId, setLessonId] = useState(null);
+
+    useEffect(() => {
+        // Get registration data from localStorage
+        const registrationData = localStorage.getItem('registrationData');
+        if (registrationData) {
+            const { branch_id, lesson_id } = JSON.parse(registrationData);
+            console.log('Registration data:', { branch_id, lesson_id });
+            setBranchId(branch_id);
+            setLessonId(lesson_id);
+            // Clear the data after reading it
+            localStorage.removeItem('registrationData');
+        }
+    }, []);
 
     // Function to validate English characters only
     const validateEnglishOnly = (_, value) => {
@@ -45,6 +60,8 @@ const SignUp = ({dict}) => {
                     parent_id: values.parentId,
                     password: values.password,
                     password_confirmation: values.confirmPassword,
+                    branch_id: branchId,
+                    lesson_id: lessonId
                 }),
             });
             const data = await response.json();

@@ -4,16 +4,14 @@ export async function POST(request) {
     try {
         const body = await request.json();
         
-        const response = await fetch("https://lineup.dahk.am/api/register", {
+        const response = await fetch("https://lineup.dahk.am/api/collaborate", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
             body: JSON.stringify({
-                ...body,
-                branch_id: body.branch_id,
-                lesson_id: body.lesson_id
+                ...body
             })
         });
 
