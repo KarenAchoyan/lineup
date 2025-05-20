@@ -10,7 +10,7 @@ const Banner = () => {
     return (
         <>
             <div className='w-full h-screen relative bg-[#211d1dfc]'>
-                <img src="https://lineup.dahk.am/storage1/about.JPG" className='w-full h-full object-cover opacity-[50%] grayscale object-top'
+                <img src="banner1.png" className='w-full h-full object-cover opacity-[50%] grayscale object-top'
                      alt={"Banner Image"}/>
                 <div className='container relative  m-auto px-[20px] md:px-[0] '>
                     <div
