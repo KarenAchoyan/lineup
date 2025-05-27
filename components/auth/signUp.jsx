@@ -1,6 +1,6 @@
 "use client";
 import React, {useState, useEffect} from "react";
-import {Form, Input, Button, message} from "antd";
+import {Form, Input, Button, message, DatePicker} from "antd";
 import axios from "axios";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
@@ -41,7 +41,15 @@ const SignUp = ({dict}) => {
         }
         return Promise.resolve();
     };
-
+    
+    const validateEmail = (_, value) => {
+        if (!value) return Promise.resolve();
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(value)) {
+            return Promise.reject(new Error('Please enter a valid email address'));
+        }
+        return Promise.resolve();
+    };
     const onFinish = async (values) => {
         setLoading(true);
 
@@ -54,6 +62,7 @@ const SignUp = ({dict}) => {
                 },
                 body: JSON.stringify({
                     studentName: values.studentName,
+                    studentBirthday: values.studentBirthday,
                     parent_name: values.parentName,
                     parent_phone: values.parentPhone,
                     email: values.email,
@@ -133,6 +142,19 @@ const SignUp = ({dict}) => {
                             </Form.Item>
 
                             <Form.Item
+                                name="studentBirthday"
+                                rules={[
+                                    {required: true, message: "Please enter student's birthday!"},
+                                ]}
+                            >
+                                <DatePicker 
+                                    placeholder="Student's Birthday"
+                                    className="w-full p-2 rounded-md h-[45px] border border-gray-300 focus:border-red-500"
+                                    format="YYYY-MM-DD"
+                                />
+                            </Form.Item>
+
+                            <Form.Item
                                 name="parentName"
                                 rules={[
                                     {required: true, message: "Please enter parent's full name!"},
@@ -152,7 +174,8 @@ const SignUp = ({dict}) => {
                             <Form.Item
                                 name="email"
                                 rules={[
-                                    {required: true, type: 'email', message: "Please enter a valid email address!"}
+                                    {required: true, type: 'email', message: "Please enter a valid email address"},
+                                    {validator: validateEmail}
                                 ]}
                             >
                                 <Input placeholder={dict.email_address} className="p-2 rounded-md h-[45px] border border-gray-300 focus:border-red-500"/>

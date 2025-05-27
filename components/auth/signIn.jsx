@@ -97,13 +97,6 @@ const SignIn = ({dict}) => {
                                 </Form.Item>
                             </div>
                         </Form>
-
-                        <div className="text-center text-gray-400 mt-2">
-                            {dict.dont_have_an_account_sign_up}
-                            <a href={"/auth/signUp"} className="text-blue-400 hover:text-blue-500">
-                                { dict.sign_up}
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
