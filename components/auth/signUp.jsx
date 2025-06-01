@@ -148,7 +148,7 @@ const SignUp = ({dict}) => {
                                 ]}
                             >
                                 <DatePicker 
-                                    placeholder="Student's Birthday"
+                                    placeholder={dict.student_birthday}
                                     className="w-full p-2 rounded-md h-[45px] border border-gray-300 focus:border-red-500"
                                     format="YYYY-MM-DD"
                                 />
