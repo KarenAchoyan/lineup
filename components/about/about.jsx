@@ -29,8 +29,8 @@ const About = ({about, lang, staffs, dict}) => {
             <div className="container mx-auto px-4 py-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
                     {staffs.map((member, index) => {
-                        const title = (lang.toLowerCase() === "hy") ? member.fullname_hy : lang.toLowerCase() === "ge" ? member.fullname_ge : lang.toLowerCase() === "ru" ? member.fullname_ru : member.fullname_en;
-                        const profession = (lang.toLowerCase() === "hy") ? member.profession_hy : lang.toLowerCase() === "ge" ? member.profession_ge : lang.toLowerCase() === "ru" ? member.profession_ru : member.profession_en;
+                        const title = (lang.toLowerCase() === "hy") ? member?.fullname_hy : lang.toLowerCase() === "ge" ? member?.fullname_ge : lang.toLowerCase() === "ru" ? member?.fullname_ru : member?.fullname_en;
+                        const profession = (lang.toLowerCase() === "hy") ? member?.profession_hy : lang.toLowerCase() === "ge" ? member?.profession_ge : lang.toLowerCase() === "ru" ? member?.profession_ru : member?.profession_en;
                         return (
                             <Item key={index} {...member} title={title} profession={profession} />
                         )
