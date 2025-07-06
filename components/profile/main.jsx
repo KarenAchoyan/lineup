@@ -99,21 +99,6 @@ const Main = ({ dict }) => {
                             <h1 className='text-xl'>{user.parent_name}</h1>
                             <h3 className='text-xl'>{user.email}</h3>
                         </div>
-                        <div className='mt-5 p-4 rounded-lg bg-[#2A2929] border border-[#3A3939]'>
-                            {hasPaid === null ? (
-                                <p className="text-white flex items-center gap-2">
-                                    <span className="animate-spin">⏳</span>
-                                    {dict?.loading}
-                                </p>
-                            ) : hasPaid === false ? (
-                                <PaymentExample />
-                            ) : (
-                                <p className="text-white flex items-center gap-2">
-                                    <span className="text-green-500">✓</span>
-                                    {dict?.payment_status}
-                                </p>
-                            )}
-                        </div>
                     </div>
                 </div>
 
