@@ -4,15 +4,13 @@ import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
 
-const Dance = ({lessons, slug, dict}) => {
+const Dance = ({lessons, slug, dict, lang}) => {
     const router = useRouter();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null);
     const [selectedBranch, setSelectedBranch] = useState(dict.select_a_branch);
     const [selectedBranchId, setSelectedBranchId] = useState(null);
-    const {lang} = useApp();
-
     const [data, setData] = useState(() => {
         return lessons
             .filter((lesson) => lesson.id == slug)
@@ -95,7 +93,10 @@ const Dance = ({lessons, slug, dict}) => {
                                         className="absolute bg-[#232222] top-[30px] left-0 text-black rounded-lg shadow-lg mt-4 p-4 w-full z-10 transition-all duration-300 opacity-100"
                                     >
                                         <ul>
-                                            {data?.lesson_school.map((item) => (
+                                            {data?.lesson_school.map((item) => {
+                                                console.log(item);
+                                                const name = lang === "en" ? item?.schools.name_en : lang==='ru' ? item?.schools.name_ru : lang==='hy' ? item?.schools.name : item?.schools.name_ge;
+                                                return (
                                                 <li
                                                     key={item.id}
                                                     className="py-2 text-left text-white hover:bg-[#4C4C4C] px-2 rounded cursor-pointer"
@@ -105,9 +106,9 @@ const Dance = ({lessons, slug, dict}) => {
                                                         setIsDropdownOpen(false);
                                                     }}
                                                 >
-                                                    {item?.schools.name}
+                                                    {name}
                                                 </li>
-                                            ))}
+                                            )})}
                                         </ul>
                                     </div>
                                 )}

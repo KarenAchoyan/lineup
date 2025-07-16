@@ -10,9 +10,11 @@ async function getLessons() {
 const Page = async ({params}) => {
     const lessons = await getLessons();
     const dict = await getDictionary(params.lang)
+    const {lang} = await params
+
     return (
         <div>
-            <Dance lessons={lessons} dict={dict} slug={params.slug} />
+            <Dance lessons={lessons} dict={dict} slug={params.slug} lang={lang} />
         </div>
     );
 };
