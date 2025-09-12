@@ -17,7 +17,7 @@ export async function POST(request) {
     // Normalize/prepare values
     const merchantId = process.env.FLITT_MERCHANT_ID || "4054488";
     const secretKey = process.env.FLITT_SECRET_KEY || "wYdSnGkTGhQUqBWhEhilf7j9tOIdKFze";
-    const merchantUrl = process.env.MERCHANT_URL || process.env.HOST || "https://www.lineup.ge";
+    const merchantUrl =  "https://www.lineup.ge";
 
     const normalizedAmount = Number(amount);
     if (!Number.isFinite(normalizedAmount) || normalizedAmount <= 0) {
@@ -47,7 +47,7 @@ export async function POST(request) {
         order_id: finalOrderId,
         order_desc: finalOrderDesc,
         server_callback_url: `${merchantUrl}/api/flitt/webhook`,
-        response_url: `${merchantUrl}/thankyou`,
+        response_url: `${merchantUrl}/api/flitt/webhook`,
         signature,
       },
     };
