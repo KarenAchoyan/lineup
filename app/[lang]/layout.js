@@ -2,6 +2,7 @@ import "./globals.css";
 import App from "@/components/layouts/app";
 import {AppProvider} from "@/providers/AppProvider";
 import {getDictionary} from "@/app/[lang]/dictionaries";
+import Script from "next/script";
 
 
 export const metadata = {
@@ -24,7 +25,7 @@ export default async function RootLayout({children, params}) {
     return (
         <html lang={lang}>
         <head>
-            <script src="https://cdn.jsdelivr.net/npm/@flittpayments/js-sdk"></script>
+            <Script src="https://cdn.jsdelivr.net/npm/@flittpayments/js-sdk" strategy="afterInteractive" />
         </head>
         <body>
         <AppProvider>
