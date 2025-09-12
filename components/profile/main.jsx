@@ -98,6 +98,7 @@ const Main = ({ dict }) => {
                             <h2 className='text-2xl'>{dict?.parent}</h2>
                             <h1 className='text-xl'>{user.parent_name}</h1>
                             <h3 className='text-xl'>{user.email}</h3>
+                            <PaymentExample/>
                         </div>
                     </div>
                 </div>

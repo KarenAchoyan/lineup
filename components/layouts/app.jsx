@@ -17,7 +17,6 @@ import {usePathname, useRouter} from "next/navigation";
 import {useApp} from "@/providers/AppProvider";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faUserCircle} from '@fortawesome/free-regular-svg-icons'
-
 const App = ({children, lessons, dict}) => {
     const pathname = usePathname();
     const {lang, setLang} = useApp();

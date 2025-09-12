@@ -23,6 +23,9 @@ export default async function RootLayout({children, params}) {
 
     return (
         <html lang={lang}>
+        <head>
+            <script src="https://cdn.jsdelivr.net/npm/@flittpayments/js-sdk"></script>
+        </head>
         <body>
         <AppProvider>
             <App lang={(await params)?.lang} dict={dict} params={params} lessons={lessons}>

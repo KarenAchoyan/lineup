@@ -1,134 +1,71 @@
-"use client"
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+"use client";
 import { useState } from "react";
-import { getCookie } from "@/utils/utils";
-import { convertGelToUsd, formatCurrency } from "@/utils/currency";
 
-export default function PayPalButton({ amount, coverLetter, onSuccess, onError }) {
-    const [error, setError] = useState(null);
+export default function PayPalButton() {
+  const [loading, setLoading] = useState(false);
 
-    const getUserId = () => {
-        const authToken = getCookie('authToken');
-        if (authToken) {
-            try {
-                const userData = JSON.parse(authToken);
-                return userData.user_id;
-            } catch (err) {
-                console.error('Error parsing auth token:', err);
-                return null;
-            }
-        }
-        return null;
-    };
+  async function handlePay() {
+    setLoading(true);
+    try {
+      const uniqueId = `LINEUP-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2, 8)
+        .toUpperCase()}`;
 
-    const initialOptions = {
-        "client-id": "AY7AFCTUPwYOEYbIvVtgA-P7NgncygaIL2aX3a0JcDoq4qTTtJBS-hX4_8On8C-v_jIH7xA5zkTlX5Xl",
-        currency: "USD",
-        intent: "capture",
-        components: "buttons",
-        "disable-funding": "paylater,venmo"
-    };
+      const res = await fetch("/api/create-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: 30, // integer GEL amount
+          currency: "GEL",
+          order_id: uniqueId,
+          order_desc: "Lineup order",
+        }),
+      });
 
-    // Add 4% to amount
-    const amountWithFee = amount * 1.04;
-    // Convert GEL amount to USD
-    const usdAmount = convertGelToUsd(amountWithFee);
+      const { token, checkout_url: checkoutUrl, payment_id: paymentId, error, details } = await res.json();
+      if (!res.ok) {
+        console.error("Flitt error:", details || error);
+        throw new Error(error || "Failed to create token");
+      }
 
-    return (
-        <div className="w-full max-w-md mx-auto">
-            {error && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    {error}
-                </div>
-            )}
-            <div className="mb-4 text-center">
-                <p className="text-gray-600">
-                    {formatCurrency(amount, 'GEL')} + 4% fee = {formatCurrency(amountWithFee, 'GEL')} = {formatCurrency(usdAmount, 'USD')}
-                </p>
-            </div>
-            <PayPalScriptProvider options={initialOptions}>
-                <PayPalButtons
-                    style={{ 
-                        layout: "vertical",
-                        color: "blue",
-                        shape: "rect",
-                        label: "pay"
-                    }}
-                    createOrder={(data, actions) => {
-                        return actions.order.create({
-                            purchase_units: [
-                                {
-                                    amount: {
-                                        value: usdAmount,
-                                        currency_code: "USD"
-                                    }
-                                }
-                            ],
-                            application_context: {
-                                shipping_preference: "NO_SHIPPING",
-                                user_action: "PAY_NOW",
-                                brand_name: "Your Brand Name",
-                                landing_page: "NO_PREFERENCE",
-                                shipping_preference: "NO_SHIPPING",
-                                billing_preference: "NO_BILLING"
-                            }
-                        });
-                    }}
-                    onApprove={async (data, actions) => {
-                        try {
-                            const details = await actions.order.capture();
-                            const response = await fetch('/api/create-order', {
-                                method: 'POST',
-                                headers: { 
-                                    'Content-Type': 'application/json',
-                                    'Accept': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    orderID: data.orderID,
-                                    payerID: data.payerID,
-                                    user_id: getUserId(),
-                                    amount: details.purchase_units[0].amount.value,
-                                    originalAmount: amountWithFee, // Store original GEL amount
-                                    userEmail: details.payer.email_address,
-                                    status: details.status,
-                                    createTime: details.create_time,
-                                    updateTime: details.update_time,
-                                    coverLetter: coverLetter || '', // Add cover letter to the request
-                                    paymentTime: new Date().toISOString() // Add payment time
-                                })
-                            });
+      // If checkout URL is provided, redirect to hosted page
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+        return;
+      }
 
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.error || 'Failed to process payment');
-                            }
+      if (!token) {
+        throw new Error("No token or checkout URL returned");
+      }
 
-                            const result = await response.json();
-                            
-                            if (onSuccess) {
-                                onSuccess(result);
-                            }
-                        } catch (err) {
-                            console.error('Payment processing error:', err);
-                            setError(err.message || 'An error occurred during payment processing');
-                            if (onError) {
-                                onError(err);
-                            }
-                        }
-                    }}
-                    onError={(err) => {
-                        console.error('PayPal Error:', err);
-                        setError('Payment failed. Please try again.');
-                        if (onError) {
-                            onError(err);
-                        }
-                    }}
-                    onCancel={() => {
-                        console.log('Payment cancelled by user');
-                        setError('Payment was cancelled');
-                    }}
-                />
-            </PayPalScriptProvider>
-        </div>
-    );
+      // Use Flitt SDK via widget as fallback
+      window.$checkout("Api").scope(function () {
+        this.request("api.checkout.form", "request", {
+          payment_system: "card",
+          token,
+        })
+          .done((model) => {
+            model.sendResponse();
+          })
+          .fail((model) => {
+            console.error("Checkout Error:", model.attr("error"));
+          });
+      });
+    } catch (err) {
+      console.error("Error initiating payment:", err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <button
+      onClick={handlePay}
+      disabled={loading}
+      className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+    >
+      {loading ? "Processing…" : "Pay with Flitt"}
+    </button>
+  );
 }

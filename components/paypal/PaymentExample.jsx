@@ -8,14 +8,6 @@ export default function PaymentExample() {
     const [error, setError] = useState(null);
     const [amount, setAmount] = useState(30); // Default amount in GEL
 
-    const handlePaymentSuccess = (result) => {
-        setPaymentStatus('success');
-    };
-
-    const handlePaymentError = (error) => {
-        setPaymentStatus('error');
-        setError(error.message);
-    };
 
     return (
         <div className="p-6  rounded-lg bg-white shadow-lg">
@@ -30,20 +22,10 @@ export default function PaymentExample() {
                     <div className="mb-4">
                         <h3 className="text-lg font-semibold">Payment Details</h3>
                         <p className="text-gray-600">Amount: {formatCurrency(amount, 'GEL')}</p>
-                    </div>
+                    </div>  
 
-                    <PayPalButton
-                        amount={amount}
-                        currency="GEL"
-                        onSuccess={handlePaymentSuccess}
-                        onError={handlePaymentError}
-                    />
+                        <PayPalButton/>
 
-                    {error && (
-                        <div className="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                            {error}
-                        </div>
-                    )}
                 </>
             )}
         </div>
