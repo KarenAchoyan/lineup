@@ -8,9 +8,15 @@ import {ArchiveContext} from "@/providers/ArchiveProvider";
 import SearchDropdown from "@/components/archive/SearchDropdown";
 
 const MainArchive = ({dict, lang}) => {
-    const [year, setYear] = useState('');
+    const [year, setYear] = useState('2022');
     const [videos, setVideos] = useState([]);
     const [images, setImages] = useState([]);
+
+    // Load default 2022 archive data on component mount
+    useEffect(() => {
+        changeData('2022');
+    }, []);
+
     const changeYears = async (year) => {
         setYear(year)
         try {
@@ -29,9 +35,10 @@ const MainArchive = ({dict, lang}) => {
 
     async function changeData(option){
         const data = await changeYears(option)
-        setImages(data?.images)
-        setVideos(data?.videos)
-
+        if (data) {
+            setImages(data.images || [])
+            setVideos(data.videos || [])
+        }
     }
     return (
         <>

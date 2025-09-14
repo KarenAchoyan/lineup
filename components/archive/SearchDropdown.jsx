@@ -4,7 +4,7 @@ import {ArchiveContext} from "@/providers/ArchiveProvider";
 import {CloseCircleOutlined} from "@ant-design/icons";
 
 const SearchDropdown = ({changeYear}) => {
-    const [searchValue, setSearchValue] = useState("");
+    const [searchValue, setSearchValue] = useState("2022");
     const [open, setOpen] = useState(false);
     const {years} = useContext(ArchiveContext);
 
@@ -13,16 +13,13 @@ const SearchDropdown = ({changeYear}) => {
     const handleSelect = (option) => {
         setSearchValue(option);
         setOpen(false);
-        changeYear(option)
+        changeYear(option);
     };
 
     const menuItems = filteredOptions.map(option => ({
         key: option,
-        label: (
-            <div onClick={() => handleSelect(option)} className="cursor-pointer">
-                {option}
-            </div>
-        ),
+        label: option,
+        onClick: () => handleSelect(option)
     }));
     const handleClear = (e) => {
         e.stopPropagation();
@@ -41,7 +38,7 @@ const SearchDropdown = ({changeYear}) => {
                         setOpen(true);
                     }}
                     onFocus={() => setOpen(true)}
-                    onBlur={() => setTimeout(() => setOpen(false), 200)}
+                    onBlur={() => setTimeout(() => setOpen(false), 300)}
                 />
                 {searchValue && (
                     <CloseCircleOutlined

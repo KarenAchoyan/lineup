@@ -4,16 +4,14 @@ import FlittPay from "@flittpayments/flitt-node-js-sdk";
 
 export async function POST(request) {
   try {
-    const { amount, currency, order_id, order_desc } = await request.json();
+    const { amount, currency, order_id, order_desc, user_id, userEmail } = await request.json();
 
-    // Require amount and currency; order_id and order_desc are optional
     if (!amount || !currency) {
       return NextResponse.json(
         { error: "Missing required fields: amount and currency are required" },
         { status: 400 }
       );
     }
-
     // Normalize/prepare values
     const merchantId = process.env.FLITT_MERCHANT_ID || "4054488";
     const secretKey = process.env.FLITT_SECRET_KEY || "wYdSnGkTGhQUqBWhEhilf7j9tOIdKFze";
@@ -39,6 +37,30 @@ export async function POST(request) {
 
     const signatureString = `${merchantId}|${amountString}|${currencyCode}|${secretKey}`;
     const signature = crypto.createHash("sha1").update(signatureString).digest("hex");
+    const callbackQuery = new URLSearchParams({
+      ...(user_id ? { user_id: String(user_id) } : {}),
+      ...(userEmail ? { email: String(userEmail) } : {}),
+      order_id: finalOrderId,
+    }).toString();
+
+    let response;
+    response = await fetch(`https://lineup.dahk.am/api/paypal/order`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.LARAVEL_API_TOKEN}`
+        },
+        body: JSON.stringify({
+            order_id: finalOrderId,
+            payer_id: 123,
+            amount,
+            email: userEmail,
+            status: "cache",
+            user_id,
+        }),
+    });
+
+
     const payload = {
       request: {
         merchant_id: String(merchantId),
@@ -46,8 +68,8 @@ export async function POST(request) {
         currency: currencyCode,
         order_id: finalOrderId,
         order_desc: finalOrderDesc,
-        server_callback_url: `${merchantUrl}/api/flitt/webhook`,
-        response_url: `${merchantUrl}/api/flitt/webhook`,
+        server_callback_url: `${merchantUrl}/api/flitt/webhook?${callbackQuery}`,
+        response_url: `${merchantUrl}/api/flitt/webhook?${callbackQuery}`,
         signature,
       },
     };
@@ -70,10 +92,17 @@ export async function POST(request) {
           { status: 400 }
         );
       }
+
+      
       return NextResponse.json({ token, checkout_url: checkoutUrl, payment_id: paymentId });
     } catch (sdkErr) {
       // Fallback to direct HTTP
       try {
+
+
+        
+
+
         const flittResponse = await fetch(
           "https://pay.flitt.com/api/checkout/token",
           {
@@ -102,6 +131,21 @@ export async function POST(request) {
         }
 
         const data = await flittResponse.json();
+
+        const finishOrder = await fetch(
+          "https://lineup.dahk.am/api/flitt/webhook",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+            body: JSON.stringify(data),
+            cache: "no-store",
+          }
+        );
+
+
         return NextResponse.json({
           token: data?.response?.token ?? null,
           checkout_url: data?.response?.checkout_url ?? null,

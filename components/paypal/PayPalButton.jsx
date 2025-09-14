@@ -1,9 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getCookie } from "@/utils/utils";
 
 export default function PayPalButton() {
   const [loading, setLoading] = useState(false);
+  const authToken = getCookie('authToken');
 
+  const userData = JSON.parse(authToken);
+  const userId = userData?.user_id;
+
+ 
   async function handlePay() {
     setLoading(true);
     try {
@@ -20,6 +26,7 @@ export default function PayPalButton() {
           currency: "GEL",
           order_id: uniqueId,
           order_desc: "Lineup order",
+          user_id:userId
         }),
       });
 

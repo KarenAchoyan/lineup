@@ -28,7 +28,9 @@ const SignUp = ({dict}) => {
             setBranchId(branch_id);
             setLessonId(lesson_id);
             // Clear the data after reading it
-            localStorage.removeItem('registrationData');
+            // localStorage.removeItem('registrationData');
+        }else{
+             router.push("/");
         }
     }, []);
 
