@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react'; 
 import PayPalButton from './PayPalButton';
+import ApplePayButton from './ApplePayButton';
 import { formatCurrency } from '@/utils/currency';
 
 export default function PaymentExample() {
@@ -24,7 +25,16 @@ export default function PaymentExample() {
                         <p className="text-gray-600">Amount: {formatCurrency(amount, 'GEL')}</p>
                     </div>  
 
-                        <PayPalButton/>
+                    <div className="space-y-4">
+                        <div>
+                            <h4 className="text-md font-medium mb-2">Choose Payment Method:</h4>
+                        </div>
+                        
+                        <div className="space-y-3">
+                            <ApplePayButton amount={amount} currency="GEL" />
+                            <PayPalButton />
+                        </div>
+                    </div>
 
                 </>
             )}

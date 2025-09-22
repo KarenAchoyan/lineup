@@ -1,9 +1,5 @@
-import PaymentExample from '@/components/paypal/PaymentExample';
+import PaymentPage from '@/components/paypal/PaymentPage';
 
-export default function PaymentPage() {
-    return (
-        <div className="container mx-auto py-8">
-            <PaymentExample />
-        </div>
-    );
-} 
+export default function Payment() {
+    return <PaymentPage />;
+}

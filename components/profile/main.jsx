@@ -6,6 +6,9 @@ import Image from "next/image";
 import LogoutModal from "@/components/profile/logoutModal";
 import { getCookie } from "@/utils/utils";
 import PaymentExample from "@/components/paypal/PaymentExample";
+import FlittPaymentButton from "@/components/paypal/FlittPaymentButton";
+import PaymentStatus from "@/components/paypal/PaymentStatus";
+import FlittTest from "@/components/paypal/FlittTest";
 import { useRouter } from 'next/navigation';
 
 const Main = ({ dict }) => {
@@ -98,7 +101,30 @@ const Main = ({ dict }) => {
                             <h2 className='text-2xl'>{dict?.parent}</h2>
                             <h1 className='text-xl'>{user.parent_name}</h1>
                             <h3 className='text-xl'>{user.email}</h3>
-                            <PaymentExample/>
+                            
+                            {/* Payment Section */}
+                            <div className="mt-4">
+                                <PaymentStatus 
+                                    userId={user.user_id}
+                                    userToken={user.token}
+                                    dict={dict}
+                                    className="mb-4"
+                                />
+                                
+                                {hasPaid === false && (
+                                    <div className="mb-4">
+                                        <FlittPaymentButton
+                                            userId={user.user_id}
+                                            userEmail={user.email}
+                                            userToken={user.token}
+                                            dict={dict}
+                                            className="mb-4"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                           
+                      
                         </div>
                     </div>
                 </div>
