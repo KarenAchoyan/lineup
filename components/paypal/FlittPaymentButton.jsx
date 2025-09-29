@@ -8,17 +8,22 @@ const FlittPaymentButton = ({
     userEmail, 
     userToken,
     dict = {},
-    className = "" 
+    className = "",
+    amount: propAmount,
+    currency = "GEL",
+    coverLetter = ""
 }) => {
     const [showPayment, setShowPayment] = useState(false);
-    const [selectedAmount, setSelectedAmount] = useState(3000);
+    const [selectedAmount, setSelectedAmount] = useState(propAmount || 3000);
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [saveCard, setSaveCard] = useState(false);
     const [verificationMode, setVerificationMode] = useState(false);
     const [savedCards, setSavedCards] = useState([]);
     const [showCardManagement, setShowCardManagement] = useState(false);
 
-    const paymentAmounts = [
+    const paymentAmounts = propAmount ? [
+        { amount: propAmount, label: `${propAmount / 100} GEL`, description: 'One-time Donation' }
+    ] : [
         { amount: 300, label: '30 GEL', description: 'Monthly Subscription' },
         { amount: 100, label: '1 GEL', description: 'Card Verification Only' }
     ];
@@ -38,7 +43,9 @@ const FlittPaymentButton = ({
                     amount: selectedAmount,
                     saveCard,
                     verificationMode,
-                    rectoken: paymentData?.rectoken
+                    rectoken: paymentData?.rectoken,
+                    coverLetter,
+                    paymentType: propAmount ? 'donation' : 'subscription'
                 })
             });
 
@@ -139,61 +146,90 @@ const FlittPaymentButton = ({
                     </button>
                 </div>
 
-                <div className="mb-4">
-                    <h4 className="text-md font-medium text-gray-700 mb-3">Select Payment Amount:</h4>
-                    <div className="grid grid-cols-1 gap-3">
-                        {paymentAmounts.map((option) => (
-                            <button
-                                key={option.amount}
-                                onClick={() => {
-                                    setSelectedAmount(option.amount);
-                                    if (option.amount === 100) {
-                                        setVerificationMode(true);
-                                        setSaveCard(true);
-                                    } else {
-                                        setVerificationMode(false);
-                                    }
-                                }}
-                                className={`p-3 border rounded-lg text-left transition-colors ${
-                                    selectedAmount === option.amount
-                                        ? 'border-blue-500 bg-blue-50'
-                                        : 'border-gray-200 hover:border-gray-300'
-                                }`}
-                            >
-                                <div className="font-semibold text-gray-800">{option.label}</div>
-                                <div className="text-sm text-gray-600">{option.description}</div>
-                            </button>
-                        ))}
+                {!propAmount && (
+                    <div className="mb-4">
+                        <h4 className="text-md font-medium text-gray-700 mb-3">Select Payment Amount:</h4>
+                        <div className="grid grid-cols-1 gap-3">
+                            {paymentAmounts.map((option) => (
+                                <button
+                                    key={option.amount}
+                                    onClick={() => {
+                                        setSelectedAmount(option.amount);
+                                        if (option.amount === 100) {
+                                            setVerificationMode(true);
+                                            setSaveCard(true);
+                                        } else {
+                                            setVerificationMode(false);
+                                        }
+                                    }}
+                                    className={`p-3 border rounded-lg text-left transition-colors ${
+                                        selectedAmount === option.amount
+                                            ? 'border-blue-500 bg-blue-50'
+                                            : 'border-gray-200 hover:border-gray-300'
+                                    }`}
+                                >
+                                    <div className="font-semibold text-gray-800">{option.label}</div>
+                                    <div className="text-sm text-gray-600">{option.description}</div>
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
+
+                {propAmount && (
+                    <div className="mb-4">
+                        <h4 className="text-md font-medium text-gray-700 mb-3">Donation Amount:</h4>
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <div className="font-semibold text-blue-800 text-lg">{paymentAmounts[0].label}</div>
+                            <div className="text-sm text-blue-600">{paymentAmounts[0].description}</div>
+                            {coverLetter && (
+                                <div className="mt-2 text-sm text-gray-600">
+                                    <strong>Message:</strong> {coverLetter}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {/* Card Saving Options */}
-                <div className="mb-4">
-                    <h4 className="text-md font-medium text-gray-700 mb-3">Card Options:</h4>
-                    <div className="space-y-3">
-                        <label className="flex items-center">
-                            <input
-                                type="checkbox"
-                                checked={saveCard}
-                                onChange={(e) => setSaveCard(e.target.checked)}
-                                className="mr-2"
-                            />
-                            <span className="text-sm text-gray-700">Save card for future payments</span>
-                        </label>
-                        
-                        {saveCard && (
+                {!propAmount && (
+                    <div className="mb-4">
+                        <h4 className="text-md font-medium text-gray-700 mb-3">Card Options:</h4>
+                        <div className="space-y-3">
                             <label className="flex items-center">
                                 <input
                                     type="checkbox"
-                                    checked={verificationMode}
-                                    onChange={(e) => setVerificationMode(e.target.checked)}
+                                    checked={saveCard}
+                                    onChange={(e) => setSaveCard(e.target.checked)}
                                     className="mr-2"
                                 />
-                                <span className="text-sm text-gray-700">Card verification only (1 GEL)</span>
+                                <span className="text-sm text-gray-700">Save card for future payments</span>
                             </label>
-                        )}
+                            
+                            {saveCard && (
+                                <label className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        checked={verificationMode}
+                                        onChange={(e) => setVerificationMode(e.target.checked)}
+                                        className="mr-2"
+                                    />
+                                    <span className="text-sm text-gray-700">Card verification only (1 GEL)</span>
+                                </label>
+                            )}
+                        </div>
                     </div>
-                </div>
+                )}
+
+                {propAmount && (
+                    <div className="mb-4">
+                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                            <p className="text-sm text-yellow-800">
+                                <strong>Note:</strong> This is a one-time donation. Your card will not be saved for future payments.
+                            </p>
+                        </div>
+                    </div>
+                )}
 
                 <FlittPayment
                     amount={selectedAmount}
@@ -269,27 +305,29 @@ const FlittPaymentButton = ({
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2"
                 >
                     <CreditCardOutlined className="text-lg" />
-                    <span>{dict?.make_payment || 'Make Payment'}</span>
+                    <span>{propAmount ? (dict?.make_donation || 'Make Donation') : (dict?.make_payment || 'Make Payment')}</span>
                     <DollarOutlined className="text-lg" />
                 </button>
                 
-                <div className="grid grid-cols-2 gap-2">
-                    <button
-                        onClick={handleCardVerification}
-                        className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
-                    >
-                        <CreditCardOutlined className="text-sm" />
-                        <span>Verify Card</span>
-                    </button>
-                    
-                    <button
-                        onClick={() => setShowCardManagement(true)}
-                        className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
-                    >
-                        <CreditCardOutlined className="text-sm" />
-                        <span>Saved Cards</span>
-                    </button>
-                </div>
+                {!propAmount && (
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            onClick={handleCardVerification}
+                            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                        >
+                            <CreditCardOutlined className="text-sm" />
+                            <span>Verify Card</span>
+                        </button>
+                        
+                        <button
+                            onClick={() => setShowCardManagement(true)}
+                            className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+                        >
+                            <CreditCardOutlined className="text-sm" />
+                            <span>Saved Cards</span>
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

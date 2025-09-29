@@ -2,36 +2,36 @@
 
 import React, { useState } from 'react';
 import { Input } from "antd";
-import PayPalButton from '@/components/paypal/PayPalButton';
+import FlittPaymentButton from '@/components/paypal/FlittPaymentButton';
 
-const Donation = ({dict}) => {
+const Donation = ({dict, userId, userEmail, userToken}) => {
     const [amount, setAmount] = useState('');
     const [frequency, setFrequency] = useState('one-time');
     const [customAmount, setCustomAmount] = useState('');
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [error, setError] = useState(null);
-    const [showPayPal, setShowPayPal] = useState(false);
+    const [showPayment, setShowPayment] = useState(false);
     const [coverLetter, setCoverLetter] = useState('');
 
     const handleAmountSelect = (value) => {
         setAmount(value);
         if (value === 'other') {
             setCustomAmount('');
-            setShowPayPal(false);
+            setShowPayment(false);
         } else {
-            setShowPayPal(true);
+            setShowPayment(true);
         }
     };
 
     const handleCustomAmountChange = (e) => {
         setCustomAmount(e.target.value);
-        setShowPayPal(false);
+        setShowPayment(false);
     };
 
     const handleConfirmAmount = () => {
         if (customAmount) {
             setAmount(customAmount);
-            setShowPayPal(true);
+            setShowPayment(true);
         }
     };
 
@@ -41,11 +41,12 @@ const Donation = ({dict}) => {
 
     const handlePaymentSuccess = (result) => {
         setPaymentStatus('success');
+        console.log('Donation payment successful:', result);
     };
 
     const handlePaymentError = (error) => {
         setPaymentStatus('error');
-        setError(error.message);
+        setError(error.message || 'Payment failed');
     };
 
     return (
@@ -132,13 +133,19 @@ const Donation = ({dict}) => {
                                     />
                                 </div>
 
-                                {amount && showPayPal && (
+                                {amount && showPayment && (
                                     <div className='flex justify-center px-3 mt-[30px]'>
-                                        <PayPalButton
-                                            amount={parseFloat(amount)}
+                                        <FlittPaymentButton
+                                            userId={userId || 'guest'}
+                                            userEmail={userEmail || 'guest@lineup.ge'}
+                                            userToken={userToken || 'guest-token'}
+                                            dict={dict}
+                                            className="w-full max-w-md"
+                                            amount={parseFloat(amount) * 100} // Convert to tetri
+                                            currency="GEL"
+                                            onPaymentSuccess={handlePaymentSuccess}
+                                            onPaymentError={handlePaymentError}
                                             coverLetter={coverLetter}
-                                            onSuccess={handlePaymentSuccess}
-                                            onError={handlePaymentError}
                                         />
                                     </div>
                                 )}
