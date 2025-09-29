@@ -5,52 +5,33 @@ import FlittPay from "@flittpayments/flitt-node-js-sdk";
 export async function POST(request) {
   try {
     const { 
-      amount, 
       currency, 
       order_id, 
-      order_desc, 
       user_id, 
-      userEmail,
-      save_card = false,
-      verification = false,
-      rectoken = null
+      userEmail
     } = await request.json();
 
-    if (!amount || !currency) {
+    if (!currency) {
       return NextResponse.json(
-        { error: "Missing required fields: amount and currency are required" },
+        { error: "Missing required fields: currency is required" },
         { status: 400 }
       );
     }
+
     // Normalize/prepare values
     const merchantId = process.env.FLITT_MERCHANT_ID || "4054488";
     const secretKey = process.env.FLITT_SECRET_KEY || "wYdSnGkTGhQUqBWhEhilf7j9tOIdKFze";
-    const merchantUrl =  "https://www.lineup.ge";
+    const merchantUrl = "https://www.lineup.ge";
 
-    const normalizedAmount = Number(amount);
-    if (!Number.isFinite(normalizedAmount) || normalizedAmount <= 0) {
-      return NextResponse.json(
-        { error: "Invalid amount" },
-        { status: 400 }
-      );
-    }
-
-    // Handle card verification flow - use small amount for verification
-    let finalAmount = normalizedAmount;
-    if (verification && save_card) {
-      // For card verification, use a small amount (100 tetri = 1 GEL)
-      finalAmount = 100;
-    }
+    // For card verification, use a small amount (100 tetri = 1 GEL)
+    const verificationAmount = 100;
     const currencyCode = String(currency || "GEL").toUpperCase();
-    // Flitt may require integer amounts for GEL
-    const amountString = currencyCode === "GEL"
-      ? String(Math.round(finalAmount))
-      : finalAmount.toFixed(2);
+    const amountString = String(verificationAmount);
 
-    // Ensure order id and description validity
-    const generatedOrderId = `LINEUP-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+    // Ensure order id validity
+    const generatedOrderId = `LINEUP-VERIFY-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
     const finalOrderId = String(order_id || generatedOrderId).replace(/[^A-Z0-9-_]/gi, "").slice(0, 64);
-    const finalOrderDesc = String(order_desc || "Payment").slice(0, 250);
+    const finalOrderDesc = "Card Verification";
 
     const signatureString = `${merchantId}|${amountString}|${currencyCode}|${secretKey}`;
     const signature = crypto.createHash("sha1").update(signatureString).digest("hex");
@@ -60,23 +41,23 @@ export async function POST(request) {
       order_id: finalOrderId,
     }).toString();
 
-    let response;
-    response = await fetch(`https://lineup.dahk.am/api/paypal/order`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.LARAVEL_API_TOKEN}`
-        },
-        body: JSON.stringify({
-            order_id: finalOrderId,
-            payer_id: 123,
-            amount,
-            email: userEmail,
-            status: "cache",
-            user_id,
-        }),
+    // Create order in Laravel backend
+    const response = await fetch(`https://lineup.dahk.am/api/paypal/order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.LARAVEL_API_TOKEN}`
+      },
+      body: JSON.stringify({
+        order_id: finalOrderId,
+        payer_id: 123,
+        amount: verificationAmount,
+        email: userEmail,
+        status: "cache",
+        user_id,
+        payment_type: "verification"
+      }),
     });
-
 
     const payload = {
       request: {
@@ -88,10 +69,8 @@ export async function POST(request) {
         server_callback_url: `${merchantUrl}/api/flitt/webhook?${callbackQuery}`,
         response_url: `${merchantUrl}/api/flitt/webhook?${callbackQuery}`,
         signature,
-        // Add card saving parameters
-        ...(save_card && { required_rectoken: "Y" }),
-        ...(verification && { verification: "Y" }),
-        ...(rectoken && { rectoken }),
+        required_rectoken: "Y", // Request card token
+        verification: "Y", // This is a verification transaction
       },
     };
 
@@ -103,15 +82,13 @@ export async function POST(request) {
         order_desc: finalOrderDesc,
         currency: currencyCode,
         amount: String(amountString),
-        // Add card saving parameters to SDK call
-        ...(save_card && { required_rectoken: "Y" }),
-        ...(verification && { verification: "Y" }),
-        ...(rectoken && { rectoken }),
+        required_rectoken: "Y",
+        verification: "Y",
       });
+
       const token = sdkData?.response?.token || sdkData?.token || null;
       const checkoutUrl = sdkData?.response?.checkout_url || sdkData?.checkout_url || null;
       const paymentId = sdkData?.response?.payment_id || sdkData?.payment_id || null;
-      const rectoken = sdkData?.response?.rectoken || sdkData?.rectoken || null;
       
       if (!token && !checkoutUrl) {
         return NextResponse.json(
@@ -120,23 +97,17 @@ export async function POST(request) {
         );
       }
 
-      
       return NextResponse.json({ 
         token, 
         checkout_url: checkoutUrl, 
         payment_id: paymentId,
-        ...(rectoken && { rectoken }),
-        ...(verification && { is_verification: true }),
-        ...(save_card && { card_saving_enabled: true })
+        is_verification: true,
+        verification_amount: verificationAmount,
+        currency: currencyCode
       });
     } catch (sdkErr) {
       // Fallback to direct HTTP
       try {
-
-
-        
-
-
         const flittResponse = await fetch(
           "https://pay.flitt.com/api/checkout/token",
           {
@@ -159,7 +130,7 @@ export async function POST(request) {
           }
           console.error("Flitt error:", errorBody);
           return NextResponse.json(
-            { error: "Failed to create payment token", details: errorBody, payload },
+            { error: "Failed to create card verification token", details: errorBody, payload },
             { status: 400 }
           );
         }
@@ -179,30 +150,27 @@ export async function POST(request) {
           }
         );
 
-
         return NextResponse.json({
           token: data?.response?.token ?? null,
           checkout_url: data?.response?.checkout_url ?? null,
           payment_id: data?.response?.payment_id ?? null,
-          rectoken: data?.response?.rectoken ?? null,
-          ...(verification && { is_verification: true }),
-          ...(save_card && { card_saving_enabled: true })
+          is_verification: true,
+          verification_amount: verificationAmount,
+          currency: currencyCode
         });
       } catch (httpErr) {
         console.error("Flitt HTTP error:", httpErr);
         return NextResponse.json(
-          { error: "Failed to create payment token", details: httpErr?.message || httpErr },
+          { error: "Failed to create card verification token", details: httpErr?.message || httpErr },
           { status: 500 }
         );
       }
     }
   } catch (err) {
-    console.error("Flitt error:", err?.message || err);
+    console.error("Card verification error:", err?.message || err);
     return NextResponse.json(
-      { error: "Failed to create payment token" },
+      { error: "Failed to create card verification token" },
       { status: 500 }
     );
   }
 }
-
-

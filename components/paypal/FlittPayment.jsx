@@ -11,6 +11,9 @@ const FlittPayment = ({
     onPaymentError,
     userId,
     userEmail,
+    saveCard = false,
+    verification = false,
+    rectoken = null,
     className = ""
 }) => {
     const checkoutRef = useRef(null);
@@ -105,11 +108,14 @@ const FlittPayment = ({
                     },
                     params: {
                         merchant_id: merchantId,
-                        required_rectoken: "y",
                         currency: currency,
                         amount: amount,
                         user_id: userId,
-                        email: userEmail
+                        email: userEmail,
+                        // Add card saving parameters
+                        ...(saveCard && { required_rectoken: "Y" }),
+                        ...(verification && { verification: "Y" }),
+                        ...(rectoken && { rectoken }),
                     },
                     css_variable: {
                         main: '#7d8ff8',
@@ -146,7 +152,7 @@ const FlittPayment = ({
                 checkoutRef.current.innerHTML = '';
             }
         };
-    }, [amount, currency, merchantId, userId, userEmail]);
+    }, [amount, currency, merchantId, userId, userEmail, saveCard, verification, rectoken]);
 
     const handlePaymentSuccess = (paymentData) => {
         setPaymentStatus('success');
@@ -249,6 +255,15 @@ const FlittPayment = ({
                 <div className="bg-gray-50 p-3 rounded">
                     <p className="text-sm text-gray-600">Amount: <span className="font-semibold">{formatCurrency(amount, currency)}</span></p>
                     <p className="text-sm text-gray-600">Currency: <span className="font-semibold">{currency}</span></p>
+                    {verification && (
+                        <p className="text-sm text-blue-600 font-semibold">🔒 Card Verification Mode</p>
+                    )}
+                    {saveCard && !verification && (
+                        <p className="text-sm text-green-600 font-semibold">💳 Card will be saved for future payments</p>
+                    )}
+                    {rectoken && (
+                        <p className="text-sm text-purple-600 font-semibold">🔄 Using saved card for payment</p>
+                    )}
                 </div>
             </div>
 

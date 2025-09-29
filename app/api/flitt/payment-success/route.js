@@ -18,7 +18,7 @@ export async function POST(request) {
         // 3. Activate user subscription
 
         // For now, we'll forward the request to your existing backend
-        const response = await fetch('https://lineup.dahk.am/api/flitt/payment-success', {
+        const response = await fetch('https://lineup.dahk.am/api/paypal/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
