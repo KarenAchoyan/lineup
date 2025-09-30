@@ -97,8 +97,8 @@ const App = ({children, lessons, dict}) => {
                                                 href={"/supports/volunteering"}>{dict.volunteering}</Link></li>
                                             <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
                                                 href={'/supports/volunteering/registration?text=collaboration'}>{dict.collaboration}</Link></li>
-                                            <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
-                                                href={'/supports/donation'}>{dict.donation}</Link></li>
+                                            {/* <li className='p-2 text-[14px] rounded-md hover:bg-[#4D4C4C]'><Link
+                                                href={'/supports/donation'}>{dict.donation}</Link></li> */}
                                         </ul>
                                     </div>
                                 </li>
@@ -197,8 +197,8 @@ const App = ({children, lessons, dict}) => {
                                     href={"/supports/volunteering"}>{dict.volunteering}</Link></li>
                                 <li className='text-[18px]'><Link
                                     href={'/supports/volunteering/registration?text=collaboration'}>{dict.collaboration}</Link></li>
-                                <li className='text-[18px]'><Link
-                                    href={'/supports/donation'}>{dict.donation}</Link></li>
+                                {/* <li className='text-[18px]'><Link
+                                    href={'/supports/donation'}>{dict.donation}</Link></li> */}
                             </ul>
                         </div>
                     )}
