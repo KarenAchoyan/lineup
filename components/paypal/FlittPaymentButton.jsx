@@ -20,6 +20,7 @@ const FlittPaymentButton = ({
     const [verificationMode, setVerificationMode] = useState(false);
     const [savedCards, setSavedCards] = useState([]);
     const [showCardManagement, setShowCardManagement] = useState(false);
+    const [consentAgreed, setConsentAgreed] = useState(false);
 
     const paymentAmounts = propAmount ? [
         { amount: propAmount, label: `${propAmount / 100} GEL`, description: 'One-time Donation' }
@@ -44,6 +45,7 @@ const FlittPaymentButton = ({
                     saveCard,
                     verificationMode,
                     rectoken: paymentData?.rectoken,
+                    consentAgreed,
                     coverLetter,
                     paymentType: propAmount ? 'donation' : 'subscription'
                 })
@@ -51,7 +53,7 @@ const FlittPaymentButton = ({
 
             if (response.ok) {
                 setPaymentStatus('success');
-                
+
                 // If card was saved, add it to saved cards list
                 if (saveCard && paymentData?.rectoken) {
                     const newCard = {
@@ -64,10 +66,19 @@ const FlittPaymentButton = ({
                     setSavedCards(prev => [...prev, newCard]);
                 }
                 
-                // You might want to refresh the page or update parent component
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
+                // Redirect to thank-you page
+                try {
+                    const lang = (typeof window !== 'undefined' ? (window.location.pathname.split('/')[1] || 'en') : 'en');
+                    const params = new URLSearchParams({
+                        order_id: paymentData?.order_id || '',
+                        user_id: String(userId || ''),
+                        email: String(userEmail || '')
+                    }).toString();
+                    window.location.href = `/${lang}/thankyou?${params}`;
+                } catch (_) {
+                    // As a fallback, reload
+                    setTimeout(() => window.location.reload(), 1500);
+                }
             } else {
                 throw new Error('Failed to update payment status');
             }
@@ -231,17 +242,39 @@ const FlittPaymentButton = ({
                     </div>
                 )}
 
-                <FlittPayment
-                    amount={selectedAmount}
-                    currency="GEL"
-                    merchantId={1549901}
-                    userId={userId}
-                    userEmail={userEmail}
-                    saveCard={saveCard}
-                    verification={verificationMode}
-                    onPaymentSuccess={handlePaymentSuccess}
-                    onPaymentError={handlePaymentError}
-                />
+                {/* One-time consent for recurring payments */}
+                {!propAmount && (
+                    <div className="mb-4">
+                        <label className="flex items-start space-x-2">
+                            <input
+                                type="checkbox"
+                                checked={consentAgreed}
+                                onChange={(e) => setConsentAgreed(e.target.checked)}
+                                className="mt-1"
+                            />
+                            <span className="text-sm text-gray-700">
+                                I consent to recurring charges of {(selectedAmount / 100).toFixed(2)} GEL on a monthly basis and agree to the subscription terms.
+                            </span>
+                        </label>
+                        {!consentAgreed && (
+                            <p className="mt-2 text-xs text-red-600">Consent is required to proceed with recurring payments.</p>
+                        )}
+                    </div>
+                )}
+
+                {(propAmount || consentAgreed) && (
+                    <FlittPayment
+                        amount={selectedAmount}
+                        currency="GEL"
+                        merchantId={1549901}
+                        userId={userId}
+                        userEmail={userEmail}
+                        saveCard={saveCard}
+                        verification={verificationMode}
+                        onPaymentSuccess={handlePaymentSuccess}
+                        onPaymentError={handlePaymentError}
+                    />
+                )}
             </div>
         );
     }

@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
+import { sendMail } from '@/lib/send-mail';
 
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { userId, paymentData, amount } = body;
+        const { userId, paymentData, amount, rectoken, consentAgreed, paymentType, verificationMode, saveCard, coverLetter } = body;
 
         if (!userId || !paymentData || !amount) {
             return NextResponse.json(
@@ -30,7 +31,15 @@ export async function POST(request) {
                 amount: amount,
                 currency: 'GEL',
                 payment_method: 'flitt',
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                // Optional metadata
+                payment_type: paymentType || 'subscription',
+                verification_mode: Boolean(verificationMode),
+                save_card: Boolean(saveCard),
+                cover_letter: coverLetter || null,
+                // Tokenization & consent flags
+                rectoken: rectoken || paymentData?.rectoken || null,
+                subscription_consent: Boolean(consentAgreed)
             })
         });
 
@@ -41,6 +50,20 @@ export async function POST(request) {
                 { error: data.message || "Failed to process payment" },
                 { status: response.status }
             );
+        }
+
+        // Try to send a confirmation email (non-blocking)
+        try {
+            if (userEmail || paymentData?.email) {
+                await sendMail({
+                    email: userEmail || paymentData?.email,
+                    subject: 'Payment received',
+                    text: `We have received your payment of ${(Number(amount)/100).toFixed(2)} GEL. Thank you!`,
+                    html: `<p>We have received your payment of <strong>${(Number(amount)/100).toFixed(2)} GEL</strong>. Thank you!</p>`
+                });
+            }
+        } catch (_) {
+            // Ignore email errors
         }
 
         return NextResponse.json({

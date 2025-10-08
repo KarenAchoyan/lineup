@@ -17,7 +17,8 @@ const FlittPayment = ({
     className = ""
 }) => {
     const checkoutRef = useRef(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const initializedRef = useRef(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [paymentStatus, setPaymentStatus] = useState(null);
     const [error, setError] = useState(null);
     const [retryCount, setRetryCount] = useState(0);
@@ -50,6 +51,7 @@ const FlittPayment = ({
                 if (urlIndex >= scriptUrls.length) {
                     setError('All Flitt script URLs failed to load. Please check your internet connection.');
                     setUseFallback(true);
+                    setIsLoading(false);
                     return;
                 }
 
@@ -68,6 +70,7 @@ const FlittPayment = ({
                     } else {
                         setError('Failed to load Flitt payment system from all available sources.');
                         setUseFallback(true);
+                        setIsLoading(false);
                     }
                 };
                 document.head.appendChild(script);
@@ -81,6 +84,7 @@ const FlittPayment = ({
                 console.error('Flitt checkout function not available');
                 setError('Flitt payment system not available. Please refresh the page and try again.');
                 setUseFallback(true);
+                setIsLoading(false);
                 return;
             }
 
@@ -126,30 +130,87 @@ const FlittPayment = ({
 
                 console.log('Initializing Flitt checkout with options:', options);
                 
-                // Clear container first
-                checkoutRef.current.innerHTML = '';
-                
-                // Initialize Flitt checkout
-                window.checkout(checkoutRef.current, options);
+                if (initializedRef.current) {
+                    // Prevent double initialization which can cause DOM removal errors
+                    console.log('Flitt checkout already initialized, skipping re-init');
+                } else {
+                    // Initialize Flitt checkout using element
+                    window.checkout(checkoutRef.current, options);
+                    initializedRef.current = true;
+                }
                 
                 console.log('Flitt checkout initialized successfully');
+                // Once initialized, we are not loading anymore
+                setIsLoading(false);
+
+                // Listen for Flitt postMessage events
+                const onMessage = (event) => {
+                    try {
+                        const origin = event.origin || '';
+                        if (!/flitt\.com$/i.test(new URL(origin).hostname)) {
+                            return; // ignore non-Flitt messages
+                        }
+                    } catch (_) {
+                        // If origin cannot be parsed, ignore
+                        return;
+                    }
+
+                    const data = event.data;
+                    if (!data) return;
+
+                    // Heuristic success detection
+                    const isSuccess = (typeof data === 'object') && (
+                        data.status === 'success' ||
+                        data.event === 'payment.success' ||
+                        data.event_type === 'payment.completed' ||
+                        Boolean(data.payment_id)
+                    );
+                    const isError = (typeof data === 'object') && (
+                        data.status === 'error' || data.status === 'failed' || data.event === 'payment.failed' || data.error
+                    );
+
+                    if (isSuccess) {
+                        handlePaymentSuccess(data);
+                    } else if (isError) {
+                        handlePaymentError(data);
+                    }
+                };
+
+                window.addEventListener('message', onMessage);
+
+                // Cleanup listener when component unmounts
+                cleanupFns.push(() => window.removeEventListener('message', onMessage));
             } catch (err) {
                 console.error('Flitt initialization error:', err);
                 setError('Failed to initialize payment system. Please try again.');
                 setUseFallback(true);
+                setIsLoading(false);
             }
         };
 
         // Add a small delay to ensure DOM is ready
+        const cleanupFns = [];
         const timer = setTimeout(() => {
             loadFlittScript();
         }, 100);
 
+        // Hard timeout to avoid endless loading
+        const safetyTimeout = setTimeout(() => {
+            if (isLoading) {
+                setError('Payment form took too long to load. Please retry.');
+                setUseFallback(true);
+                setIsLoading(false);
+            }
+        }, 10000);
+
         // Cleanup function
         return () => {
             clearTimeout(timer);
-            if (checkoutRef.current) {
-                checkoutRef.current.innerHTML = '';
+            clearTimeout(safetyTimeout);
+            // Do not clear innerHTML; Flitt manages its DOM and clearing can throw errors
+            while (cleanupFns.length) {
+                const fn = cleanupFns.pop();
+                try { fn && fn(); } catch (_) {}
             }
         };
     }, [amount, currency, merchantId, userId, userEmail, saveCard, verification, rectoken]);
@@ -172,9 +233,8 @@ const FlittPayment = ({
     };
 
     const handlePaymentClick = () => {
-        setIsLoading(true);
+        // no-op: loading is managed by script init and checkout flow
         setError(null);
-        setPaymentStatus(null);
     };
 
     if (paymentStatus === 'success') {
