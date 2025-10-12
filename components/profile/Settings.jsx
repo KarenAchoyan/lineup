@@ -27,7 +27,7 @@ const Settings = ({ dict }) => {
           return;
         }
 
-        const response = await fetch(`/api/users?userId=${userId}`, {
+        const response = await fetch(`/api/users/${userId}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'

@@ -25,8 +25,11 @@ export default async function RootLayout({children, params}) {
     return (
         <html lang={lang}>
         <head>
-            <Script src="https://cdn.jsdelivr.net/npm/@flittpayments/js-sdk" strategy="afterInteractive" />
-            <Script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js" strategy="afterInteractive" />
+            <link
+                rel="stylesheet"
+                href="https://pay.flitt.com/latest/checkout-vue/checkout.css"
+            />
+            <Script src="https://pay.flitt.com/latest/checkout-vue/checkout.js" strategy="afterInteractive" />
         </head>
         <body>
         <AppProvider>

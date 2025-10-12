@@ -35,7 +35,6 @@
   "groups": "Groups",
   "sign_out": "Sign Out",
   "settings": "Settings",
-  "payment_history": "Payment History",
   "student_name": "Student Name",
   "parent_name": "Parent Name",
   "parent_phone": "Parent Phone",
@@ -63,7 +62,6 @@
   "sign_up": "Sign Up",
   "already_have_an_account_sign_in": "Already have an account?",
   "return_refund": "Privacy Policy",
-
   "full_name": "Full name",
   "phone_number": "Phone number",
   "email_address_c": "Email address",
@@ -81,6 +79,5 @@
   "prof_photography_videography_2": "Would you like to help and participate in the development process? We are always happy to welcome new volunteers. Fill out the application below and we will contact you to discuss the details.",
   "fill_out_the_application_2": "Fill out the application.",
   "other": "Other",
-  "photo_video_description": "Welcome to our studio, where we create unforgettable photos and video materials. We have a fully equipped photo studio with various backgrounds, which allows you to realize any creative idea. Our photo shoots: Family photo shoots – preserve warm moments with your loved ones. Group shoots – for friends, colleagues and collectives. Children's photo shoots – delicate and touching shots for your little ones. New Year's photo shoots – festive atmosphere in the studio. Individual and fashion shoots – for professional portfolios and social networks. Love Story – romantic shots for couples in love.",
-  "payment_status": "You have paid for this month, payment is due on the 1st of the month"
+  "photo_video_description": "Welcome to our studio, where we create unforgettable photos and video materials. We have a fully equipped photo studio with various backgrounds, which allows you to realize any creative idea. Our photo shoots: Family photo shoots – preserve warm moments with your loved ones. Group shoots – for friends, colleagues and collectives. Children's photo shoots – delicate and touching shots for your little ones. New Year's photo shoots – festive atmosphere in the studio. Individual and fashion shoots – for professional portfolios and social networks. Love Story – romantic shots for couples in love."
 }

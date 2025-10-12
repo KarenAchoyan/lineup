@@ -1,106 +1,54 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+import flitt from "@/lib/flitt";
 
-export async function POST(request) {
-    try {
-        const body = await request.json();
-        
-        // Verify webhook signature if Flitt provides one
-        const signature = request.headers.get('x-flitt-signature');
-        
-        // Log the webhook for debugging
-        console.log('Flitt webhook received:', body);
-        
-        // Process different webhook events
-        switch (body.event_type) {
-            case 'payment.completed':
-                await handlePaymentCompleted(body);
-                break;
-            case 'payment.failed':
-                await handlePaymentFailed(body);
-                break;
-            case 'payment.refunded':
-                await handlePaymentRefunded(body);
-                break;
-            default:
-                console.log('Unknown webhook event type:', body.event_type);
-        }
+export async function POST(req) {
+  try {
+    const body = await req.json();
+    const signature = req.headers.get('x-flitt-signature');
 
-        return NextResponse.json({ received: true });
-
-    } catch (error) {
-        console.error('Flitt webhook error:', error);
-        return NextResponse.json(
-            { error: "Webhook processing failed" },
-            { status: 500 }
-        );
+    // Verify webhook signature
+    if (!flitt.verifyWebhookSignature(body, signature)) {
+      console.warn("Invalid Flitt webhook signature");
+      return NextResponse.json({ ok: false }, { status: 400 });
     }
-}
 
-async function handlePaymentCompleted(paymentData) {
+    const { order_status, order_id, payment_id, amount, currency } = body;
+
+    console.log("Flitt webhook received:", {
+      order_status,
+      order_id,
+      payment_id,
+      amount,
+      currency
+    });
+
+    // Forward webhook to Laravel backend
     try {
-        // Forward to your backend
-        const response = await fetch('https://lineup.dahk.am/api/flitt/webhook', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                event_type: 'payment.completed',
-                payment_data: paymentData,
-                timestamp: new Date().toISOString()
-            })
-        });
+      const backendResponse = await fetch(`${flitt.backendUrl}/flitt/webhook`, {
+        method: 'GET', // Your Laravel route uses GET
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Since your Laravel route uses GET, we'll pass the data as query params
+        // or you might need to modify your Laravel route to accept POST with body
+      });
 
-        if (!response.ok) {
-            console.error('Failed to forward payment completed webhook');
-        }
-    } catch (error) {
-        console.error('Error handling payment completed:', error);
+      if (!backendResponse.ok) {
+        console.warn("Failed to forward webhook to backend:", await backendResponse.text());
+      } else {
+        console.log("Webhook successfully forwarded to backend");
+      }
+    } catch (backendError) {
+      console.warn("Backend webhook forwarding failed:", backendError);
     }
-}
 
-async function handlePaymentFailed(paymentData) {
-    try {
-        // Forward to your backend
-        const response = await fetch('https://lineup.dahk.am/api/flitt/webhook', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                event_type: 'payment.failed',
-                payment_data: paymentData,
-                timestamp: new Date().toISOString()
-            })
-        });
+    return NextResponse.json({ ok: true });
 
-        if (!response.ok) {
-            console.error('Failed to forward payment failed webhook');
-        }
-    } catch (error) {
-        console.error('Error handling payment failed:', error);
-    }
-}
-
-async function handlePaymentRefunded(paymentData) {
-    try {
-        // Forward to your backend
-        const response = await fetch('https://lineup.dahk.am/api/flitt/webhook', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                event_type: 'payment.refunded',
-                payment_data: paymentData,
-                timestamp: new Date().toISOString()
-            })
-        });
-
-        if (!response.ok) {
-            console.error('Failed to forward payment refunded webhook');
-        }
-    } catch (error) {
-        console.error('Error handling payment refunded:', error);
-    }
+  } catch (error) {
+    console.error("Webhook processing error:", error);
+    return NextResponse.json({ 
+      ok: false, 
+      error: error.message 
+    }, { status: 500 });
+  }
 }
