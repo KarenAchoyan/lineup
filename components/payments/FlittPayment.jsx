@@ -21,6 +21,8 @@ const FlittPayment = ({
   const [flittContainer, setFlittContainer] = useState(null);
   const [useExternalWidget, setUseExternalWidget] = useState(false);
   const [tokenRefreshAttempts, setTokenRefreshAttempts] = useState(0);
+  const [usedTokens, setUsedTokens] = useState(new Set());
+  const [mockTokenDetected, setMockTokenDetected] = useState(false);
 
   // Load Flitt checkout script
   useEffect(() => {
@@ -105,6 +107,42 @@ const FlittPayment = ({
     console.log('Attempting to initialize Flitt checkout...');
     console.log('window.checkout available:', typeof window.checkout);
     console.log('Payment data:', paymentData);
+    console.log('Token validation:', {
+      token: paymentData.token,
+      tokenLength: paymentData.token?.length,
+      merchantId: paymentData.merchant_id,
+      orderId: paymentData.order_id,
+      timestamp: paymentData.timestamp,
+      currentTime: Date.now(),
+      ageMinutes: paymentData.timestamp ? Math.round((Date.now() - paymentData.timestamp) / 60000) : 'unknown',
+      isMockToken: paymentData.token?.startsWith('mock_') || paymentData.token === 'a'.repeat(40)
+    });
+    
+    // Check if this is a mock token in development
+    if (paymentData.token?.startsWith('mock_') || paymentData.token === 'a'.repeat(40)) {
+      console.warn('Using mock token in development mode - this will cause 2006 error with real Flitt API');
+      console.log('Mock token detected, clearing loading state and showing error');
+      setError('Development mode: Using mock token. This will not work with real Flitt payments. Please configure production Flitt credentials.');
+      setIsWidgetLoading(false);
+      setUseExternalWidget(false);
+      setFlittContainer(null);
+      setMockTokenDetected(true); // Set flag to prevent infinite loop
+      console.log('Mock token flag set to true');
+      // Force a re-render to clear loading state
+      setTimeout(() => {
+        console.log('Mock token error set, loading should be cleared');
+      }, 100);
+      return;
+    }
+
+    // Check if token has been used before
+    if (usedTokens.has(paymentData.token)) {
+      console.error('Token already used:', paymentData.token);
+      throw new Error('This payment token has already been used. Please try again.');
+    }
+
+    // Add token to used set
+    setUsedTokens(prev => new Set([...prev, paymentData.token]));
     
     if (window.checkout) {
       // Fix Flitt API configuration based on validation errors
@@ -199,8 +237,105 @@ const FlittPayment = ({
         try {
           window.checkout(widgetContainer, options);
           console.log('Flitt checkout initialized successfully in external widget');
+          
+          // Monitor console for Flitt API failures
+          const originalConsoleError = console.error;
+          const originalConsoleLog = console.log;
+          
+          console.error = (...args) => {
+            originalConsoleError.apply(console, args);
+            
+            // Check if this is the Flitt API failure we're seeing
+            const errorMessage = args.join(' ');
+            if (errorMessage.includes('fail') && errorMessage.includes('api.checkout') && errorMessage.includes('method: \'app\'')) {
+              console.error('Detected Flitt API failure in console:', args);
+              setError('Flitt payment API failed. This may be due to an expired token or invalid configuration. Please try again.');
+              setIsWidgetLoading(false);
+            }
+          };
+          
+          console.log = (...args) => {
+            originalConsoleLog.apply(console, args);
+            
+            // Check for Flitt API failures in console.log as well
+            const logMessage = args.join(' ');
+            if (logMessage.includes('fail') && logMessage.includes('api.checkout') && logMessage.includes('method: \'app\'')) {
+              console.error('Detected Flitt API failure in console.log:', args);
+              setError('Flitt payment API failed. This may be due to an expired token or invalid configuration. Please try again.');
+              setIsWidgetLoading(false);
+            }
+            
+            // Check for specific 2006 error
+            if (logMessage.includes('2006') || logMessage.includes('Срок') || logMessage.includes('expired')) {
+              console.error('Detected 2006 token expiration error:', args);
+              setError('Payment token has expired. Please try again by clicking "Pay with Flitt" button.');
+              setIsWidgetLoading(false);
+            }
+          };
+          
+          // Add error listener for Flitt API failures
+          const handleFlittError = (event) => {
+            console.error('Flitt API error detected:', event.detail || event);
+            if (event.detail && event.detail.name === 'api.checkout' && event.detail.method === 'app') {
+              console.error('Flitt checkout API failed:', event.detail);
+              // This is likely the 2006 error or similar
+              throw new Error('Flitt payment API failed: ' + (event.detail.error || 'Unknown error'));
+            }
+          };
+          
+          // Listen for Flitt errors
+          document.addEventListener('flitt-error', handleFlittError);
+          window.addEventListener('flitt-error', handleFlittError);
+          
+          // Add timeout to detect silent failures
+          const failureTimeout = setTimeout(() => {
+            console.error('Flitt widget failed to load within timeout period');
+            setError('Payment form failed to load. Please try again.');
+            setIsWidgetLoading(false);
+          }, 15000); // 15 second timeout
+          
+          // Add a shorter timeout for immediate feedback
+          const quickTimeout = setTimeout(() => {
+            if (isWidgetLoading) {
+              console.warn('Flitt widget taking longer than expected to load...');
+              // Don't show error yet, just log the warning
+            }
+          }, 5000); // 5 second warning
+          
+          // Clear timeout if widget loads successfully
+          const successHandler = () => {
+            clearTimeout(failureTimeout);
+            console.log('Flitt widget loaded successfully');
+          };
+          
+          // Listen for successful widget load
+          widgetContainer.addEventListener('load', successHandler);
+          document.addEventListener('flitt-success', successHandler);
+          
+          // Monitor for Flitt widget failures after loading
+          const monitorFlittFailure = () => {
+            // Check if the widget is still functional after a delay
+            setTimeout(() => {
+              const widgetStillFunctional = widgetContainer.querySelector('input, button, form') !== null;
+              if (!widgetStillFunctional) {
+                console.error('Flitt widget became non-functional after loading');
+                setError('Payment form became unresponsive. Please try again.');
+                setIsWidgetLoading(false);
+              }
+            }, 5000); // Check after 5 seconds
+          };
+          
+          // Start monitoring after widget loads
+          setTimeout(monitorFlittFailure, 2000);
+          
         } catch (flittError) {
           console.error('Flitt checkout initialization error:', flittError);
+          console.error('Flitt error details:', {
+            message: flittError.message,
+            code: flittError.code,
+            name: flittError.name,
+            stack: flittError.stack
+          });
           
           // Check for specific Flitt errors
           if (flittError.message && (flittError.message.includes('2006') || flittError.message.includes('Срок'))) {
@@ -230,10 +365,49 @@ const FlittPayment = ({
         setFlittContainer(externalContainer);
         setUseExternalWidget(true);
         
-        // Wait a moment for the widget to render
+        // Wait a moment for the widget to render and check if it actually loaded
         setTimeout(() => {
-          setIsWidgetLoading(false);
-        }, 2000);
+          const hasContent = widgetContainer.children.length > 0 || widgetContainer.innerHTML.trim() !== '';
+          console.log('Widget content check:', {
+            hasChildren: widgetContainer.children.length > 0,
+            hasInnerHTML: widgetContainer.innerHTML.trim() !== '',
+            innerHTML: widgetContainer.innerHTML.substring(0, 100) + '...'
+          });
+          
+          if (!hasContent) {
+            console.error('Flitt widget appears to be empty - likely API failure');
+            setError('Payment form failed to load properly. Please try again.');
+            setIsWidgetLoading(false);
+          } else {
+            // Check if the widget has interactive elements (forms, buttons, etc.)
+            const interactiveElements = widgetContainer.querySelectorAll('input, button, form, select, textarea');
+            console.log('Widget interactivity check:', {
+              interactiveElements: interactiveElements.length,
+              hasForms: widgetContainer.querySelectorAll('form').length,
+              hasButtons: widgetContainer.querySelectorAll('button').length,
+              hasInputs: widgetContainer.querySelectorAll('input').length
+            });
+            
+            if (interactiveElements.length === 0) {
+              console.warn('Flitt widget loaded but has no interactive elements - may be a display issue');
+              // Give it more time to load interactive elements
+              setTimeout(() => {
+                const stillNoElements = widgetContainer.querySelectorAll('input, button, form').length === 0;
+                if (stillNoElements) {
+                  console.error('Flitt widget still has no interactive elements after extended wait');
+                  setError('Payment form loaded but is not functional. Please try again.');
+                  setIsWidgetLoading(false);
+                } else {
+                  console.log('Flitt widget interactive elements loaded successfully');
+                  setIsWidgetLoading(false);
+                }
+              }, 2000);
+            } else {
+              console.log('Flitt widget loaded successfully with interactive elements');
+              setIsWidgetLoading(false);
+            }
+          }
+        }, 3000); // Initial timeout of 3 seconds
         
       } catch (checkoutError) {
         console.error('Error creating external Flitt widget:', checkoutError);
@@ -248,15 +422,29 @@ const FlittPayment = ({
 
   // Initialize Flitt checkout when payment data is available
   useEffect(() => {
-    if (paymentData && window.checkout) {
+    if (paymentData && window.checkout && !mockTokenDetected) {
+      console.log('Payment data available, initializing Flitt checkout...');
+      console.log('Current loading state:', isWidgetLoading);
+      console.log('Mock token detected flag:', mockTokenDetected);
       // Small delay to ensure DOM is updated
       const timer = setTimeout(() => {
         initializeFlittCheckout(paymentData);
       }, 100);
       
       return () => clearTimeout(timer);
+    } else if (mockTokenDetected) {
+      console.log('Skipping Flitt initialization - mock token already detected');
     }
-  }, [paymentData, initializeFlittCheckout]);
+  }, [paymentData, initializeFlittCheckout, mockTokenDetected]);
+  
+  // Debug effect to track loading state changes
+  useEffect(() => {
+    console.log('Loading state changed:', isWidgetLoading);
+    console.log('Use external widget:', useExternalWidget);
+    console.log('Flitt container:', flittContainer);
+    console.log('Mock token detected:', mockTokenDetected);
+    console.log('Error state:', error);
+  }, [isWidgetLoading, useExternalWidget, flittContainer, mockTokenDetected, error]);
 
   // Global error handler for DOM manipulation errors
   useEffect(() => {
@@ -311,6 +499,12 @@ const FlittPayment = ({
   }, []);
 
   const handlePayment = async () => {
+    // Prevent payment attempts when in mock token mode
+    if (mockTokenDetected) {
+      console.log('Payment blocked - mock token mode detected');
+      return;
+    }
+    
     try {
       setIsLoading(true);
       setError(null);
@@ -483,6 +677,42 @@ const FlittPayment = ({
                       <li>• Refresh the page and try again</li>
                       <li>• Contact support if the issue persists</li>
                     </ul>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => {
+                          console.log('Manual retry requested');
+                          setError(null);
+                          setIsWidgetLoading(false);
+                          setUseExternalWidget(false);
+                          setFlittContainer(null);
+                          setUsedTokens(new Set());
+                          setTokenRefreshAttempts(0);
+                          setMockTokenDetected(false); // Reset mock token flag
+                          // Trigger a new payment attempt
+                          setTimeout(() => {
+                            handlePayment();
+                          }, 1000);
+                        }}
+                        className="bg-[#BF3206] text-white px-4 py-2 rounded hover:bg-[#A02A05] transition-colors mr-2"
+                      >
+                        Retry Payment
+                      </button>
+                      <button
+                        onClick={() => {
+                          console.log('Debug info:');
+                          console.log('isWidgetLoading:', isWidgetLoading);
+                          console.log('useExternalWidget:', useExternalWidget);
+                          console.log('flittContainer:', flittContainer);
+                          console.log('paymentData:', paymentData);
+                          console.log('window.checkout available:', typeof window.checkout);
+                          console.log('External widgets in DOM:', document.querySelectorAll('[data-flitt-external-widget="true"]').length);
+                          console.log('mockTokenDetected:', mockTokenDetected);
+                        }}
+                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+                      >
+                        Debug Info
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

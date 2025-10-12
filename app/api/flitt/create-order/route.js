@@ -35,7 +35,9 @@ export async function POST(req) {
     }
 
     // Create order token using Flitt
+    console.log('Creating Flitt order with data:', orderData);
     const flittResponse = await flitt.createOrderToken(orderData);
+    console.log('Flitt API response:', flittResponse);
 
     if (!flittResponse.success || !flittResponse.data?.token) {
       throw new Error("Failed to create Flitt order token");
