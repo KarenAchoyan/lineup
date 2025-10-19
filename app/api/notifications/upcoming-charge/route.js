@@ -12,10 +12,10 @@ export async function POST(request) {
 
         const amountHuman = (Number(amount) / 100).toFixed(2);
         const subject = `Upcoming ${frequency} charge notice`;
-        const text = `We will charge ${amountHuman} ${currency} on ${new Date(chargeDate).toLocaleDateString()} as part of your ${frequency} subscription.`;
+        const text = `We will charge ${amountHuman} ${currency} on ${new Date(chargeDate).toLocaleDateString()} as part of your ${frequency} payment.`;
         const html = `
             <p>Dear customer,</p>
-            <p>This is a reminder that <strong>${amountHuman} ${currency}</strong> will be charged on <strong>${new Date(chargeDate).toLocaleDateString()}</strong> as part of your <strong>${frequency}</strong> subscription.</p>
+            <p>This is a reminder that <strong>${amountHuman} ${currency}</strong> will be charged on <strong>${new Date(chargeDate).toLocaleDateString()}</strong> as part of your <strong>${frequency}</strong> payment.</p>
             <p>If you have questions or wish to cancel, please visit your account settings.</p>
         `;
 

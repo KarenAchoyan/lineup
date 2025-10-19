@@ -14,6 +14,7 @@ const Main = ({ dict }) => {
     const [user, setUser] = useState({});
     const [showPayment, setShowPayment] = useState(false);
     const [hasPaid, setHasPaid] = useState(null); // null = loading, true = paid, false = not paid
+    const [paymentLoading, setPaymentLoading] = useState(false);
 
     useEffect(() => {
         const checkAuth = () => {
@@ -73,6 +74,33 @@ const Main = ({ dict }) => {
         checkAuth();
     }, [router]);
 
+    // Handle payment success redirect
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentSuccess = urlParams.get('payment_success');
+        const paymentError = urlParams.get('payment_error');
+        
+        if (paymentSuccess === 'true') {
+            console.log('Payment success detected, refreshing payment status...');
+            setHasPaid(true);
+            setShowPayment(false);
+            setPaymentLoading(false);
+            
+            // Clean up URL parameters
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        } else if (paymentError) {
+            console.log('Payment error detected:', paymentError);
+            setHasPaid(false);
+            setShowPayment(false);
+            setPaymentLoading(false);
+            
+            // Clean up URL parameters
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
+    }, []);
+
     return (
         <div className="bg-[#232222] pt-[160px] pb-[100px]">
             <div className='container m-auto bg-[#D9D9D91A] p-[20px] rounded-2xl border-t-2 border-[#BF3206] h-auto'>
@@ -130,14 +158,32 @@ const Main = ({ dict }) => {
                                         
                                         {!showPayment ? (
                                             <button
-                                                onClick={() => setShowPayment(true)}
-                                                className="w-full bg-[#BF3206] text-white px-6 py-4 rounded-lg hover:bg-[#a02a05] transition-colors flex items-center justify-center text-lg font-semibold shadow-lg"
+                                                onClick={() => {
+                                                    setShowPayment(true);
+                                                    setPaymentLoading(true);
+                                                }}
+                                                disabled={paymentLoading}
+                                                className="w-full bg-[#BF3206] text-white px-6 py-4 rounded-lg hover:bg-[#a02a05] transition-colors flex items-center justify-center text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
-                                                <CreditCardOutlined className="mr-3 text-xl" />
-                                                Make Payment (30 GEL)
+                                                {paymentLoading ? (
+                                                    <>
+                                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                                                        Processing...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <CreditCardOutlined className="mr-3 text-xl" />
+                                                        Make Payment (30 GEL)
+                                                    </>
+                                                )}
                                             </button>
                                         ) : (
                                             <div className="w-full">
+                                                <div className="bg-blue-100 border border-blue-300 text-blue-700 px-4 py-3 rounded-lg mb-4">
+                                                    <p className="font-semibold">Redirecting to Payment</p>
+                                                    <p className="text-sm">You will be redirected to Flitt's secure payment page.</p>
+                                                </div>
+                                                
                                                 <FlittPayment
                                                     userId={user.user_id}
                                                     userEmail={user.email}
@@ -147,19 +193,24 @@ const Main = ({ dict }) => {
                                                         console.log("Payment processed successfully:", result);
                                                         setHasPaid(true);
                                                         setShowPayment(false);
+                                                        setPaymentLoading(false);
                                                     }}
                                                     onError={(error) => {
                                                         console.error("Payment processing error:", error);
                                                         setShowPayment(false);
+                                                        setPaymentLoading(false);
                                                     }}
                                                     className="w-full"
                                                 />
                                                 
                                                 <button
-                                                    onClick={() => setShowPayment(false)}
+                                                    onClick={() => {
+                                                        setShowPayment(false);
+                                                        setPaymentLoading(false);
+                                                    }}
                                                     className="mt-4 w-full bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors font-medium"
                                                 >
-                                                    Cancel
+                                                    Cancel Payment
                                                 </button>
                                             </div>
                                         )}

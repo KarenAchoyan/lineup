@@ -9,6 +9,9 @@ export default function PaymentSuccessPage({ params }) {
   const searchParams = useSearchParams();
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [countdown, setCountdown] = useState(5);
+  
+  const lang = params?.lang || "en";
 
   useEffect(() => {
     // Get payment details from URL parameters
@@ -16,20 +19,34 @@ export default function PaymentSuccessPage({ params }) {
     const amount = searchParams.get('amount');
     const currency = searchParams.get('currency');
     const status = searchParams.get('status');
+    const paymentId = searchParams.get('payment_id');
 
     if (orderId && amount && currency) {
       setPaymentDetails({
         orderId,
         amount,
         currency,
+        paymentId,
         status: status || 'success'
       });
     }
     
     setLoading(false);
-  }, [searchParams]);
-
-  const lang = params?.lang || "en";
+    
+    // Countdown timer
+    const countdownInterval = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(countdownInterval);
+          router.push(`/${lang}/profile?payment_success=true`);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    return () => clearInterval(countdownInterval);
+  }, [searchParams, router, lang]);
 
   if (loading) {
     return (
@@ -55,8 +72,14 @@ export default function PaymentSuccessPage({ params }) {
             </h1>
             
             <p className="text-xl text-[#C7C7C7] mb-6">
-              Thank you for your payment. Your subscription has been activated.
+              Thank you for your payment. Your access has been activated.
             </p>
+            
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+              <p className="text-green-800">
+                <strong>Auto-redirecting to your profile in {countdown} seconds...</strong>
+              </p>
+            </div>
 
             {/* Payment Details */}
             {paymentDetails && (
@@ -94,7 +117,7 @@ export default function PaymentSuccessPage({ params }) {
                 <li>• Your payment has been processed successfully</li>
                 <li>• You now have access to all premium features</li>
                 <li>• You will receive a confirmation email shortly</li>
-                <li>• Your subscription is active for this month</li>
+                <li>• Your access is active for this month</li>
               </ul>
             </div>
 

@@ -30,8 +30,8 @@ npm install @flittpayments/flitt-node-js-sdk
 The payment system is configured to work with your existing Laravel backend:
 
 ### API Endpoints Used:
-- `POST /api/paypal/order` - Store payment records
-- `GET /api/paypals/check-monthly` - Check monthly payment status
+- `POST /api/flitt/create-checkout` - Create Flitt checkout URL
+- `GET /api/payments/check-status` - Check payment status
 - `GET /api/flitt/webhook` - Handle payment webhooks
 - `GET /api/payments/{userId}` - Get user payment history
 
@@ -58,7 +58,7 @@ The payment system is configured to work with your existing Laravel backend:
 - Payment amount: 30 GEL
 - Currency: GEL
 - Payment method: Flitt
-- Monthly subscription model
+- Payment model
 
 ## Testing
 

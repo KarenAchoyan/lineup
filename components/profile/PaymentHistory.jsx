@@ -103,7 +103,7 @@ const PaymentHistory = ({ dict }) => {
                     <CheckCircleOutlined className="text-green-500 text-xl" />
                     <div>
                       <h3 className="text-lg font-semibold text-white">
-                        {payment.description || 'Monthly Subscription'}
+                        {payment.description || 'Payment'}
                       </h3>
                       <div className="flex items-center text-[#C7C7C7] text-sm">
                         <CalendarOutlined className="mr-1" />

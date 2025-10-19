@@ -15,7 +15,7 @@ export async function GET(request) {
 
     // Check payment status from Laravel backend
     try {
-      const backendResponse = await fetch(`${flitt.backendUrl}/paypals/check-monthly?user_id=${userId}`, {
+      const backendResponse = await fetch(`${flitt.backendUrl}/paypals/check-payment?user_id=${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
