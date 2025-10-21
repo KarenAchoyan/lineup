@@ -4,7 +4,7 @@ import flitt from "@/lib/flitt";
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { order_id, amount, currency, order_desc } = body;
+    const { order_id, amount, currency, order_desc, user_id } = body;
 
     // Validate required fields
     if (!order_id || !amount || !currency) {
@@ -37,6 +37,33 @@ export async function POST(req) {
 
     if (!flittResponse.success || !flittResponse.checkout_url) {
       throw new Error("Failed to create Flitt checkout URL");
+    }
+
+    // Send payment data to backend if user_id is provided
+    if (user_id) {
+      try {
+        const paymentData = {
+          order_id: flittResponse.order_id,
+          payment_id: flittResponse.order_id, // Using order_id as payment_id for now
+          user_id: user_id,
+          amount: amount/100,
+          currency: currency,
+          status: 'pending'
+        };
+        
+        console.log('Sending payment data to backend:', paymentData);
+        const backendResponse = await flitt.notifyBackendPayment(paymentData);
+        
+        if (!backendResponse.success) {
+          console.warn('Backend payment notification failed:', backendResponse.error);
+          // Don't fail the entire request if backend notification fails
+        } else {
+          console.log('Payment data successfully sent to backend');
+        }
+      } catch (backendError) {
+        console.error('Error sending payment data to backend:', backendError);
+        // Don't fail the entire request if backend notification fails
+      }
     }
 
     return NextResponse.json({

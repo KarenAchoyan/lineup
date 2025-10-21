@@ -35,7 +35,8 @@ const FlittPayment = ({
           order_id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           amount: amount * 100, // Convert to tetri
           currency: currency,
-          order_desc: `Payment - ${amount} ${currency} (${cacheBuster})`
+          order_desc: `Payment - ${amount} ${currency} (${cacheBuster})`,
+          user_id: userId
         })
       });
 
