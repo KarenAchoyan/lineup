@@ -30,6 +30,38 @@ export default function PaymentSuccessPage({ params }) {
         status: status || 'success'
       });
     }
+
+    // Send request to Flitt webhook when page loads
+    const sendWebhookRequest = async () => {
+      try {
+        console.log('Sending webhook request to Flitt...');
+        const response = await fetch('/api/flitt/webhook', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            order_id: orderId,
+            payment_id: paymentId,
+            amount: amount,
+            currency: currency,
+            status: 'success',
+            source: 'payment-success-page'
+          })
+        });
+        
+        if (response.ok) {
+          console.log('Webhook request sent successfully');
+        } else {
+          console.error('Webhook request failed:', response.status);
+        }
+      } catch (error) {
+        console.error('Error sending webhook request:', error);
+      }
+    };
+
+    // Send webhook request
+    sendWebhookRequest();
     
     setLoading(false);
     
