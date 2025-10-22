@@ -27,8 +27,8 @@ const PaymentHistory = ({ dict }) => {
           return;
         }
 
-        // Fetch from Laravel backend
-        const response = await fetch(`https://lineup.dahk.am/api/payments/${userId}`, {
+        // Fetch from Next.js API route (proxies to Laravel backend)
+        const response = await fetch(`/api/payments/${userId}`, {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
