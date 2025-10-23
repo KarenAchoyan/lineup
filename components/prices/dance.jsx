@@ -69,20 +69,20 @@ const Dance = ({lessons, slug, dict, lang}) => {
     };
 
     return (
-        <div className="bg-[#211d1dfc] dance-background h-screen py-[180px]" style={styleBackground}>
-            <h1 className="text-[40px] text-[#C7C7C7] text-center mb-10">{data?.title}</h1>
-            <div className="flex items-center justify-center">
-                <div className="container bg-[#4d4c4c2b] min-h-[70vh] pt-[150px] rounded-lg shadow-xl p-8">
+        <div className="bg-[#211d1dfc] dance-background min-h-screen py-[120px] sm:py-[150px] lg:py-[180px]" style={styleBackground}>
+            <h1 className="text-[30px] sm:text-[40px] text-[#C7C7C7] text-center mb-6 sm:mb-10 px-4">{data?.title}</h1>
+            <div className="flex items-center justify-center px-4">
+                <div className="container bg-[#4d4c4c2b] min-h-[600px] max-h-[800px] pt-[100px] sm:pt-[120px] lg:pt-[150px] rounded-lg shadow-xl p-6 sm:p-8 relative">
                     <div className="text-center flex flex-col items-center text-[#C7C7C7]">
-                        <h1 className="text-[20px] sm:text-[40px] font-semibold">{data?.price} GEL</h1>
-                        <h2 className="font-light text-[24px]">{dict?.every_month}</h2>
-                        <h2 className="font-light text-[24px] mb-4">{dict?.valid_for_12_months}  {data?.months} {dict.months}</h2>
-                        <div className="mt-10">
-                            <div className="relative">
+                        <h1 className="text-[24px] sm:text-[32px] lg:text-[40px] font-semibold mb-2">{data?.price} GEL</h1>
+                        <h2 className="font-light text-[18px] sm:text-[20px] lg:text-[24px] mb-2">{dict?.every_month}</h2>
+                        <h2 className="font-light text-[16px] sm:text-[18px] lg:text-[24px] mb-6">{dict?.valid_for_12_months} {data?.months} {dict.months}</h2>
+                        <div className="mt-10 w-full max-w-[400px]">
+                            <div className="relative w-full">
                                 <button
                                     ref={buttonRef}
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                    className="bg-[#4C4C4C]  text-[20px] md:text-[25px] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
+                                    className="bg-[#4C4C4C] w-full text-[18px] sm:text-[20px] md:text-[25px] text-white py-3 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                 >
                                     {selectedBranch}
                                 </button>
@@ -90,7 +90,7 @@ const Dance = ({lessons, slug, dict, lang}) => {
                                 {isDropdownOpen && (
                                     <div
                                         ref={dropdownRef}
-                                        className="absolute bg-[#232222] top-[30px] left-0 text-black rounded-lg shadow-lg mt-4 p-4 w-full z-10 transition-all duration-300 opacity-100"
+                                        className="absolute bg-[#232222] top-full left-0 text-black rounded-lg shadow-lg mt-2 p-4 w-full z-50 transition-all duration-300 opacity-100 max-h-[300px] overflow-y-auto"
                                     >
                                         <ul>
                                             {data?.lesson_school.map((item) => {
@@ -114,11 +114,11 @@ const Dance = ({lessons, slug, dict, lang}) => {
                                 )}
                             </div>
 
-                            <div className="mt-[10px]">
+                            <div className="mt-6 w-full max-w-[400px]">
                                 <button
                                     onClick={handleRegister}
                                     disabled={selectedBranchId === null}
-                                    className="bg-[#4C4C4C] w-[270px] text-[20px] md:text-[25px] cursor-pointer disabled:cursor-default disabled:text-gray-500 disabled:hover:bg-[#4C4C4C] text-white py-2 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
+                                    className="bg-[#4C4C4C] w-full text-[18px] sm:text-[20px] md:text-[25px] cursor-pointer disabled:cursor-default disabled:text-gray-500 disabled:hover:bg-[#4C4C4C] text-white py-3 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 hover:bg-[#FF6347]"
                                 >
                                     {dict.register}
                                 </button>

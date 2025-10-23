@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Form, Button, Input, message } from "antd";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/providers/AppProvider";
+import Link from "next/link";
 
 const SignIn = ({dict}) => {
     const router = useRouter();
@@ -83,6 +84,13 @@ const SignIn = ({dict}) => {
                                     className="p-2 rounded-md h-[45px] border border-gray-300 focus:border-red-500"
                                 />
                             </Form.Item>
+                            
+                            <div className="text-right mb-4">
+                                <Link href={`/auth/forgot-password`} className="text-[#BF3206] hover:text-[#a02a05] text-[14px] sm:text-[16px]">
+                                    {dict.forgot_password || "Forgot Password?"}
+                                </Link>
+                            </div>
+                            
                             {error && <p className='text-red-500'>{error}</p>}
 
                             <div>
